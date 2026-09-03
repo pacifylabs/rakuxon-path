@@ -70,20 +70,42 @@ export function CountUp({ value, duration = 1600, className }: CountUpProps) {
     setDisplay(format(0));
 
     let frame = 0;
-    let start = 0;
+    let settle = 0;
 
-    const step = (now: number) => {
-      start ||= now;
-      const progress = Math.min(1, (now - start) / duration);
-      setDisplay(format(target * easeOut(progress)));
-      if (progress < 1) frame = requestAnimationFrame(step);
+    const run = () => {
+      /*
+       * Timed from performance.now(), not the rAF argument: that argument can
+       * legitimately be 0 on the first callback, and treating 0 as "not yet
+       * started" made the next frame compute a full duration and snap straight
+       * to the final value instead of counting.
+       */
+      const startedAt = performance.now();
+
+      const step = () => {
+        const progress = Math.min(1, (performance.now() - startedAt) / duration);
+        setDisplay(format(target * easeOut(progress)));
+        if (progress < 1) frame = requestAnimationFrame(step);
+      };
+
+      frame = requestAnimationFrame(step);
+
+      /*
+       * Backstop. requestAnimationFrame is throttled in background tabs and in
+       * some embedded views, and a figure frozen at zero reads as broken data
+       * rather than as an animation. If it has not landed shortly after it
+       * should have, show the real number.
+       */
+      settle = window.setTimeout(() => {
+        cancelAnimationFrame(frame);
+        setDisplay(format(target));
+      }, duration + 400);
     };
 
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries.some((entry) => entry.isIntersecting)) {
           observer.disconnect();
-          frame = requestAnimationFrame(step);
+          run();
         }
       },
       { rootMargin: '0px 0px -15% 0px' },
@@ -94,6 +116,7 @@ export function CountUp({ value, duration = 1600, className }: CountUpProps) {
     return () => {
       observer.disconnect();
       cancelAnimationFrame(frame);
+      window.clearTimeout(settle);
     };
   }, [value, duration]);
 

@@ -549,3 +549,96 @@ describe('<CountUp/>', () => {
     expect(container.querySelector('[aria-hidden="true"]')?.textContent).toBe('Coming soon');
   });
 });
+
+describe('<CountUp/> interpolation', () => {
+  /*
+   * Driven with a stubbed rAF and clock rather than watched in a browser: the
+   * preview pane throttles requestAnimationFrame to about 1fps, which makes a
+   * real 1.6s count look like a jump. This pins the maths instead.
+   */
+  function harness() {
+    const frameCallbacks: FrameRequestCallback[] = [];
+    let clock = 0;
+    let trigger: IntersectionObserverCallback | null = null;
+
+    vi.stubGlobal('matchMedia', vi.fn().mockReturnValue({ matches: false }));
+    vi.stubGlobal(
+      'IntersectionObserver',
+      class {
+        constructor(callback: IntersectionObserverCallback) {
+          trigger = callback;
+        }
+        observe() {}
+        disconnect() {}
+        unobserve() {}
+      },
+    );
+    vi.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => {
+      frameCallbacks.push(cb);
+      return frameCallbacks.length;
+    });
+    vi.spyOn(performance, 'now').mockImplementation(() => clock);
+
+    return {
+      enterView() {
+        act(() => {
+          trigger?.([{ isIntersecting: true } as IntersectionObserverEntry], null as never);
+        });
+      },
+      advance(ms: number) {
+        clock += ms;
+        const pending = frameCallbacks.splice(0, frameCallbacks.length);
+        act(() => {
+          pending.forEach((cb) => cb(clock));
+        });
+      },
+      restore() {
+        vi.restoreAllMocks();
+        vi.unstubAllGlobals();
+      },
+    };
+  }
+
+  const digits = (el: Element | null) => Number((el?.textContent ?? '').replace(/[^\d]/g, ''));
+
+  it('passes through intermediate values instead of jumping to the total', () => {
+    const h = harness();
+    const { container } = render(<CountUp value="100,000+" duration={1000} />);
+    const shown = () => container.querySelector('[aria-hidden="true"]');
+
+    expect(shown()?.textContent).toBe('0+');
+
+    h.enterView();
+    h.advance(250);
+    const quarter = digits(shown());
+    expect(quarter).toBeGreaterThan(0);
+    expect(quarter).toBeLessThan(100_000);
+
+    h.advance(500);
+    const later = digits(shown());
+    expect(later).toBeGreaterThan(quarter);
+    expect(later).toBeLessThan(100_000);
+
+    h.advance(500);
+    expect(shown()?.textContent).toBe('100,000+');
+    h.restore();
+  });
+
+  it('lands on the exact figure, never an eased approximation', () => {
+    const h = harness();
+    const { container } = render(<CountUp value="1,500+" duration={800} />);
+    h.enterView();
+    h.advance(2000);
+    expect(container.querySelector('[aria-hidden="true"]')?.textContent).toBe('1,500+');
+    h.restore();
+  });
+
+  it('keeps a decimal figure to its own precision', () => {
+    const h = harness();
+    const { container } = render(<CountUp value="4.8" duration={500} />);
+    h.enterView();
+    h.advance(1000);
+    expect(container.querySelector('[aria-hidden="true"]')?.textContent).toBe('4.8');
+    h.restore();
+  });
+});
