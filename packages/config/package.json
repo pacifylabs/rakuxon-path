@@ -1,5 +1,5 @@
 {
-  "name": "@rakuxon-edu/config",
+  "name": "@rakuxon-path/config",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -10,6 +10,6 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@rakuxon-edu/tsconfig": "workspace:*"
+    "@rakuxon-path/tsconfig": "workspace:*"
   }
 }

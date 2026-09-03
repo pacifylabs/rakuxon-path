@@ -1,13 +1,14 @@
 import type { ThemeTokens } from './tokens.types';
 
 /**
- * The base Rakuxon Ed theme — the single place a raw value may appear.
+ * The base Rakuxon Path theme — the single place a raw value may appear.
  * Values transcribed from docs/04a-landing-and-design-system.md § 3.
  */
 export const baseTokens: ThemeTokens = {
   brand: {
-    name: 'Rakuxon Ed',
-    nameAccentSuffix: 'Ed',
+    name: 'Rakuxon Path',
+    nameAccentSuffix: 'Path',
+    tagline: 'From ambition to admission.',
   },
 
   color: {

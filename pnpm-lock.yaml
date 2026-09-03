@@ -53,10 +53,10 @@ importers:
 
   apps/base-site:
     dependencies:
-      '@rakuxon-edu/config':
+      '@rakuxon-path/config':
         specifier: workspace:*
         version: link:../../packages/config
-      '@rakuxon-edu/ui':
+      '@rakuxon-path/ui':
         specifier: workspace:*
         version: link:../../packages/ui
       lucide-react:
@@ -72,7 +72,7 @@ importers:
         specifier: ^19.0.0
         version: 19.2.8(react@19.2.8)
     devDependencies:
-      '@rakuxon-edu/tsconfig':
+      '@rakuxon-path/tsconfig':
         specifier: workspace:*
         version: link:../../packages/tsconfig
       autoprefixer:
@@ -87,7 +87,7 @@ importers:
 
   packages/config:
     devDependencies:
-      '@rakuxon-edu/tsconfig':
+      '@rakuxon-path/tsconfig':
         specifier: workspace:*
         version: link:../tsconfig
 
@@ -102,7 +102,7 @@ importers:
         specifier: ^0.468.0
         version: 0.468.0(react@19.2.8)
     devDependencies:
-      '@rakuxon-edu/tsconfig':
+      '@rakuxon-path/tsconfig':
         specifier: workspace:*
         version: link:../tsconfig
       next:

@@ -1,7 +1,10 @@
+'use client';
+
 import clsx from 'clsx';
 
 import { BrandName } from './BrandName';
 import { Wordmark } from './Wordmark';
+import { useBrand } from '../theme/useTheme';
 import type { NavLink } from './Header';
 
 export interface FooterColumn {
@@ -10,7 +13,8 @@ export interface FooterColumn {
 }
 
 export interface FooterProps {
-  tagline: string;
+  /** Defaults to the brand tagline token. */
+  tagline?: string;
   domain: string;
   columns: readonly FooterColumn[];
   socials: readonly NavLink[];
@@ -25,6 +29,9 @@ const LINK_CLASSES =
  * this is a document-handling product.
  */
 export function Footer({ tagline, domain, columns, socials, className }: FooterProps) {
+  const brand = useBrand();
+  const strapline = tagline ?? brand.tagline;
+
   return (
     <footer
       className={clsx('w-full border-t border-border bg-surface px-5 py-12 md:py-16', className)}
@@ -33,7 +40,7 @@ export function Footer({ tagline, domain, columns, socials, className }: FooterP
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[2fr_repeat(4,1fr)]">
           <div>
             <Wordmark href="/" />
-            <p className="mt-4 max-w-prose text-sm text-text-muted">{tagline}</p>
+            <p className="mt-4 max-w-prose text-sm text-text-muted">{strapline}</p>
             <p className="mt-2 text-sm text-text-muted">{domain}</p>
           </div>
 

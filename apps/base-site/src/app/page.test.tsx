@@ -1,7 +1,7 @@
 import { render, screen, within } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
-import { ThemeProvider } from '@rakuxon-edu/ui';
+import { ThemeProvider } from '@rakuxon-path/ui';
 
 import {
   AUDIENCES,
@@ -46,7 +46,7 @@ describe('home page structure', () => {
 
     expect(headings).toEqual([
       'Your study abroad journey, simplified.',
-      'Rakuxon Ed by the numbers',
+      'Rakuxon Path by the numbers',
       'How it works',
       'Popular destinations',
       'Explore leading institutions',

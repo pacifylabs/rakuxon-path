@@ -25,7 +25,7 @@ main
 2. TDD: commit on green, never on red.
 3. Short-lived stage branches; rebase on `main` before the merge PR.
 4. Each `stage/*` branch gets Vercel previews per app — smoke-test there.
-5. Keep the contract version pinned; upgrading `@rakuxon-edu/contract` is its own PR.
+5. Keep the contract version pinned; upgrading `@rakuxon-path/contract` is its own PR.
 
 ## PR checklist
 

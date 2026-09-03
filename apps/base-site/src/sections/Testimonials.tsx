@@ -1,4 +1,4 @@
-import { SectionBand, TestimonialCard } from '@rakuxon-edu/ui';
+import { SectionBand, TestimonialCard } from '@rakuxon-path/ui';
 
 import { TESTIMONIALS } from '@/content/home';
 

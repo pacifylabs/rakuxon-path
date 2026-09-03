@@ -1,4 +1,4 @@
-import { DestinationCard, SectionBand } from '@rakuxon-edu/ui';
+import { DestinationCard, SectionBand } from '@rakuxon-path/ui';
 
 import { DESTINATIONS } from '@/content/home';
 

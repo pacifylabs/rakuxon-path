@@ -7,7 +7,7 @@ import {
   SectionBand,
   StatChip,
   ValueProps,
-} from '@rakuxon-edu/ui';
+} from '@rakuxon-path/ui';
 import { Building2, GraduationCap, Globe2, Users } from 'lucide-react';
 
 import {
@@ -25,7 +25,7 @@ export const dynamic = 'force-static';
 export const metadata: Metadata = {
   title: 'About',
   description:
-    'Why we built Rakuxon Ed: the information that decides an application is not secret, just scattered.',
+    'Why we built Rakuxon Path: the information that decides an application is not secret, just scattered.',
 };
 
 const STAT_ICONS = [Users, Building2, GraduationCap, Globe2];
@@ -95,7 +95,7 @@ export default function AboutPage() {
 
       <SectionBand tone="muted" labelledBy="about-stats-heading">
         <h2 id="about-stats-heading" className="sr-only">
-          Rakuxon Ed by the numbers
+          Rakuxon Path by the numbers
         </h2>
         <ul className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {ABOUT_STATS.map((stat, index) => (

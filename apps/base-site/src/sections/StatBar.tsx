@@ -1,4 +1,4 @@
-import { SectionBand, StatChip } from '@rakuxon-edu/ui';
+import { SectionBand, StatChip } from '@rakuxon-path/ui';
 
 import { STATS } from '@/content/home';
 
@@ -11,7 +11,7 @@ export function StatBar() {
   return (
     <SectionBand tone="muted" labelledBy="stats-heading">
       <h2 id="stats-heading" className="sr-only">
-        Rakuxon Ed by the numbers
+        Rakuxon Path by the numbers
       </h2>
 
       <ul className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">

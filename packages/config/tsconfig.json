@@ -1,4 +1,4 @@
 {
-  "extends": "@rakuxon-edu/tsconfig/base.json",
+  "extends": "@rakuxon-path/tsconfig/base.json",
   "include": ["src", "../../types"]
 }

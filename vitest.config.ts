@@ -9,9 +9,9 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@rakuxon-edu/ui/theme': resolvePath('./packages/ui/src/theme/index.ts'),
-      '@rakuxon-edu/ui': resolvePath('./packages/ui/src/index.ts'),
-      '@rakuxon-edu/config': resolvePath('./packages/config/src/index.ts'),
+      '@rakuxon-path/ui/theme': resolvePath('./packages/ui/src/theme/index.ts'),
+      '@rakuxon-path/ui': resolvePath('./packages/ui/src/index.ts'),
+      '@rakuxon-path/config': resolvePath('./packages/config/src/index.ts'),
       '@': resolvePath('./apps/base-site/src'),
     },
   },

@@ -11,10 +11,13 @@ export type BrandTokens = {
   /** Product name. Rendered by <Wordmark/>; swap here and nothing else changes. */
   name: string;
   /**
-   * Trailing slice of `name` painted in the accent colour ("Ed" of "Rakuxon Ed").
-   * When it is not a suffix of `name`, the wordmark renders undivided.
+   * Trailing slice of `name` painted in the accent colour ("Path" of
+   * "Rakuxon Path"). When it is not a suffix of `name`, the wordmark renders
+   * undivided.
    */
   nameAccentSuffix: string;
+  /** Strapline in the logo lockup and the footer. */
+  tagline: string;
 };
 
 export type ColorTokens = {
@@ -141,7 +144,7 @@ export interface ThemeTokens {
  * when a tenant override is merged — see `mergeTokens`.
  */
 export const OVERRIDABLE_TOKENS = {
-  brand: ['name', 'nameAccentSuffix'],
+  brand: ['name', 'nameAccentSuffix', 'tagline'],
   color: ['primary', 'primaryHover', 'onPrimary', 'accent', 'accentSoft'],
   font: ['heading'],
 } as const satisfies Partial<Record<keyof ThemeTokens, readonly string[]>>;

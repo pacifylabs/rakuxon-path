@@ -3,7 +3,13 @@
 
 ## How the FE consumes the contract
 
-The BE publishes `@rakuxon-edu/contract` (DTOs + enums) to a private registry. The FE:
+> **Cross-repo dependency.** The FE renamed its scope to `@rakuxon-path/*` with the
+> Rakuxon Path rebrand. The contract package is published by `rakuxon-edu-BE`, so
+> `@rakuxon-path/contract` only exists once the BE renames in step. Until then the
+> pinned dependency is still `@rakuxon-edu/contract` — treat this as a tracked
+> migration, not a completed one, and update `CONTEXT.md` when the BE follows.
+
+The BE publishes `@rakuxon-path/contract` (DTOs + enums) to a private registry. The FE:
 
 1. Adds it as a dependency and **pins a version**.
 2. Re-exports it through `packages/contract` so all apps import from one place.
@@ -11,7 +17,7 @@ The BE publishes `@rakuxon-edu/contract` (DTOs + enums) to a private registry. T
 
 ```
 apps/* ─┐
-        ├─ import types from packages/contract  ─→ @rakuxon-edu/contract (pinned)
+        ├─ import types from packages/contract  ─→ @rakuxon-path/contract (pinned)
 api-client ┘
 ```
 

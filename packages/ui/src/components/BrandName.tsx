@@ -4,7 +4,7 @@ import { useBrand } from '../theme/useTheme';
 
 export interface BrandNameProps {
   /**
-   * `full` — the whole product name ("Rakuxon Ed").
+   * `full` — the whole product name ("Rakuxon Path").
    * `lead` — the name without its accent suffix ("Rakuxon"), for company prose
    *   such as a copyright line.
    */

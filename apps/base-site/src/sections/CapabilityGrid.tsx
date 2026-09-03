@@ -1,4 +1,4 @@
-import { CapabilityCard, EyebrowPill, SectionBand } from '@rakuxon-edu/ui';
+import { CapabilityCard, EyebrowPill, SectionBand } from '@rakuxon-path/ui';
 
 import { CAPABILITIES } from '@/content/home';
 

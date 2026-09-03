@@ -7,7 +7,7 @@ import {
   SectionBand,
   StepItem,
   ValueProps,
-} from '@rakuxon-edu/ui';
+} from '@rakuxon-path/ui';
 
 import {
   INSTITUTIONS_CTA,

@@ -1,4 +1,4 @@
-import { PageHeader, SectionBand } from '@rakuxon-edu/ui';
+import { PageHeader, SectionBand } from '@rakuxon-path/ui';
 
 import { NAV_LINKS } from '@/content/site';
 import { ROUTES } from '@/content/routes';

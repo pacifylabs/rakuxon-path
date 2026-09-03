@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 
-import { Footer, Header, ThemeProvider, baseTokens } from '@rakuxon-edu/ui';
+import { Footer, Header, ThemeProvider, baseTokens } from '@rakuxon-path/ui';
 
 import {
   FOOTER_COLUMNS,

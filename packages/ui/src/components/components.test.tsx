@@ -29,13 +29,23 @@ const PHOTO = 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=80
 describe('<Wordmark/>', () => {
   it('renders the brand name from tokens', () => {
     render(<Wordmark />);
-    expect(screen.getByRole('link', { name: 'Rakuxon Ed' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Rakuxon Path' })).toBeInTheDocument();
   });
 
-  it('splits the accent suffix so "Ed" can be styled separately', () => {
+  it('splits the accent suffix so "Path" can be styled separately', () => {
     render(<Wordmark />);
     expect(screen.getByText('Rakuxon')).toBeInTheDocument();
-    expect(screen.getByText('Ed')).toBeInTheDocument();
+    expect(screen.getByText('Path')).toBeInTheDocument();
+  });
+
+  it('renders the mark alongside the name', () => {
+    const { container } = render(<Wordmark />);
+    expect(container.querySelector('svg[role="img"]')).toBeInTheDocument();
+  });
+
+  it('can render the strapline for the full lockup', () => {
+    render(<Wordmark showTagline />);
+    expect(screen.getByText('From ambition to admission.')).toBeInTheDocument();
   });
 
   it('follows a tenant brand-name override without any code change', () => {
@@ -404,7 +414,7 @@ describe('<Header/>', () => {
   it('renders the wordmark, nav and both CTAs', () => {
     render(<Header {...props} />);
     const banner = screen.getByRole('banner');
-    expect(within(banner).getByRole('link', { name: 'Rakuxon Ed' })).toBeInTheDocument();
+    expect(within(banner).getByRole('link', { name: 'Rakuxon Path' })).toBeInTheDocument();
     expect(within(banner).getByRole('navigation', { name: 'Primary' })).toBeInTheDocument();
     expect(within(banner).getByRole('link', { name: 'Get started' })).toBeInTheDocument();
   });
@@ -450,7 +460,7 @@ describe('<Header/>', () => {
 describe('<Footer/>', () => {
   const props = {
     tagline: 'Your study abroad journey, simplified.',
-    domain: 'rakuxoned.com',
+    domain: 'rakuxonpath.com',
     columns: [
       { heading: 'Get to know us', links: [{ label: 'About', href: '/about' }] },
       { heading: 'Legal', links: [{ label: 'Privacy policy', href: '/privacy' }] },

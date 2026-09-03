@@ -3,6 +3,7 @@
 import clsx from 'clsx';
 
 import { useBrand } from '../theme/useTheme';
+import { LogoMark } from './LogoMark';
 
 export interface WordmarkProps {
   /** Renders inside an existing link or heading when false. Defaults to a link home. */
@@ -10,15 +11,32 @@ export interface WordmarkProps {
   className?: string;
   /** Hides the mark glyph, leaving just the name. */
   hideMark?: boolean;
+  /** Shows the strapline beneath the name, as in the full logo lockup. */
+  showTagline?: boolean;
+  size?: 'sm' | 'md' | 'lg';
 }
 
+const NAME_SIZE = {
+  sm: 'text-base',
+  md: 'text-xl',
+  lg: 'text-2xl',
+} as const;
+
+const MARK_SIZE = { sm: 24, md: 30, lg: 40 } as const;
+
 /**
- * The brand lockup: name in primary with its trailing slice in accent
- * ("Rakuxon" + "Ed"). Reads the `brand` tokens, so renaming the product is a
- * token change — nothing here hard-codes it.
+ * The brand lockup: mark + name, with the trailing slice of the name in the
+ * accent colour ("Rakuxon" + "Path"). Reads the `brand` tokens, so renaming the
+ * product is a token change — nothing here hard-codes it.
  */
-export function Wordmark({ href = '/', className, hideMark = false }: WordmarkProps) {
-  const { name, nameAccentSuffix } = useBrand();
+export function Wordmark({
+  href = '/',
+  className,
+  hideMark = false,
+  showTagline = false,
+  size = 'md',
+}: WordmarkProps) {
+  const { name, nameAccentSuffix, tagline } = useBrand();
 
   const hasAccent =
     nameAccentSuffix.length > 0 &&
@@ -30,17 +48,18 @@ export function Wordmark({ href = '/', className, hideMark = false }: WordmarkPr
 
   const content = (
     <>
-      {!hideMark && (
+      {!hideMark && <LogoMark size={MARK_SIZE[size]} />}
+      <span className="flex flex-col">
         <span
-          aria-hidden="true"
-          className="grid h-6 w-6 place-items-center rounded-sm bg-primary text-xs font-bold text-on-primary"
+          className={clsx(
+            'whitespace-nowrap font-heading font-bold tracking-tight text-primary',
+            NAME_SIZE[size],
+          )}
         >
-          {name.trim().charAt(0)}
+          {lead}
+          {accent && <span className="text-accent">{accent}</span>}
         </span>
-      )}
-      <span className="whitespace-nowrap font-heading text-xl font-bold tracking-tight text-primary">
-        {lead}
-        {accent && <span className="text-accent">{accent}</span>}
+        {showTagline && <span className="mt-1 text-sm text-text-muted">{tagline}</span>}
       </span>
     </>
   );

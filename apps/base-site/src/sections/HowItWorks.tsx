@@ -1,4 +1,4 @@
-import { SectionBand, StepItem } from '@rakuxon-edu/ui';
+import { SectionBand, StepItem } from '@rakuxon-path/ui';
 
 import { STEPS } from '@/content/home';
 

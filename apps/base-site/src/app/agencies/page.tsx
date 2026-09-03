@@ -7,7 +7,7 @@ import {
   MediaSection,
   SectionBand,
   ValueProps,
-} from '@rakuxon-edu/ui';
+} from '@rakuxon-path/ui';
 
 import {
   AGENCIES_CTA,

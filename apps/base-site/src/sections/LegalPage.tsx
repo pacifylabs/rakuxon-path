@@ -1,4 +1,4 @@
-import { PageHeader, SectionBand } from '@rakuxon-edu/ui';
+import { PageHeader, SectionBand } from '@rakuxon-path/ui';
 
 import type { LegalPageContent } from '@/content/legal';
 

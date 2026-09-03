@@ -40,6 +40,8 @@ export type { ImageCardProps } from './ImageCard';
 export { ImageHero } from './ImageHero';
 export type { ImageHeroProps } from './ImageHero';
 export { LogoBar } from './LogoBar';
+export type { LogoMarkProps } from './LogoMark';
+export { LogoMark } from './LogoMark';
 export type { LogoBarProps } from './LogoBar';
 export { MediaSection } from './MediaSection';
 export type { MediaSectionProps } from './MediaSection';

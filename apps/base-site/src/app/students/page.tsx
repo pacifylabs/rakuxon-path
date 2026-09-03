@@ -9,7 +9,7 @@ import {
   TestimonialCard,
   TrustBadge,
   ValueProps,
-} from '@rakuxon-edu/ui';
+} from '@rakuxon-path/ui';
 
 import {
   STUDENTS_CTA,
