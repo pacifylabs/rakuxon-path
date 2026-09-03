@@ -93,4 +93,20 @@ export const baseTokens: ThemeTokens = {
     durationFast: '150ms',
     durationBase: '250ms',
   },
+
+  /*
+   * Decorative categorical tints. Not state colours — see TintTokens.
+   * Foregrounds are chosen dark enough to clear AA (>= 4.5:1) on white, so the
+   * same value works for an icon, a number, or a small label.
+   */
+  tint: {
+    indigo: '#5B4BE1',
+    indigoSoft: '#EEEBFB',
+    green: '#17784B',
+    greenSoft: '#E6F4EC',
+    orange: '#C2560E',
+    orangeSoft: '#FDF0E6',
+    blue: '#1D4ED8',
+    blueSoft: '#E8EEFC',
+  },
 };

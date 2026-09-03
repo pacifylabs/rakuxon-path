@@ -22,5 +22,6 @@ export type {
   TenantTokenOverrides,
   TextScaleTokens,
   ThemeTokens,
+  TintTokens,
   WeightTokens,
 } from './tokens.types';

@@ -31,6 +31,16 @@ module.exports = {
       'text-inverse': color('text-inverse'),
       border: color('border'),
 
+      /* Decorative categorical tints (docs/04b § 3.3, § 3.4) — not state. */
+      'tint-indigo': 'var(--tint-indigo)',
+      'tint-indigo-soft': 'var(--tint-indigo-soft)',
+      'tint-green': 'var(--tint-green)',
+      'tint-green-soft': 'var(--tint-green-soft)',
+      'tint-orange': 'var(--tint-orange)',
+      'tint-orange-soft': 'var(--tint-orange-soft)',
+      'tint-blue': 'var(--tint-blue)',
+      'tint-blue-soft': 'var(--tint-blue-soft)',
+
       success: color('success'),
       warning: color('warning'),
       danger: color('danger'),

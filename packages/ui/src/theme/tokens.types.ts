@@ -89,6 +89,27 @@ export type ShadowTokens = {
   lg: string;
 };
 
+/**
+ * Decorative tints for categorical UI — the four coloured icon squares in the
+ * capability grid and the stat bar (docs/04b § 3.3, § 3.4).
+ *
+ * Deliberately separate from the state palette: painting a "Universities" chip
+ * with --color-success would imply something succeeded, and would erode the
+ * consistent status mapping the product relies on (docs/04-design-system § 5).
+ * These carry no meaning beyond visual variety. Every foreground passes AA on
+ * both --color-surface and its own soft background.
+ */
+export type TintTokens = {
+  indigo: string;
+  indigoSoft: string;
+  green: string;
+  greenSoft: string;
+  orange: string;
+  orangeSoft: string;
+  blue: string;
+  blueSoft: string;
+};
+
 export type MotionTokens = {
   easeStandard: string;
   durationFast: string;
@@ -105,6 +126,7 @@ export interface ThemeTokens {
   radius: RadiusTokens;
   shadow: ShadowTokens;
   motion: MotionTokens;
+  tint: TintTokens;
 }
 
 /**
@@ -137,4 +159,5 @@ export const GROUP_VAR_PREFIX: Record<keyof ThemeTokens, string> = {
   radius: 'radius',
   shadow: 'shadow',
   motion: '',
+  tint: 'tint',
 };

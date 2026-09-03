@@ -64,6 +64,39 @@ describe('tokensToCssVars', () => {
     expect(vars['--space-16']).toBe('64px');
   });
 
+  it('emits the decorative tints', () => {
+    const vars = tokensToCssVars(baseTokens);
+    expect(vars['--tint-indigo']).toBe('#5B4BE1');
+    expect(vars['--tint-green-soft']).toBe('#E6F4EC');
+    expect(vars['--tint-orange']).toBe('#C2560E');
+    expect(vars['--tint-blue-soft']).toBe('#E8EEFC');
+  });
+
+  it('keeps decorative tints distinct from the state palette', () => {
+    // A green capability square must not be --color-success: state colours
+    // have to keep meaning what they say (docs/04-design-system § 5).
+    expect(baseTokens.tint.green).not.toBe(baseTokens.color.success);
+    expect(baseTokens.tint.orange).not.toBe(baseTokens.color.warning);
+    expect(baseTokens.tint.blue).not.toBe(baseTokens.color.info);
+  });
+
+  it('gives every tint foreground AA contrast on white', () => {
+    const srgb = (hex: string) =>
+      [1, 3, 5].map((i) => {
+        const v = parseInt(hex.slice(i, i + 2), 16) / 255;
+        return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+      });
+    const luminance = (hex: string) => {
+      const [r, g, b] = srgb(hex) as [number, number, number];
+      return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    };
+
+    for (const key of ['indigo', 'green', 'orange', 'blue'] as const) {
+      const ratio = 1.05 / (luminance(baseTokens.tint[key]) + 0.05);
+      expect(ratio, `tint.${key} on white`).toBeGreaterThanOrEqual(4.5);
+    }
+  });
+
   it('quotes the brand name so it is usable from CSS', () => {
     expect(tokensToCssVars(baseTokens)['--brand-name']).toBe('"Rakuxon Ed"');
   });
