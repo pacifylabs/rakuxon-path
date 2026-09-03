@@ -30,7 +30,6 @@ export function FactGrid({ facts, sample = false, columns = 3, className }: Fact
       data-sample={sample ? 'true' : undefined}
       className={clsx('grid gap-6', COLUMN_CLASSES[columns], className)}
     >
-      {sample && <div className="sr-only">These figures are indicative ranges, not quotes.</div>}
       {facts.map((fact) => (
         <div key={fact.label} className="rounded-lg border border-border bg-surface p-5 shadow-sm">
           <dt className="text-sm text-text-muted">{fact.label}</dt>

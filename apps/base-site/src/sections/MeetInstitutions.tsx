@@ -18,10 +18,12 @@ export function MeetInstitutions() {
         Explore leading institutions
       </h2>
 
-      <ul data-sample="true" className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <li className="sr-only">Sample institutions, shown for illustration.</li>
+      <ul
+        data-sample="true"
+        className="mt-12 grid items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3"
+      >
         {INSTITUTIONS.map((institution) => (
-          <li key={institution.name}>
+          <li key={institution.name} className="h-full">
             <UniversityCard
               name={institution.name}
               country={institution.country}

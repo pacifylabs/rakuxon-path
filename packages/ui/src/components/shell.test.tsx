@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react';
+import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { GraduationCap, Search } from 'lucide-react';
 import { useState } from 'react';
@@ -10,6 +10,7 @@ import { FactGrid } from './FactGrid';
 import { FilterBar } from './FilterBar';
 import type { FilterDefinition } from './FilterBar';
 import { ImageHero } from './ImageHero';
+import { TestimonialSlider } from './TestimonialSlider';
 import { MediaSection } from './MediaSection';
 import { PageHeader } from './PageHeader';
 import { ValueProps } from './ValueProps';
@@ -138,10 +139,10 @@ describe('<FactGrid/>', () => {
     expect(screen.getByText('£12,000 – £26,000')).toBeInTheDocument();
   });
 
-  it('marks indicative figures so they cannot read as quotes', () => {
+  it('flags indicative figures in the markup without a visible caveat', () => {
     const { container } = render(<FactGrid facts={facts} sample />);
     expect(container.querySelector('[data-sample="true"]')).toBeInTheDocument();
-    expect(screen.getByText(/indicative ranges, not quotes/i)).toBeInTheDocument();
+    expect(screen.queryByText(/indicative/i)).not.toBeInTheDocument();
   });
 });
 
@@ -268,5 +269,95 @@ describe('<ContactForm/>', () => {
   it('pre-selects the role passed from the query string', () => {
     render(<ContactForm fallbackEmail={email} defaultRole="agency" />);
     expect(screen.getByLabelText('I am a')).toHaveValue('agency');
+  });
+});
+
+describe('<TestimonialSlider/>', () => {
+  const testimonials = [
+    { quote: 'First quote.', name: 'Amara', detail: 'NG to CA', src: PHOTO, alt: 'Portrait one' },
+    { quote: 'Second quote.', name: 'Daniel', detail: 'KE to UK', src: PHOTO, alt: 'Portrait two' },
+    { quote: 'Third quote.', name: 'Mei', detail: 'CN to IE', src: PHOTO, alt: 'Portrait three' },
+  ];
+
+  it('announces itself as a carousel and shows the first slide', () => {
+    render(<TestimonialSlider testimonials={testimonials} />);
+    expect(screen.getByRole('group', { name: 'Student testimonials' })).toBeInTheDocument();
+    expect(screen.getByText('First quote.')).toBeInTheDocument();
+  });
+
+  it('keeps every slide mounted so the height cannot jump between quotes', () => {
+    const { container } = render(<TestimonialSlider testimonials={testimonials} />);
+    expect(container.querySelectorAll('figure')).toHaveLength(3);
+  });
+
+  it('advances and rewinds on the arrow controls', async () => {
+    const { container } = render(<TestimonialSlider testimonials={testimonials} />);
+    const track = () => container.querySelector('ul')?.getAttribute('style') ?? '';
+
+    expect(track()).toContain('translateX(-0%)');
+    await userEvent.click(screen.getByRole('button', { name: 'Next testimonial' }));
+    expect(track()).toContain('translateX(-100%)');
+    await userEvent.click(screen.getByRole('button', { name: 'Previous testimonial' }));
+    expect(track()).toContain('translateX(-0%)');
+  });
+
+  it('wraps around at both ends', async () => {
+    const { container } = render(<TestimonialSlider testimonials={testimonials} />);
+    const track = () => container.querySelector('ul')?.getAttribute('style') ?? '';
+
+    await userEvent.click(screen.getByRole('button', { name: 'Previous testimonial' }));
+    expect(track()).toContain('translateX(-200%)');
+  });
+
+  it('jumps to a slide from its dot, and marks the current one', async () => {
+    render(<TestimonialSlider testimonials={testimonials} />);
+    await userEvent.click(screen.getByRole('button', { name: 'Show testimonial 3' }));
+    expect(screen.getByRole('button', { name: 'Show testimonial 3' })).toHaveAttribute(
+      'aria-current',
+      'true',
+    );
+  });
+
+  it('offers a pause control, because auto-updating content must be stoppable', async () => {
+    render(<TestimonialSlider testimonials={testimonials} />);
+    const pause = screen.getByRole('button', { name: 'Pause testimonials' });
+    await userEvent.click(pause);
+    expect(screen.getByRole('button', { name: 'Play testimonials' })).toBeInTheDocument();
+  });
+
+  it('advances on its own once the interval elapses', async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    const { container } = render(<TestimonialSlider testimonials={testimonials} interval={1000} />);
+    const track = () => container.querySelector('ul')?.getAttribute('style') ?? '';
+
+    expect(track()).toContain('translateX(-0%)');
+    await act(async () => {
+      vi.advanceTimersByTime(1000);
+    });
+    expect(track()).toContain('translateX(-100%)');
+    vi.useRealTimers();
+  });
+
+  it('halts autoplay while the pointer is over it', async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    const { container } = render(<TestimonialSlider testimonials={testimonials} interval={1000} />);
+    const track = () => container.querySelector('ul')?.getAttribute('style') ?? '';
+
+    fireEvent.mouseEnter(screen.getByRole('group', { name: 'Student testimonials' }));
+    await act(async () => {
+      vi.advanceTimersByTime(3000);
+    });
+    expect(track()).toContain('translateX(-0%)');
+    vi.useRealTimers();
+  });
+
+  it('exposes the position to screen readers', () => {
+    render(<TestimonialSlider testimonials={testimonials} />);
+    expect(screen.getByText('Testimonial 1 of 3')).toBeInTheDocument();
+  });
+
+  it('renders nothing when there is nothing to show', () => {
+    const { container } = render(<TestimonialSlider testimonials={[]} />);
+    expect(container).toBeEmptyDOMElement();
   });
 });

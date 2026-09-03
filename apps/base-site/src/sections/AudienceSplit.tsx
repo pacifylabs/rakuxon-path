@@ -13,9 +13,9 @@ export function AudienceSplit() {
         Start your journey with us
       </h2>
 
-      <ul className="mt-12 grid gap-6 md:grid-cols-3">
+      <ul className="mt-12 grid items-stretch gap-6 md:grid-cols-3">
         {AUDIENCES.map((audience) => (
-          <li key={audience.title}>
+          <li key={audience.title} className="h-full">
             <AudienceCard
               title={audience.title}
               description={audience.description}

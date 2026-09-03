@@ -85,10 +85,21 @@ export const HERO_DEADLINE_CARD = {
 
 /* ------------------------------------------------------------ § 3.2 logo bar */
 
+/*
+ * Partner lockups for our own example institutions. Real university logos are
+ * trademarks and are not reproduced without permission — swap these for
+ * licensed artwork once partnerships are signed.
+ */
 export const TRUST_BAR = {
   label: 'Trusted by students and partners worldwide',
-  /* Neutral marks: real university logos need permission we do not have. */
-  logos: ['Northfield', 'Westbrook', 'Lakeside', 'Kingsbridge', 'Ardenmoor', 'Fairhaven'],
+  logos: [
+    { name: 'Northfield', emblem: 'shield' },
+    { name: 'Westbrook', emblem: 'book' },
+    { name: 'Lakeside', emblem: 'leaf' },
+    { name: 'Kingsbridge', emblem: 'tower' },
+    { name: 'Ardenmoor', emblem: 'arch' },
+    { name: 'Fairhaven', emblem: 'compass' },
+  ],
 } as const;
 
 /* --------------------------------------------------- § 3.3 capability grid */
@@ -328,7 +339,8 @@ export const AUDIENCES: readonly AudienceContent[] = [
     description: 'Reach qualified students worldwide through a vetted partner network.',
     cta: { label: 'Partner with us', href: ROUTES.institutions },
     src: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&q=80',
-    alt: 'University lecture hall with students',
+    /* 04b § 3.9 called this a lecture hall; it is a commencement ceremony. */
+    alt: 'Graduates throwing their caps at a commencement ceremony',
     searchTerm: 'university lecture hall',
   },
 ];

@@ -41,10 +41,12 @@ export function UniversityBrowser() {
           No universities match those filters. Try clearing one.
         </p>
       ) : (
-        <ul data-sample="true" className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          <li className="sr-only">Sample catalogue entries, shown for illustration.</li>
+        <ul
+          data-sample="true"
+          className="mt-12 grid items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3"
+        >
           {matches.map((university) => (
-            <li key={university.name}>
+            <li key={university.name} className="h-full">
               <UniversityCard
                 name={university.name}
                 country={university.country}

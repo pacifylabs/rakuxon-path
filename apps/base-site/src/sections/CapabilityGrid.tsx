@@ -16,9 +16,9 @@ export function CapabilityGrid() {
         </h2>
       </div>
 
-      <ul className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <ul className="mt-12 grid items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {CAPABILITIES.map((capability) => (
-          <li key={capability.title}>
+          <li key={capability.title} className="h-full">
             <CapabilityCard
               icon={capability.icon}
               tone={capability.tone}

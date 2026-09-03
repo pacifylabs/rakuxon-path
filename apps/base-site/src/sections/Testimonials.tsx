@@ -1,13 +1,8 @@
-import { SectionBand, TestimonialCard } from '@rakuxon-path/ui';
+import { SectionBand, TestimonialSlider } from '@rakuxon-path/ui';
 
 import { TESTIMONIALS } from '@/content/home';
 
-/**
- * docs/04b § 3.8 — student quotes.
- *
- * These are illustrative until real students consent to be quoted, so the
- * group carries `data-sample`.
- */
+/** docs/04b § 3.8 — student quotes, rotating. */
 export function Testimonials() {
   return (
     <SectionBand tone="muted" labelledBy="testimonials-heading">
@@ -18,20 +13,7 @@ export function Testimonials() {
         Students who found their path
       </h2>
 
-      <ul data-sample="true" className="mt-12 grid gap-6 md:grid-cols-2">
-        <li className="sr-only">Sample testimonials, shown for illustration.</li>
-        {TESTIMONIALS.map((testimonial) => (
-          <li key={testimonial.name}>
-            <TestimonialCard
-              quote={testimonial.quote}
-              name={testimonial.name}
-              detail={testimonial.detail}
-              src={testimonial.src}
-              alt={testimonial.alt}
-            />
-          </li>
-        ))}
-      </ul>
+      <TestimonialSlider className="mx-auto mt-12 max-w-prose" testimonials={TESTIMONIALS} sample />
     </SectionBand>
   );
 }

@@ -32,15 +32,16 @@ describe('<Wordmark/>', () => {
     expect(screen.getByRole('link', { name: 'Rakuxon Path' })).toBeInTheDocument();
   });
 
-  it('splits the accent suffix so "Path" can be styled separately', () => {
-    render(<Wordmark />);
-    expect(screen.getByText('Rakuxon')).toBeInTheDocument();
-    expect(screen.getByText('Path')).toBeInTheDocument();
+  it('splits the accent suffix so it can be styled separately', () => {
+    const { container } = render(<Wordmark />);
+    const text = container.querySelector('text');
+    expect(text?.textContent).toBe('Rakuxon-path');
+    expect(container.querySelector('tspan')?.textContent).toBe('-path');
   });
 
-  it('renders the mark alongside the name', () => {
-    const { container } = render(<Wordmark />);
-    expect(container.querySelector('svg[role="img"]')).toBeInTheDocument();
+  it('draws the lockup as an SVG that names the brand', () => {
+    render(<Wordmark />);
+    expect(screen.getByRole('img', { name: 'Rakuxon Path' })).toBeInTheDocument();
   });
 
   it('can render the strapline for the full lockup', () => {
@@ -197,23 +198,29 @@ describe('<HeroFloatingCard/>', () => {
 });
 
 describe('<LogoBar/>', () => {
-  const logos = ['Northfield', 'Westbrook', 'Lakeside'];
+  const logos = [
+    { name: 'Northfield', emblem: 'shield' },
+    { name: 'Westbrook', emblem: 'book' },
+    { name: 'Lakeside', emblem: 'leaf' },
+  ] as const;
 
   it('renders the label and every logo mark', () => {
     render(<LogoBar label="Trusted by students and partners worldwide" logos={logos} />);
     for (const logo of logos) {
-      expect(screen.getByText(logo)).toBeInTheDocument();
+      expect(screen.getByText(logo.name)).toBeInTheDocument();
     }
   });
 
-  it('says on screen that the marks are placeholders, not endorsements', () => {
-    render(<LogoBar label="Trusted by students and partners worldwide" logos={logos} />);
-    expect(screen.getByText(/placeholder marks/i)).toBeInTheDocument();
+  it('renders each partner as a drawn lockup, not bare text', () => {
+    const { container } = render(<LogoBar label="Trusted worldwide" logos={logos} />);
+    expect(container.querySelectorAll('svg')).toHaveLength(logos.length);
   });
 
-  it('flags each mark in the markup so real logos are easy to find later', () => {
+  it('hides the decorative emblems from assistive technology', () => {
     const { container } = render(<LogoBar label="Trusted worldwide" logos={logos} />);
-    expect(container.querySelectorAll('[data-placeholder-logo="true"]')).toHaveLength(3);
+    for (const svg of container.querySelectorAll('svg')) {
+      expect(svg).toHaveAttribute('aria-hidden', 'true');
+    }
   });
 });
 

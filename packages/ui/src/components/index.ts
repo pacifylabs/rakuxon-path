@@ -55,6 +55,8 @@ export { StatChip } from './StatChip';
 export type { StatChipProps } from './StatChip';
 export { StepItem } from './StepItem';
 export type { StepItemProps } from './StepItem';
+export { TestimonialSlider } from './TestimonialSlider';
+export type { SliderTestimonial, TestimonialSliderProps } from './TestimonialSlider';
 export { TestimonialCard } from './TestimonialCard';
 export type { TestimonialCardProps } from './TestimonialCard';
 export { TrustBadge } from './TrustBadge';

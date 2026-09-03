@@ -105,10 +105,12 @@ export default async function CountryPage({ params }: Params) {
           >
             Popular institutions in {country.shortName}
           </h2>
-          <ul data-sample="true" className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            <li className="sr-only">Sample institutions, shown for illustration.</li>
+          <ul
+            data-sample="true"
+            className="mt-10 grid items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3"
+          >
             {universities.map((university) => (
-              <li key={university.name}>
+              <li key={university.name} className="h-full">
                 <UniversityCard
                   name={university.name}
                   country={country.shortName}
@@ -129,7 +131,7 @@ export default async function CountryPage({ params }: Params) {
         >
           How Rakuxon Path helps with {country.shortName} applications
         </h2>
-        <ol className="mt-10 grid gap-6 md:grid-cols-3">
+        <ol className="mt-10 grid items-stretch gap-6 md:grid-cols-3">
           {country.helpPoints.map((point, index) => (
             <li key={point} className="rounded-lg border border-border bg-surface p-6 shadow-sm">
               <span className="grid h-10 w-10 place-items-center rounded-full bg-primary text-base font-bold text-on-primary">

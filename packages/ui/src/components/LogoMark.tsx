@@ -1,51 +1,68 @@
 export interface LogoMarkProps {
-  /** Rendered size in px. Drawn on a 64-unit grid, so it scales cleanly. */
-  size?: number;
+  /** Rendered height in px. The lockup is drawn on a 210x52 grid. */
+  height?: number;
   className?: string;
+  /** Accessible name. The wordmark is the logo, so it carries the brand name. */
+  title: string;
+  /** Splits the name: everything before the accent slice, then the slice. */
+  lead: string;
+  accent: string;
 }
 
 /**
- * The Rakuxon Path mark: an arched doorway opening onto a path, with a
- * mortarboard set in the opening — ambition on one side of the door,
- * admission on the other.
+ * The Rakuxon Path lockup: the wordmark with a path line running beneath it
+ * that steps down where the name divides and terminates in a node.
  *
- * The supplied artwork nests this inside a letter R. Hand-tracing that
- * letterform did not hold together at 24px, so this keeps the idea and drops
- * the letter; the wordmark beside it already carries the name. Drawn from
- * theme tokens rather than a raster file, so it re-colours with the theme.
- * Replace with the real asset when it is available on disk.
+ * Type is real text in the heading font rather than traced outlines, so the
+ * mark needs no font files of its own and re-colours with the theme. The
+ * supplied artwork sets an arrow inside a custom R's counter; real type has no
+ * such counter to sit in, and overlaying it read as a mistake, so the line and
+ * node carry the path idea instead.
  */
-export function LogoMark({ size = 32, className }: LogoMarkProps) {
+export function LogoMark({ height = 32, className, title, lead, accent }: LogoMarkProps) {
   return (
     <svg
-      width={size}
-      height={size}
-      viewBox="0 0 64 64"
+      viewBox="0 0 210 52"
+      height={height}
+      width={(height * 210) / 52}
       role="img"
-      aria-hidden="true"
-      focusable="false"
+      aria-label={title}
       className={className}
     >
-      <rect width="64" height="64" rx="15" fill="var(--color-primary)" />
+      <text
+        x="4"
+        y="30"
+        fontFamily="var(--font-heading)"
+        fontSize="27"
+        fontWeight="700"
+        letterSpacing="-0.6"
+        fill="var(--color-primary)"
+      >
+        {lead}
+        <tspan fill="var(--color-text-muted)">-{accent}</tspan>
+      </text>
 
       {/*
-        Doorway and path are one continuous shape: the opening narrows at the
-        threshold and widens as it comes toward you.
+        The path: runs under the type, steps down where the name divides, and
+        ends on a node — the journey the product is named for.
       */}
       <path
-        d="M23 46V31a9 9 0 0 1 18 0v15c1 7 4.5 12 9 18H14c4.5-6 8-11 9-18Z"
-        fill="var(--color-on-primary)"
+        d="M5 43h108l7 6h9"
+        fill="none"
+        stroke="var(--color-primary)"
+        strokeWidth="2.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
-
-      {/* Mortarboard in the opening. */}
-      <g transform="translate(32 33)">
-        <path d="M-7 0 0-3.4 7 0 0 3.4Z" fill="var(--color-accent)" />
-        <path
-          d="M-4.1 1.5v3.2C-4.1 5.9-2.3 7 0 7s4.1-1.1 4.1-2.3V1.5L0 3.4Z"
-          fill="var(--color-accent)"
-        />
-        <path d="M7 0v4" stroke="var(--color-accent)" strokeWidth="1.1" strokeLinecap="round" />
-      </g>
+      <path
+        d="M129 49h9l7-6h53"
+        fill="none"
+        stroke="var(--color-accent)"
+        strokeWidth="2.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <circle cx="202" cy="43" r="4.2" fill="none" stroke="var(--color-accent)" strokeWidth="2.6" />
     </svg>
   );
 }

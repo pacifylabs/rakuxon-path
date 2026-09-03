@@ -22,7 +22,7 @@ export function AudienceCard({ title, description, cta, src, alt, className }: A
       <p className="mt-2 text-sm text-text-muted">{description}</p>
       <a
         href={cta.href}
-        className="mt-4 inline-flex items-center gap-1 rounded-sm text-sm font-semibold text-primary transition-colors duration-fast ease-standard hover:text-primary-hover focus-visible:outline-none focus-visible:ring focus-visible:ring-offset-2 motion-reduce:transition-none"
+        className="mt-auto inline-flex items-center gap-1 self-start rounded-sm pt-4 text-sm font-semibold text-primary transition-colors duration-fast ease-standard hover:text-primary-hover focus-visible:outline-none focus-visible:ring focus-visible:ring-offset-2 motion-reduce:transition-none"
       >
         {cta.label}
         <span aria-hidden="true">→</span>

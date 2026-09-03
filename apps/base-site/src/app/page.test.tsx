@@ -5,6 +5,7 @@ import { ThemeProvider } from '@rakuxon-path/ui';
 
 import {
   AUDIENCES,
+  TRUST_BAR,
   CAPABILITIES,
   DESTINATIONS,
   HERO,
@@ -117,10 +118,16 @@ describe('§3.1 hero', () => {
 });
 
 describe('§3.2 trust logo bar', () => {
-  it('flags every logo mark as a placeholder, since real logos need permission', () => {
+  it('renders each partner as a drawn lockup rather than bare text', () => {
     const { container } = renderHome();
-    expect(container.querySelectorAll('[data-placeholder-logo="true"]').length).toBeGreaterThan(0);
-    expect(screen.getByText(/placeholder marks/i)).toBeInTheDocument();
+    const bar = container.querySelector('[data-trust-bar]') as HTMLElement;
+    expect(bar).toBeInTheDocument();
+    expect(bar.querySelectorAll('svg').length).toBe(TRUST_BAR.logos.length);
+  });
+
+  it('carries no visible placeholder caveat', () => {
+    renderHome();
+    expect(screen.queryByText(/placeholder/i)).not.toBeInTheDocument();
   });
 });
 
@@ -249,8 +256,10 @@ describe('images', () => {
   });
 
   it('renders one image per declared slot', () => {
-    renderHome();
-    expect(screen.getAllByRole('img')).toHaveLength(HOME_IMAGE_SLOTS.length);
+    // Counted from the DOM, not by role: the testimonial carousel hides its
+    // inactive slide from the accessibility tree, which is correct behaviour.
+    const { container } = renderHome();
+    expect(container.querySelectorAll('img')).toHaveLength(HOME_IMAGE_SLOTS.length);
   });
 
   it('serves every photo from an allow-listed remote host', () => {

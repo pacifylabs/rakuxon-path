@@ -16,9 +16,9 @@ export function PopularDestinations() {
         Explore where students like you are heading, and what it takes to get there.
       </p>
 
-      <ul className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <ul className="mt-12 grid items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {DESTINATIONS.map((destination) => (
-          <li key={destination.country}>
+          <li key={destination.country} className="h-full">
             <DestinationCard
               country={destination.country}
               href={destination.href}

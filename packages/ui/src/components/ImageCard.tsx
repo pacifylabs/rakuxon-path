@@ -8,6 +8,8 @@ export interface ImageCardProps {
   href?: string;
   /** Rendered over the image bottom when `overlay`, otherwise beneath it. */
   children: ReactNode;
+  /** Extra body under the image. Works alongside `overlay`. */
+  footer?: ReactNode;
   overlay?: boolean;
   aspect?: string;
   sizes?: string;
@@ -17,14 +19,19 @@ export interface ImageCardProps {
 
 /**
  * Shared photo-card shell behind DestinationCard / UniversityCard /
- * AudienceCard. Keeps image sizing, focus behaviour and the whole-card link
- * treatment in one place rather than three near-copies.
+ * AudienceCard.
+ *
+ * The card is a full-height flex column and the image is `shrink-0`, so every
+ * card in a grid row ends at the same height and every image in that row is
+ * the same size regardless of how much text sits beneath it. Body content
+ * flexes, which lets a CTA sit on `mt-auto` and line up across the row.
  */
 export function ImageCard({
   src,
   alt,
   href,
   children,
+  footer,
   overlay = false,
   aspect = 'aspect-[4/3]',
   sizes = '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw',
@@ -33,7 +40,7 @@ export function ImageCard({
 }: ImageCardProps) {
   const body = (
     <>
-      <div className={clsx('relative w-full overflow-hidden', aspect)}>
+      <div className={clsx('relative w-full shrink-0 overflow-hidden', aspect)}>
         <Image
           src={src}
           alt={alt}
@@ -59,11 +66,15 @@ export function ImageCard({
           </>
         )}
       </div>
-      {!overlay && <div className="p-5">{children}</div>}
+
+      {!overlay && <div className="flex flex-1 flex-col p-5">{children}</div>}
+      {overlay && footer && <div className="flex flex-1 flex-col p-5">{footer}</div>}
+      {!overlay && footer && <div className="flex flex-col px-5 pb-5">{footer}</div>}
     </>
   );
 
-  const shell = 'group block overflow-hidden rounded-lg border border-border bg-surface shadow-sm';
+  const shell =
+    'flex h-full flex-col overflow-hidden rounded-lg border border-border bg-surface shadow-sm';
 
   if (href) {
     return (

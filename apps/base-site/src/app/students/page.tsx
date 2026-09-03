@@ -6,7 +6,7 @@ import {
   MediaSection,
   SectionBand,
   StepItem,
-  TestimonialCard,
+  TestimonialSlider,
   TrustBadge,
   ValueProps,
 } from '@rakuxon-path/ui';
@@ -94,20 +94,11 @@ export default function StudentsPage() {
         >
           Students who have been through it
         </h2>
-        <ul data-sample="true" className="mt-12 grid gap-6 md:grid-cols-2">
-          <li className="sr-only">Sample testimonials, shown for illustration.</li>
-          {STUDENT_TESTIMONIALS.map((testimonial) => (
-            <li key={testimonial.name}>
-              <TestimonialCard
-                quote={testimonial.quote}
-                name={testimonial.name}
-                detail={testimonial.detail}
-                src={testimonial.src}
-                alt={testimonial.alt}
-              />
-            </li>
-          ))}
-        </ul>
+        <TestimonialSlider
+          className="mx-auto mt-12 max-w-prose"
+          testimonials={STUDENT_TESTIMONIALS}
+          sample
+        />
       </SectionBand>
 
       <SectionBand tone="surface" labelledBy="students-cta-heading">

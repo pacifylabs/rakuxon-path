@@ -28,16 +28,16 @@ export default function DestinationsPage() {
           All destinations
         </h2>
 
-        <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="grid items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {COUNTRIES.map((country) => (
-            <li key={country.slug} className="flex flex-col">
+            <li key={country.slug} className="h-full">
               <DestinationCard
                 country={country.shortName}
                 href={countryRoute(country.slug)}
                 src={country.cardImage.src}
                 alt={country.cardImage.alt}
+                description={country.tagline}
               />
-              <p className="mt-4 text-sm text-text-muted">{country.tagline}</p>
             </li>
           ))}
         </ul>

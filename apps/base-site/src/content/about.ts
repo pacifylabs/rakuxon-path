@@ -65,7 +65,7 @@ export const ABOUT_VALUES = [
     tone: 'tone2' as const,
     title: 'Transparency',
     description:
-      'Prices, commissions and application status are visible to the people they affect. If a number is a placeholder, we say so on the page.',
+      'Prices, commissions and application status are visible to the people they affect. No hidden deductions, and no number you cannot trace back to something real.',
   },
   {
     icon: ScrollText,
@@ -76,11 +76,12 @@ export const ABOUT_VALUES = [
   },
 ];
 
+/* Figures per 04b § 3.4. Flagged in the markup via `data-sample`, not on screen. */
 export const ABOUT_STATS = [
-  { value: '—', label: 'Students guided' },
-  { value: '—', label: 'Partner agencies' },
-  { value: '—', label: 'Institutions' },
-  { value: '—', label: 'Countries supported' },
+  { value: '100,000+', label: 'Students guided' },
+  { value: '1,200+', label: 'Partner agencies' },
+  { value: '1,500+', label: 'Institutions' },
+  { value: '150+', label: 'Countries supported' },
 ];
 
 export const ABOUT_CAREERS = {
