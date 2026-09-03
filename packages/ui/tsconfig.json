@@ -1,4 +1,4 @@
 {
   "extends": "@rakuxon-edu/tsconfig/react-library.json",
-  "include": ["src"]
+  "include": ["src", "../../types"]
 }

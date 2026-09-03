@@ -7,7 +7,7 @@
  * purpose — a tenant must not be able to make "danger" look reassuring.
  */
 
-export interface BrandTokens {
+export type BrandTokens = {
   /** Product name. Rendered by <Wordmark/>; swap here and nothing else changes. */
   name: string;
   /**
@@ -17,7 +17,7 @@ export interface BrandTokens {
   nameAccentSuffix: string;
 }
 
-export interface ColorTokens {
+export type ColorTokens = {
   primary: string;
   primaryHover: string;
   onPrimary: string;
@@ -37,12 +37,12 @@ export interface ColorTokens {
   focusRing: string;
 }
 
-export interface FontTokens {
+export type FontTokens = {
   sans: string;
   heading: string;
 }
 
-export interface TextScaleTokens {
+export type TextScaleTokens = {
   xs: string;
   sm: string;
   base: string;
@@ -54,14 +54,14 @@ export interface TextScaleTokens {
   hero: string;
 }
 
-export interface WeightTokens {
+export type WeightTokens = {
   regular: string;
   medium: string;
   semibold: string;
   bold: string;
 }
 
-export interface SpaceTokens {
+export type SpaceTokens = {
   1: string;
   2: string;
   3: string;
@@ -75,7 +75,7 @@ export interface SpaceTokens {
   20: string;
 }
 
-export interface RadiusTokens {
+export type RadiusTokens = {
   sm: string;
   md: string;
   lg: string;
@@ -83,13 +83,13 @@ export interface RadiusTokens {
   full: string;
 }
 
-export interface ShadowTokens {
+export type ShadowTokens = {
   sm: string;
   md: string;
   lg: string;
 }
 
-export interface MotionTokens {
+export type MotionTokens = {
   easeStandard: string;
   durationFast: string;
   durationBase: string;

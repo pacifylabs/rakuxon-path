@@ -29,7 +29,7 @@ function cssValue(group: keyof ThemeTokens, value: string): string {
 export function tokensToCssVars(tokens: ThemeTokens): Record<string, string> {
   const vars: Record<string, string> = {};
   for (const group of Object.keys(tokens) as (keyof ThemeTokens)[]) {
-    const groupTokens = tokens[group] as Record<string, string>;
+    const groupTokens: Record<string, string> = tokens[group];
     for (const [key, value] of Object.entries(groupTokens)) {
       vars[cssVarName(group, key)] = cssValue(group, value);
     }
@@ -68,7 +68,7 @@ export function mergeTokens(
     const groupOverrides = overrides[group] as Record<string, string> | undefined;
     if (!groupOverrides) continue;
 
-    const target = merged[group] as Record<string, string>;
+    const target: Record<string, string> = merged[group];
     for (const key of allowedKeys) {
       const value = groupOverrides[key];
       if (typeof value === 'string' && value.trim() !== '') {
