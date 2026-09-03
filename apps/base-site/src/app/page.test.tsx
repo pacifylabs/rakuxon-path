@@ -46,6 +46,8 @@ describe('home page structure', () => {
       .map((heading) => heading.textContent);
 
     expect(headings).toEqual([
+      // Search sits between the hero and the trust bar, so it comes first.
+      'Start with a search',
       'Your study abroad journey, simplified.',
       'Rakuxon Path by the numbers',
       'How it works',
@@ -114,6 +116,32 @@ describe('§3.1 hero', () => {
     // They sit beside the h1; a heading here would skip the outline to h3.
     expect(screen.queryByRole('heading', { name: /Match Score/ })).not.toBeInTheDocument();
     expect(screen.getByRole('article', { name: /Match Score/ })).toBeInTheDocument();
+  });
+});
+
+describe('landing page search', () => {
+  it('offers a search form that submits to the explore hub', () => {
+    renderHome();
+    const form = screen.getByRole('search');
+    expect(form).toHaveAttribute('action', '/explore');
+    // GET, so the results page reproduces from the query string alone and the
+    // form works before hydration.
+    expect(form).toHaveAttribute('method', 'get');
+  });
+
+  it('labels every control and names the fields the explore page reads', () => {
+    renderHome();
+    expect(screen.getByLabelText('What are you looking for?')).toHaveAttribute('name', 'q');
+    expect(screen.getByLabelText('Type')).toHaveAttribute('name', 'tab');
+    expect(screen.getByLabelText('Destination')).toHaveAttribute('name', 'country');
+  });
+
+  it('offers every explore tab as a search type', () => {
+    renderHome();
+    const options = [...screen.getByLabelText('Type').querySelectorAll('option')].map(
+      (option) => option.value,
+    );
+    expect(options).toEqual(['courses', 'universities', 'articles']);
   });
 });
 

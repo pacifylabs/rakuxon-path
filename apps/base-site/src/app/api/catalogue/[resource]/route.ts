@@ -1,7 +1,11 @@
 import { NextResponse } from 'next/server';
 
 import { fetchArticles, fetchCourses } from '@/lib/catalogue/edvoy';
-import { COVERED_COUNTRIES, fetchCountryCounts, fetchInstitutions } from '@/lib/catalogue/institutions';
+import {
+  COVERED_COUNTRIES,
+  fetchCountryCounts,
+  fetchInstitutions,
+} from '@/lib/catalogue/institutions';
 
 /**
  * The catalogue as real HTTP endpoints.
@@ -29,13 +33,9 @@ const isResource = (value: string): value is Resource =>
   (RESOURCES as readonly string[]).includes(value);
 
 /** Edvoy filters by country name; ROR by ISO-2 code. Accept the code for both. */
-const countryName = (code: string) =>
-  COVERED_COUNTRIES.find((entry) => entry.code === code)?.name;
+const countryName = (code: string) => COVERED_COUNTRIES.find((entry) => entry.code === code)?.name;
 
-export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ resource: string }> },
-) {
+export async function GET(request: Request, { params }: { params: Promise<{ resource: string }> }) {
   const { resource } = await params;
 
   if (!isResource(resource)) {
