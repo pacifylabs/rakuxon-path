@@ -390,6 +390,57 @@ export const CLOSING_CTA = {
   reassurance: 'No credit card required.',
 } as const;
 
+/* ------------------------------------------------- course paths (browse) */
+
+export interface CoursePath extends ImageSlot {
+  title: string;
+  description: string;
+  /** Seeds the Explore search. */
+  query: string;
+}
+
+/**
+ * Entry points into the catalogue. Each is a real search, so the card leads
+ * somewhere with results rather than to a dead-end landing page.
+ */
+export const COURSE_PATHS: readonly CoursePath[] = [
+  {
+    title: 'Get there',
+    description:
+      'Compare destinations on cost, course length and what you can do after you graduate.',
+    query: 'tab=universities',
+    src: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&q=80',
+    alt: 'View from an aeroplane window above the clouds at sunset',
+    searchTerm: 'airplane travel',
+  },
+  {
+    title: 'Fund it',
+    description:
+      'Understand the real cost — tuition, living, visa, deposits — and what funding you qualify for.',
+    query: 'tab=articles&q=scholarship',
+    src: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=800&q=80',
+    alt: 'Stacks of coins with a young plant growing from them',
+    searchTerm: 'scholarship funding savings',
+  },
+  {
+    title: 'Plan the move',
+    description: 'Intakes, deadlines and the documents each country asks for, in one place.',
+    query: 'tab=articles&q=visa',
+    src: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80',
+    alt: 'Travel map with a backpack, camera and notebook laid out on top',
+    searchTerm: 'travel planning map',
+  },
+  {
+    title: 'Study together',
+    description:
+      'Find the programme that fits your grades, your budget and where you want to end up.',
+    query: 'tab=courses',
+    src: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=800&q=80',
+    alt: 'Group of students working together around a table with laptops',
+    searchTerm: 'students collaborating',
+  },
+];
+
 /** Every image slot on the page, for the load-verification checklist. */
 export const HOME_IMAGE_SLOTS: readonly (ImageSlot & { slot: string })[] = [
   { slot: '§3.1 hero figure', ...HERO_FIGURE },
@@ -398,4 +449,5 @@ export const HOME_IMAGE_SLOTS: readonly (ImageSlot & { slot: string })[] = [
   ...INSTITUTIONS.map((i) => ({ slot: `§3.7 ${i.name}`, ...i })),
   ...TESTIMONIALS.map((t) => ({ slot: `§3.8 ${t.name}`, ...t })),
   ...AUDIENCES.map((a) => ({ slot: `§3.9 ${a.title}`, ...a })),
+  ...COURSE_PATHS.map((p) => ({ slot: `course path ${p.title}`, ...p })),
 ];

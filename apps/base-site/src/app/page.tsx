@@ -1,8 +1,9 @@
 import { AudienceSplit } from '@/sections/AudienceSplit';
 import { CapabilityGrid } from '@/sections/CapabilityGrid';
+import { CoursePaths } from '@/sections/CoursePaths';
+import { DestinationCounts } from '@/sections/DestinationCounts';
 import { ClosingCtaBand } from '@/sections/ClosingCtaBand';
 import { HomeHero } from '@/sections/HomeHero';
-import { HomeSearch } from '@/sections/HomeSearch';
 import { HowItWorks } from '@/sections/HowItWorks';
 import { MeetInstitutions } from '@/sections/MeetInstitutions';
 import { PopularDestinations } from '@/sections/PopularDestinations';
@@ -18,9 +19,10 @@ export default function HomePage() {
   return (
     <>
       <HomeHero />
-      <HomeSearch />
       <TrustLogoBar />
+      <CoursePaths />
       <CapabilityGrid />
+      <DestinationCounts />
       <StatBar />
       <HowItWorks />
       <PopularDestinations />

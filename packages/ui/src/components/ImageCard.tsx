@@ -77,7 +77,7 @@ export function ImageCard({
   );
 
   const shell =
-    'flex h-full flex-col overflow-hidden rounded-lg border border-border bg-surface shadow-sm';
+    'flex h-full flex-col overflow-hidden rounded-lg border border-border bg-surface shadow-sm transition-[transform,box-shadow] duration-base ease-standard hover:-translate-y-1 hover:shadow-md motion-reduce:transition-none motion-reduce:hover:translate-y-0';
 
   if (href) {
     return (

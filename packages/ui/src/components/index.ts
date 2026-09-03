@@ -47,6 +47,8 @@ export { MediaSection } from './MediaSection';
 export type { MediaSectionProps } from './MediaSection';
 export { PageHeader } from './PageHeader';
 export type { PageHeaderProps } from './PageHeader';
+export { Reveal } from './Reveal';
+export type { RevealProps } from './Reveal';
 export { ProgressRing } from './ProgressRing';
 export type { ProgressRingProps } from './ProgressRing';
 export { SectionBand } from './SectionBand';

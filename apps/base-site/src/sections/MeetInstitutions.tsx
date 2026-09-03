@@ -1,4 +1,4 @@
-import { SectionBand, UniversityCard } from '@rakuxon-path/ui';
+import { Reveal, SectionBand, UniversityCard } from '@rakuxon-path/ui';
 
 import { INSTITUTIONS } from '@/content/home';
 
@@ -22,14 +22,16 @@ export function MeetInstitutions() {
         data-sample="true"
         className="mt-12 grid items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3"
       >
-        {INSTITUTIONS.map((institution) => (
+        {INSTITUTIONS.map((institution, index) => (
           <li key={institution.name} className="h-full">
-            <UniversityCard
-              name={institution.name}
-              country={institution.country}
-              src={institution.src}
-              alt={institution.alt}
-            />
+            <Reveal delay={index * 70}>
+              <UniversityCard
+                name={institution.name}
+                country={institution.country}
+                src={institution.src}
+                alt={institution.alt}
+              />
+            </Reveal>
           </li>
         ))}
       </ul>

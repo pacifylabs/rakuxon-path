@@ -1,5 +1,5 @@
 import { render, screen, within } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { ThemeProvider } from '@rakuxon-path/ui';
 
@@ -17,6 +17,17 @@ import {
 } from '@/content/home';
 import { CLOSING_CTA } from '@/content/home';
 import HomePage from './page';
+
+/*
+ * DestinationCounts is an async Server Component that calls the live registry.
+ * React's client renderer — which is what RTL uses — cannot render async
+ * components, and a marketing page test should not depend on a third party
+ * being up. The section already returns null when the registry is
+ * unreachable, so stubbing it here matches a real, supported state.
+ */
+vi.mock('@/sections/DestinationCounts', () => ({
+  DestinationCounts: () => null,
+}));
 
 function renderHome() {
   return render(
@@ -46,8 +57,8 @@ describe('home page structure', () => {
       .map((heading) => heading.textContent);
 
     expect(headings).toEqual([
-      // Search sits between the hero and the trust bar, so it comes first.
-      'Start with a search',
+      // Search now lives inside the hero, so the first h2 is the course paths.
+      'Where do you want to start?',
       'Your study abroad journey, simplified.',
       'Rakuxon Path by the numbers',
       'How it works',
@@ -131,7 +142,10 @@ describe('landing page search', () => {
 
   it('labels every control and names the fields the explore page reads', () => {
     renderHome();
-    expect(screen.getByLabelText('What are you looking for?')).toHaveAttribute('name', 'q');
+    expect(screen.getByLabelText('Search courses, universities and guidance')).toHaveAttribute(
+      'name',
+      'q',
+    );
     expect(screen.getByLabelText('Type')).toHaveAttribute('name', 'tab');
     expect(screen.getByLabelText('Destination')).toHaveAttribute('name', 'country');
   });

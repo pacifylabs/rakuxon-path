@@ -14,6 +14,7 @@ import { TestimonialMarquee } from './TestimonialMarquee';
 import { TestimonialSlider } from './TestimonialSlider';
 import { MediaSection } from './MediaSection';
 import { PageHeader } from './PageHeader';
+import { Reveal } from './Reveal';
 import { ValueProps } from './ValueProps';
 
 const PHOTO = 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&q=80';
@@ -449,5 +450,41 @@ describe('<TestimonialMarquee/>', () => {
   it('renders nothing when there is nothing to show', () => {
     const { container } = render(<TestimonialMarquee testimonials={[]} />);
     expect(container).toBeEmptyDOMElement();
+  });
+});
+
+describe('<Reveal/>', () => {
+  it('renders its child immediately, so content never depends on the observer', () => {
+    render(
+      <Reveal>
+        <p>Visible either way</p>
+      </Reveal>,
+    );
+    expect(screen.getByText('Visible either way')).toBeInTheDocument();
+  });
+
+  it('drops the animation entirely under reduced motion', () => {
+    const { container } = render(
+      <Reveal>
+        <p>Body</p>
+      </Reveal>,
+    );
+    expect(container.firstElementChild?.className).toContain('motion-reduce:animate-none');
+  });
+
+  it('shows without animating when IntersectionObserver is missing', () => {
+    const original = window.IntersectionObserver;
+    // @ts-expect-error deliberately removing it to exercise the fallback
+    delete window.IntersectionObserver;
+
+    const { container } = render(
+      <Reveal>
+        <p>Fallback</p>
+      </Reveal>,
+    );
+    expect(screen.getByText('Fallback')).toBeInTheDocument();
+    expect(container.firstElementChild).toHaveAttribute('data-revealed', 'true');
+
+    window.IntersectionObserver = original;
   });
 });

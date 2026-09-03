@@ -1,4 +1,4 @@
-import { DestinationCard, SectionBand } from '@rakuxon-path/ui';
+import { DestinationCard, Reveal, SectionBand } from '@rakuxon-path/ui';
 
 import { DESTINATIONS } from '@/content/home';
 
@@ -17,14 +17,16 @@ export function PopularDestinations() {
       </p>
 
       <ul className="mt-12 grid items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {DESTINATIONS.map((destination) => (
+        {DESTINATIONS.map((destination, index) => (
           <li key={destination.country} className="h-full">
-            <DestinationCard
-              country={destination.country}
-              href={destination.href}
-              src={destination.src}
-              alt={destination.alt}
-            />
+            <Reveal delay={index * 70}>
+              <DestinationCard
+                country={destination.country}
+                href={destination.href}
+                src={destination.src}
+                alt={destination.alt}
+              />
+            </Reveal>
           </li>
         ))}
       </ul>

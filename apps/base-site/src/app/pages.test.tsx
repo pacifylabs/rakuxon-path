@@ -1,5 +1,5 @@
 import { screen, within } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { HOME_IMAGE_SLOTS } from '@/content/home';
 import { UNIVERSITIES_IMAGE_SLOTS } from '@/content/universities';
@@ -7,6 +7,18 @@ import { ALL_ROUTES, COUNTRY_SLUGS } from '@/content/routes';
 import { internalPaths, renderPage } from '@/lib/page-harness';
 
 import HomePage from './page';
+
+/*
+ * DestinationCounts is an async Server Component that calls the live registry.
+ * React's client renderer — which is what RTL uses — cannot render async
+ * components, and a marketing page test should not depend on a third party
+ * being up. The section already returns null when the registry is
+ * unreachable, so stubbing it here matches a real, supported state.
+ */
+vi.mock('@/sections/DestinationCounts', () => ({
+  DestinationCounts: () => null,
+}));
+
 import NotFound from './not-found';
 import AboutPage from './about/page';
 import AgenciesPage from './agencies/page';

@@ -137,9 +137,15 @@ module.exports = {
           '0%': { transform: 'translateX(0)' },
           '100%': { transform: 'translateX(-50%)' },
         },
+        /* Cards settle into place rather than appearing. */
+        reveal: {
+          '0%': { opacity: '0', transform: 'translateY(var(--space-6))' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
       },
       animation: {
         marquee: 'marquee var(--marquee-duration, 60s) linear infinite',
+        reveal: 'reveal var(--duration-base) var(--ease-standard) both',
       },
       minHeight: {
         /* Floor for a media column that stretches to match its text column,

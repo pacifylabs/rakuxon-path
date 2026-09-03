@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { CirclePlay, GraduationCap, PiggyBank } from 'lucide-react';
 
+import { HeroSearch } from './HeroSearch';
 import {
   AvatarStack,
   Button,
@@ -39,6 +40,11 @@ export function HomeHero() {
           </h1>
 
           <p className="mt-6 max-w-prose text-lg text-text-muted">{HERO.subcopy}</p>
+
+          {/* Search is the primary action on this page, so it sits above the CTAs. */}
+          <div className="mt-8">
+            <HeroSearch />
+          </div>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Button href={HERO.primaryCta.href} size="lg">

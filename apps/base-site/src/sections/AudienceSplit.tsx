@@ -1,4 +1,4 @@
-import { AudienceCard, SectionBand } from '@rakuxon-path/ui';
+import { AudienceCard, Reveal, SectionBand } from '@rakuxon-path/ui';
 
 import { AUDIENCES } from '@/content/home';
 
@@ -14,15 +14,17 @@ export function AudienceSplit() {
       </h2>
 
       <ul className="mt-12 grid items-stretch gap-6 md:grid-cols-3">
-        {AUDIENCES.map((audience) => (
+        {AUDIENCES.map((audience, index) => (
           <li key={audience.title} className="h-full">
-            <AudienceCard
-              title={audience.title}
-              description={audience.description}
-              cta={audience.cta}
-              src={audience.src}
-              alt={audience.alt}
-            />
+            <Reveal delay={index * 70}>
+              <AudienceCard
+                title={audience.title}
+                description={audience.description}
+                cta={audience.cta}
+                src={audience.src}
+                alt={audience.alt}
+              />
+            </Reveal>
           </li>
         ))}
       </ul>
