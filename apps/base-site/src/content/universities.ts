@@ -56,7 +56,8 @@ export const UNIVERSITIES: readonly UniversityEntry[] = [
     level: 'Undergraduate',
     subject: 'Business',
     src: 'https://images.unsplash.com/photo-1568792923760-d70635a89fdc?w=800&q=80',
-    alt: 'College campus green',
+    /* 04b called this "College campus green"; it is a historic ivy-clad college. */
+    alt: 'Historic ivy-clad college building beside a lawn',
     searchTerm: 'college campus green',
   },
   {
@@ -83,7 +84,7 @@ export const UNIVERSITIES: readonly UniversityEntry[] = [
     level: 'Undergraduate',
     subject: 'Health',
     src: 'https://images.unsplash.com/photo-1592280771190-3e2e4d571952?w=800&q=80',
-    alt: 'Historic university hall',
+    alt: 'Modern red-brick university building and plaza',
     searchTerm: 'university hall',
   },
   {
@@ -91,8 +92,9 @@ export const UNIVERSITIES: readonly UniversityEntry[] = [
     country: 'United States',
     level: 'Postgraduate',
     subject: 'Law',
-    src: 'https://images.unsplash.com/photo-1607013251379-e6eecfffe234?w=800&q=80',
-    alt: 'Modern campus courtyard',
+    /* Was photo-1607013251379, which is a cheeseburger. See content/home.ts. */
+    src: 'https://images.unsplash.com/photo-1519452575417-564c1401ecc0?w=800&q=80',
+    alt: 'Empty university lecture theatre with rows of seats',
     searchTerm: 'campus courtyard',
   },
 ];

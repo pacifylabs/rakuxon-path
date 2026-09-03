@@ -251,14 +251,20 @@ export const INSTITUTIONS: readonly InstitutionContent[] = [
     name: 'Westbrook College',
     country: 'Canada',
     src: 'https://images.unsplash.com/photo-1592280771190-3e2e4d571952?w=800&q=80',
-    alt: 'Historic university hall',
+    /* 04b called this "Historic university hall"; it is a modern building. */
+    alt: 'Modern red-brick university building and plaza',
     searchTerm: 'university hall',
   },
   {
     name: 'Lakeside Institute',
     country: 'Australia',
-    src: 'https://images.unsplash.com/photo-1607013251379-e6eecfffe234?w=800&q=80',
-    alt: 'Modern campus courtyard',
+    /*
+     * 04b § 3.7 specified photo-1607013251379 as "Modern campus courtyard".
+     * That URL loads fine but the photograph is a cheeseburger — the alt text
+     * and the image did not match. Swapped and verified by eye.
+     */
+    src: 'https://images.unsplash.com/photo-1591123120675-6f7f1aae0e5b?w=800&q=80',
+    alt: 'Campus walkway between two university buildings',
     searchTerm: 'campus courtyard',
   },
 ];

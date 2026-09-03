@@ -1,6 +1,8 @@
 import { screen, within } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
+import { HOME_IMAGE_SLOTS } from '@/content/home';
+import { UNIVERSITIES_IMAGE_SLOTS } from '@/content/universities';
 import { ALL_ROUTES, COUNTRY_SLUGS } from '@/content/routes';
 import { internalPaths, renderPage } from '@/lib/page-harness';
 
@@ -93,6 +95,26 @@ describe.each(PAGES)('%s', (route, element, expectedHeading) => {
   it('never references a Cloudinary URL', () => {
     const { container } = renderPage(element);
     expect(container.innerHTML).not.toMatch(/cloudinary/i);
+  });
+});
+
+describe('image integrity', () => {
+  it('does not use the photo 04b mislabelled as a campus courtyard', () => {
+    /*
+     * photo-1607013251379 loads with a 200 but is a photograph of a
+     * cheeseburger, which 04b § 3.7 labels "Modern campus courtyard". A URL
+     * returning 200 is not evidence the image is what the alt text claims, so
+     * this pins the swap.
+     */
+    const sources = [...HOME_IMAGE_SLOTS, ...UNIVERSITIES_IMAGE_SLOTS].map((i) => i.src);
+    expect(sources.some((src) => src.includes('photo-1607013251379'))).toBe(false);
+  });
+
+  it('gives every declared slot a non-empty alt and a search term', () => {
+    for (const slot of [...HOME_IMAGE_SLOTS, ...UNIVERSITIES_IMAGE_SLOTS]) {
+      expect(slot.alt.trim(), slot.slot).toBeTruthy();
+      expect(slot.searchTerm.trim(), slot.slot).toBeTruthy();
+    }
   });
 });
 

@@ -12,9 +12,15 @@ export const INSTITUTIONS_HERO = {
     'Volume is not the problem. Sorting genuine, complete, eligible applications out of everything else is. Applications reach you already checked, from agencies we have vetted.',
   primaryCta: { label: 'Partner with us', href: SIGN_UP },
   secondaryCta: { label: 'Speak to our team', href: ROUTES.contact },
+  /*
+   * 04b § 6.1 specified photo-1523050854058 ("University graduates at
+   * commencement"). That photo now 403s at every width — it has been removed
+   * from Unsplash, not merely resized. Swapped using the spec's own fallback
+   * procedure (04b § 12); alt text describes the replacement, not the original.
+   */
   image: {
-    src: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1400&q=80',
-    alt: 'University graduates at commencement',
+    src: 'https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=1400&q=80',
+    alt: 'Sunlit university library reading room with study tables and full-height windows',
     searchTerm: 'university graduation',
   } satisfies ImageSlot,
 } as const;
