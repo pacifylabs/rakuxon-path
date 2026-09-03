@@ -28,13 +28,14 @@ export function HeroFloatingCard({
 }: HeroFloatingCardProps) {
   return (
     <article
+      // Labelled, not headed. These cards float beside the page h1 as
+      // illustrative product UI; making the title a heading skipped the
+      // document outline from h1 straight to h3.
+      aria-label={sample ? `${title} (sample data)` : title}
       data-sample={sample ? 'true' : undefined}
       className={clsx('w-full rounded-lg border border-border bg-surface p-4 shadow-md', className)}
     >
-      <h3 className="text-xs font-semibold uppercase tracking-wide text-text-muted">
-        {title}
-        {sample && <span className="sr-only"> (sample data)</span>}
-      </h3>
+      <p className="text-xs font-semibold uppercase tracking-wide text-text-muted">{title}</p>
 
       <div className="mt-3">{children}</div>
 

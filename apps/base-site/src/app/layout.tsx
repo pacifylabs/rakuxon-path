@@ -7,8 +7,8 @@ import {
   FOOTER_COLUMNS,
   FOOTER_DOMAIN,
   FOOTER_TAGLINE,
-  GET_STARTED,
-  LOG_IN,
+  GET_STARTED_LINK,
+  LOG_IN_LINK,
   NAV_LINKS,
   SOCIALS,
 } from '@/content/site';
@@ -55,7 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             Skip to main content
           </a>
 
-          <Header navLinks={NAV_LINKS} logIn={LOG_IN} getStarted={GET_STARTED} />
+          <Header navLinks={NAV_LINKS} logIn={LOG_IN_LINK} getStarted={GET_STARTED_LINK} />
 
           <main id="main">{children}</main>
 

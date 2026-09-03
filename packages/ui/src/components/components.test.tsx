@@ -143,7 +143,8 @@ describe('<HeroFloatingCard/>', () => {
         <p>Great match!</p>
       </HeroFloatingCard>,
     );
-    expect(screen.getByRole('heading', { name: /Match Score/ })).toBeInTheDocument();
+    expect(screen.getByRole('article', { name: 'Match Score' })).toBeInTheDocument();
+    expect(screen.getByText('Match Score')).toBeInTheDocument();
     expect(screen.getByText('Great match!')).toBeInTheDocument();
   });
 
@@ -163,8 +164,16 @@ describe('<HeroFloatingCard/>', () => {
       </HeroFloatingCard>,
     );
     expect(container.querySelector('[data-sample="true"]')).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: /sample data/i })).toBeInTheDocument();
-    expect(container.querySelector('.sr-only')).toBeInTheDocument();
+    expect(screen.getByRole('article', { name: /sample data/i })).toBeInTheDocument();
+  });
+
+  it('introduces no heading, so the hero outline goes h1 straight to h2', () => {
+    render(
+      <HeroFloatingCard title="Match Score">
+        <p>92%</p>
+      </HeroFloatingCard>,
+    );
+    expect(screen.queryByRole('heading')).not.toBeInTheDocument();
   });
 
   it('adds no sample marking when the data is real', () => {

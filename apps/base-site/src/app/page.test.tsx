@@ -7,12 +7,14 @@ import {
   AUDIENCES,
   CAPABILITIES,
   DESTINATIONS,
+  HERO,
   HOME_IMAGE_SLOTS,
   INSTITUTIONS,
   STATS,
   STEPS,
   TESTIMONIALS,
 } from '@/content/home';
+import { CLOSING_CTA } from '@/content/home';
 import HomePage from './page';
 
 function renderHome() {
@@ -63,10 +65,13 @@ describe('§3.1 hero', () => {
 
   it('renders both CTAs as real links', () => {
     renderHome();
-    expect(screen.getByRole('link', { name: /Get started/ })).toHaveAttribute('href', '/register');
+    expect(screen.getByRole('link', { name: /Get started/ })).toHaveAttribute(
+      'href',
+      HERO.primaryCta.href,
+    );
     expect(screen.getByRole('link', { name: /How it works/ })).toHaveAttribute(
       'href',
-      '#how-it-works',
+      HERO.secondaryCta.href,
     );
   });
 
@@ -101,6 +106,13 @@ describe('§3.1 hero', () => {
     const { container } = renderHome();
     const cards = container.querySelectorAll('article[data-sample="true"]');
     expect(cards).toHaveLength(2);
+  });
+
+  it('keeps the floating cards out of the heading outline', () => {
+    renderHome();
+    // They sit beside the h1; a heading here would skip the outline to h3.
+    expect(screen.queryByRole('heading', { name: /Match Score/ })).not.toBeInTheDocument();
+    expect(screen.getByRole('article', { name: /Match Score/ })).toBeInTheDocument();
   });
 });
 
@@ -222,7 +234,7 @@ describe('§3.10 closing CTA band', () => {
     ).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Create free account' })).toHaveAttribute(
       'href',
-      '/register',
+      CLOSING_CTA.cta.href,
     );
     expect(screen.getByText('No credit card required.')).toBeInTheDocument();
   });

@@ -14,6 +14,8 @@ import type { LucideIcon } from 'lucide-react';
 
 import type { IconBubbleTone } from '@rakuxon-edu/ui';
 
+import { ROUTES, SIGN_UP, countryRoute } from './routes';
+
 /**
  * Home page content (docs/04b § 3).
  *
@@ -37,7 +39,7 @@ export const HERO = {
   headlineLine2: 'Simplified.',
   subcopy:
     'Research, plan, apply, and track your international education — all in one place. Apply with confidence and turn your goals into offers.',
-  primaryCta: { label: 'Get started', href: '/register' },
+  primaryCta: { label: 'Get started', href: SIGN_UP },
   secondaryCta: { label: 'How it works', href: '#how-it-works' },
   socialProof: 'Join 100,000+ students who found their path.',
 } as const;
@@ -71,14 +73,14 @@ export const HERO_MATCH_CARD = {
   title: 'Match Score',
   score: 92,
   verdict: 'Great match!',
-  action: { label: 'View details', href: '/register' },
+  action: { label: 'View details', href: SIGN_UP },
 } as const;
 
 export const HERO_DEADLINE_CARD = {
   title: 'Application Deadline',
   countdown: '18 Days Left',
   university: 'University of Toronto',
-  action: { label: 'View program', href: '/universities' },
+  action: { label: 'View program', href: ROUTES.universities },
 } as const;
 
 /* ------------------------------------------------------------ § 3.2 logo bar */
@@ -105,14 +107,14 @@ export const CAPABILITIES: readonly CapabilityContent[] = [
     tone: 'tone1',
     title: 'Search & Match',
     description: 'Find programs and universities that fit your profile, goals, and budget.',
-    action: { label: 'Search now', href: '/universities' },
+    action: { label: 'Search now', href: ROUTES.universities },
   },
   {
     icon: FileCheck2,
     tone: 'tone2',
     title: 'Prepare & Apply',
     description: 'Build your profile, upload documents, and apply with confidence.',
-    action: { label: 'Start applying', href: '/register' },
+    action: { label: 'Start applying', href: SIGN_UP },
   },
   {
     icon: CalendarCheck,
@@ -120,14 +122,14 @@ export const CAPABILITIES: readonly CapabilityContent[] = [
     tone: 'urgent',
     title: 'Stay Organized',
     description: 'Track deadlines and get reminders so you never miss a step.',
-    action: { label: 'Get organized', href: '/register' },
+    action: { label: 'Get organized', href: SIGN_UP },
   },
   {
     icon: Trophy,
     tone: 'tone4',
     title: 'Track & Achieve',
     description: 'Follow your admission status in real time, all the way to your offer.',
-    action: { label: 'Track status', href: '/register' },
+    action: { label: 'Track status', href: SIGN_UP },
   },
 ];
 
@@ -188,42 +190,42 @@ export interface DestinationContent extends ImageSlot {
 export const DESTINATIONS: readonly DestinationContent[] = [
   {
     country: 'United Kingdom',
-    href: '/destinations/uk',
+    href: countryRoute('uk'),
     src: 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800&q=80',
     alt: 'London skyline with Big Ben',
     searchTerm: 'london uk',
   },
   {
     country: 'Canada',
-    href: '/destinations/canada',
+    href: countryRoute('canada'),
     src: 'https://images.unsplash.com/photo-1517935706615-2717063c2225?w=800&q=80',
     alt: 'Toronto city skyline',
     searchTerm: 'toronto canada',
   },
   {
     country: 'United States',
-    href: '/destinations/usa',
+    href: countryRoute('usa'),
     src: 'https://images.unsplash.com/photo-1485871981521-5b1fd3805eee?w=800&q=80',
     alt: 'New York City street',
     searchTerm: 'new york city',
   },
   {
     country: 'Ireland',
-    href: '/destinations/ireland',
+    href: countryRoute('ireland'),
     src: 'https://images.unsplash.com/photo-1549918864-48ac978761a4?w=800&q=80',
     alt: 'Dublin street and architecture',
     searchTerm: 'dublin ireland',
   },
   {
     country: 'Australia',
-    href: '/destinations/australia',
+    href: countryRoute('australia'),
     src: 'https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?w=800&q=80',
     alt: 'Sydney Opera House and harbour',
     searchTerm: 'sydney australia',
   },
   {
     country: 'Germany',
-    href: '/destinations/germany',
+    href: countryRoute('germany'),
     src: 'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=800&q=80',
     alt: 'Berlin cityscape',
     searchTerm: 'berlin germany',
@@ -302,7 +304,7 @@ export const AUDIENCES: readonly AudienceContent[] = [
   {
     title: 'Students',
     description: 'Find your program, apply with confidence, and track every offer.',
-    cta: { label: 'Sign up', href: '/register' },
+    cta: { label: 'Sign up', href: SIGN_UP },
     src: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&q=80',
     alt: 'Group of students together on campus',
     searchTerm: 'happy students group',
@@ -310,7 +312,7 @@ export const AUDIENCES: readonly AudienceContent[] = [
   {
     title: 'Agencies',
     description: 'Run your whole student pipeline in one place, with no platform fees.',
-    cta: { label: 'Become a partner', href: '/agencies' },
+    cta: { label: 'Become a partner', href: ROUTES.agencies },
     src: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80',
     alt: 'Advisor meeting with a client at a desk',
     searchTerm: 'business advisor meeting',
@@ -318,7 +320,7 @@ export const AUDIENCES: readonly AudienceContent[] = [
   {
     title: 'Institutions',
     description: 'Reach qualified students worldwide through a vetted partner network.',
-    cta: { label: 'Partner with us', href: '/institutions' },
+    cta: { label: 'Partner with us', href: ROUTES.institutions },
     src: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&q=80',
     alt: 'University lecture hall with students',
     searchTerm: 'university lecture hall',
@@ -330,7 +332,7 @@ export const AUDIENCES: readonly AudienceContent[] = [
 export const CLOSING_CTA = {
   heading: 'Ready to start your journey?',
   subline: 'Join thousands of students turning their dream into an offer.',
-  cta: { label: 'Create free account', href: '/register' },
+  cta: { label: 'Create free account', href: SIGN_UP },
   reassurance: 'No credit card required.',
 } as const;
 

@@ -77,12 +77,17 @@ const SPACING_PREFIXES = new Set([
 
 const FRACTION = /^\d+\/\d+$/;
 
+/**
+ * Shipped components only. Test files are skipped because their prose trips the
+ * scanner — "top-level route" parses as a `top-level` utility — and no CSS is
+ * generated from them anyway.
+ */
 function sourceFiles(dir: string, found: string[] = []): string[] {
   for (const entry of readdirSync(dir)) {
     if (entry === 'node_modules' || entry === '.next' || entry === 'dist') continue;
     const full = join(dir, entry);
     if (statSync(full).isDirectory()) sourceFiles(full, found);
-    else if (full.endsWith('.tsx')) found.push(full);
+    else if (full.endsWith('.tsx') && !full.endsWith('.test.tsx')) found.push(full);
   }
   return found;
 }
