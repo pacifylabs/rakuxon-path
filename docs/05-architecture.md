@@ -1,10 +1,10 @@
-# Frontend Architecture & Folder Structure — Rakuxon Edu Web
-**Repo:** `rakuxon-edu-FE` · Turborepo (pnpm workspaces).
+# Frontend Architecture & Folder Structure — Rakuxon Path Web
+**Repo:** `rakuxon-path-FE` · Turborepo (pnpm workspaces).
 
 ## Folder structure
 
 ```
-rakuxon-edu-FE/
+rakuxon-path-FE/
 ├── docs/
 ├── apps/
 │   ├── base-site/           # Next.js SSR/SSG — marketing + intake + course search (SEO)

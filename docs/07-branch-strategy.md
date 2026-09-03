@@ -1,5 +1,5 @@
-# Branch Strategy — Rakuxon Edu (FE)
-**Applies to `rakuxon-edu-FE`. Mirrors the BE strategy independently.**
+# Branch Strategy — Rakuxon Path (FE)
+**Applies to `rakuxon-path-FE`. Mirrors the BE strategy independently.**
 
 ## Branches
 

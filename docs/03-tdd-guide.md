@@ -1,4 +1,4 @@
-# Frontend TDD Guide — Rakuxon Edu Web
+# Frontend TDD Guide — Rakuxon Path Web
 **Stack:** Vitest + React Testing Library (+ Playwright optional for thin e2e smokes).
 
 ## Why TDD here

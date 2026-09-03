@@ -1,6 +1,6 @@
-# rakuxon-edu-FE
+# rakuxon-path-FE
 
-Turborepo monorepo for the Rakuxon Ed frontend surfaces. See `docs/` for the
+Turborepo monorepo for the Rakuxon Path frontend surfaces. See `docs/` for the
 PRD, implementation plan, design system and branch strategy.
 
 ## Current state

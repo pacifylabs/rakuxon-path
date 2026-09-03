@@ -1,5 +1,5 @@
-# Frontend PRD — Rakuxon Edu Web
-**Repo:** `rakuxon-edu-FE` · Turborepo monorepo of Next.js apps.
+# Frontend PRD — Rakuxon Path Web
+**Repo:** `rakuxon-path-FE` · Turborepo monorepo of Next.js apps.
 
 ## 1. Purpose
 

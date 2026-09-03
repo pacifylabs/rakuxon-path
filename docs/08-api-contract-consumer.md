@@ -1,5 +1,5 @@
-# API Contract (Consumer Side) — Rakuxon Edu Web
-**Repo:** `rakuxon-edu-FE` · The BE owns the contract; this repo consumes it. See the BE's `07-api-contract.md` for the authoritative version.
+# API Contract (Consumer Side) — Rakuxon Path Web
+**Repo:** `rakuxon-path-FE` · The BE owns the contract; this repo consumes it. See the BE's `07-api-contract.md` for the authoritative version.
 
 ## How the FE consumes the contract
 
