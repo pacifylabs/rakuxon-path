@@ -75,7 +75,14 @@ describe.each(PAGES)('%s', (route, element, expectedHeading) => {
   it('reaches every nav destination from the shared header', () => {
     renderPage(element);
     const banner = screen.getByRole('banner');
-    for (const label of ['Students', 'Agencies', 'Institutions', 'Universities', 'Destinations']) {
+    for (const label of [
+      'Students',
+      'Agencies',
+      'Institutions',
+      'Explore',
+      'Universities',
+      'Destinations',
+    ]) {
       expect(within(banner).getAllByRole('link', { name: label }).length).toBeGreaterThan(0);
     }
   });
