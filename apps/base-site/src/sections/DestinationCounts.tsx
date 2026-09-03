@@ -42,6 +42,7 @@ export async function DestinationCounts() {
                   tone={TONES[index % TONES.length]}
                   value={entry.institutions.toLocaleString('en-GB')}
                   label={entry.country}
+                  animate
                 />
                 <span className="mt-auto inline-flex items-center gap-1 pt-6 text-sm font-semibold text-primary">
                   Browse {entry.country}

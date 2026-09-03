@@ -12,6 +12,8 @@ export { CapabilityCard } from './CapabilityCard';
 export type { CapabilityCardProps } from './CapabilityCard';
 export { ContactForm } from './ContactForm';
 export type { ContactFormProps } from './ContactForm';
+export { CountUp, parseFigure } from './CountUp';
+export type { CountUpProps } from './CountUp';
 export { CtaBand } from './CtaBand';
 export type { CtaBandProps } from './CtaBand';
 export { DestinationCard } from './DestinationCard';

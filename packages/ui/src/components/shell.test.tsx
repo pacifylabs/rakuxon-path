@@ -6,6 +6,7 @@ import { describe, expect, it, vi } from 'vitest';
 
 import { Breadcrumbs } from './Breadcrumbs';
 import { ContactForm } from './ContactForm';
+import { CountUp, parseFigure } from './CountUp';
 import { FactGrid } from './FactGrid';
 import { FilterBar } from './FilterBar';
 import type { FilterDefinition } from './FilterBar';
@@ -486,5 +487,65 @@ describe('<Reveal/>', () => {
     expect(container.firstElementChild).toHaveAttribute('data-revealed', 'true');
 
     window.IntersectionObserver = original;
+  });
+});
+
+describe('parseFigure', () => {
+  it.each([
+    ['100,000+', '', 100000, '+'],
+    ['1,200+', '', 1200, '+'],
+    ['150+', '', 150, '+'],
+    ['4.8', '', 4.8, ''],
+    ['£12,000', '£', 12000, ''],
+    ['—', '', Number.NaN, '—'],
+  ])('splits %s', (input, prefix, target, suffix) => {
+    const parsed = parseFigure(input);
+    expect(parsed.prefix).toBe(prefix);
+    expect(parsed.suffix).toBe(suffix);
+    if (Number.isNaN(target)) expect(parsed.target).toBeNaN();
+    else expect(parsed.target).toBe(target);
+  });
+});
+
+describe('<CountUp/>', () => {
+  it('always keeps the true figure in the accessibility tree', () => {
+    // Only a decorative copy animates; a screen reader must never be able to
+    // read a half-counted number.
+    const { container } = render(<CountUp value="100,000+" />);
+    expect(container.querySelector('.sr-only')?.textContent).toBe('100,000+');
+    expect(container.querySelector('[aria-hidden="true"]')).toBeInTheDocument();
+  });
+
+  it('shows the final value immediately when motion is unwelcome', () => {
+    const matchMedia = vi.spyOn(window, 'matchMedia').mockReturnValue({
+      matches: true,
+      media: '(prefers-reduced-motion: reduce)',
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      onchange: null,
+      dispatchEvent: vi.fn(),
+    } as unknown as MediaQueryList);
+
+    const { container } = render(<CountUp value="1,200+" />);
+    expect(container.querySelector('[aria-hidden="true"]')?.textContent).toBe('1,200+');
+    matchMedia.mockRestore();
+  });
+
+  it('shows the final value when IntersectionObserver is missing', () => {
+    const original = window.IntersectionObserver;
+    // @ts-expect-error exercising the no-observer fallback
+    delete window.IntersectionObserver;
+
+    const { container } = render(<CountUp value="150+" />);
+    expect(container.querySelector('[aria-hidden="true"]')?.textContent).toBe('150+');
+
+    window.IntersectionObserver = original;
+  });
+
+  it('leaves a non-numeric figure exactly as given', () => {
+    const { container } = render(<CountUp value="Coming soon" />);
+    expect(container.querySelector('[aria-hidden="true"]')?.textContent).toBe('Coming soon');
   });
 });

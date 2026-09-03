@@ -23,6 +23,7 @@ export function StatBar() {
               value={stat.value}
               label={stat.label}
               sample
+              animate
             />
           </li>
         ))}

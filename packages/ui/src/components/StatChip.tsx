@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import type { LucideIcon } from 'lucide-react';
 
+import { CountUp } from './CountUp';
 import { IconBubble } from './IconBubble';
 import type { IconBubbleTone } from './IconBubble';
 
@@ -15,6 +16,8 @@ export interface StatChipProps {
    * Adds `data-sample` and an assistive-technology note.
    */
   sample?: boolean;
+  /** Counts the figure up from zero when it scrolls into view. */
+  animate?: boolean;
   className?: string;
 }
 
@@ -25,6 +28,7 @@ export function StatChip({
   value,
   label,
   sample = false,
+  animate = false,
   className,
 }: StatChipProps) {
   return (
@@ -34,7 +38,9 @@ export function StatChip({
     >
       <IconBubble icon={icon} tone={tone} size="lg" />
       <div className="min-w-0">
-        <p className="font-heading text-2xl font-bold text-text">{value}</p>
+        <p className="font-heading text-2xl font-bold text-text">
+          {animate ? <CountUp value={value} /> : value}
+        </p>
         <p className="text-sm text-text-muted">
           {label}
           {sample && <span className="sr-only"> (sample data)</span>}

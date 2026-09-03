@@ -69,6 +69,7 @@ async function CountryCounts() {
               tone={(['tone1', 'tone2', 'tone3', 'tone4'] as const)[index % 4]}
               value={entry.institutions.toLocaleString('en-GB')}
               label={entry.country}
+              animate
             />
           </li>
         ))}

@@ -40,6 +40,22 @@ variables — it makes no API calls.
 
 CI runs typecheck, test and build on every push.
 
+## Deploying
+
+`vercel.json` at the repo root tells Vercel this is a Turborepo: it installs
+from the lockfile, builds only `@rakuxon-path/base-site`, and serves
+`apps/base-site/.next`.
+
+Two things that will bite otherwise:
+
+- **Vercel deploys `main`.** Work happens on `stage/*` branches, so `main` must
+  actually be merged up before a deploy means anything. A build that reports
+  *"No tasks were executed"* and *"No Output Directory named public"* is almost
+  always `main` sitting on an older commit that has no `apps/` in it.
+- **Root Directory.** The `vercel.json` above handles the monorepo from the
+  repo root. Setting the project's Root Directory to `apps/base-site` in
+  Vercel's settings is the alternative; do one or the other, not both.
+
 ## Design tokens
 
 Every colour, size, radius and shadow is a CSS custom property published by

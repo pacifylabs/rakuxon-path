@@ -39,7 +39,7 @@ export function Header({ navLinks, logIn, getStarted, className }: HeaderProps) 
         className,
       )}
     >
-      <div className="mx-auto flex w-full max-w-content items-center justify-between gap-4 px-5 py-3">
+      <div className="mx-auto flex w-full max-w-content items-center justify-between gap-4 px-4 py-3 md:px-0">
         <Wordmark href="/" />
 
         <nav aria-label="Primary" className="hidden lg:block">

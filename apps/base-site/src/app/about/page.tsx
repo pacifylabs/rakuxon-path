@@ -106,6 +106,7 @@ export default function AboutPage() {
                 value={stat.value}
                 label={stat.label}
                 sample
+                animate
               />
             </li>
           ))}

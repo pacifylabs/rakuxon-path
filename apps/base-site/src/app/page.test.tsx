@@ -192,9 +192,26 @@ describe('§3.3 capability grid', () => {
 
 describe('§3.4 stat bar', () => {
   it('renders every stat', () => {
-    renderHome();
+    const { container } = renderHome();
+    // Each figure appears twice: the accessible copy of record, and an
+    // aria-hidden copy that counts up. Assert the one screen readers get.
+    const announced = [...container.querySelectorAll('.sr-only')].map((el) => el.textContent);
     for (const stat of STATS) {
-      expect(screen.getByText(stat.value)).toBeInTheDocument();
+      expect(announced).toContain(stat.value);
+    }
+  });
+
+  it('counts each figure up from zero without risking a half-read number', () => {
+    const { container } = renderHome();
+    const bar = container.querySelector('[aria-labelledby="stats-heading"]') as HTMLElement;
+
+    for (const stat of STATS) {
+      const announced = [...bar.querySelectorAll('.sr-only')].find(
+        (el) => el.textContent === stat.value,
+      );
+      expect(announced, `accessible copy of ${stat.value}`).toBeTruthy();
+      // The true value is never the animated node.
+      expect(announced?.nextElementSibling).toHaveAttribute('aria-hidden', 'true');
     }
   });
 
