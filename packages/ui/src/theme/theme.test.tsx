@@ -23,6 +23,23 @@ function ThemeProbe() {
   );
 }
 
+/** WCAG relative luminance. */
+function luminance(hex: string): number {
+  const [r, g, b] = [1, 3, 5].map((i) => {
+    const v = parseInt(hex.slice(i, i + 2), 16) / 255;
+    return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+  }) as [number, number, number];
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
+function contrast(a: string, b: string): number {
+  const la = luminance(a);
+  const lb = luminance(b);
+  return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
+}
+
+const TINT_FOREGROUNDS = ['tone1', 'tone2', 'tone3', 'tone4', 'urgent'] as const;
+
 describe('cssVarName', () => {
   it.each([
     ['color', 'primaryHover', '--color-primary-hover'],
@@ -32,6 +49,7 @@ describe('cssVarName', () => {
     ['text', '2xl', '--text-2xl'],
     ['space', '16', '--space-16'],
     ['radius', 'full', '--radius-full'],
+    ['tint', 'tone1Soft', '--tint-tone1-soft'],
     ['motion', 'easeStandard', '--ease-standard'],
     ['motion', 'durationBase', '--duration-base'],
     ['brand', 'name', '--brand-name'],
@@ -50,51 +68,81 @@ describe('tokensToCssVars', () => {
     expect(Object.keys(vars)).toHaveLength(declaredCount);
   });
 
-  it('emits the exact palette from the design system spec', () => {
+  it('emits the exact Modern Campus palette from the design system spec', () => {
     const vars = tokensToCssVars(baseTokens);
-    expect(vars['--color-primary']).toBe('#5B4BE1');
-    expect(vars['--color-primary-hover']).toBe('#4A3BC7');
-    expect(vars['--color-accent']).toBe('#8B7CF6');
-    expect(vars['--color-accent-soft']).toBe('#EEEBFB');
-    expect(vars['--color-surface-muted']).toBe('#F7F6FC');
-    expect(vars['--color-text']).toBe('#1A1830');
-    expect(vars['--color-border']).toBe('#E7E5F2');
-    expect(vars['--shadow-md']).toBe('0 6px 20px rgba(26,24,48,.08)');
+    expect(vars['--color-primary']).toBe('#143D28');
+    expect(vars['--color-primary-hover']).toBe('#1C5537');
+    expect(vars['--color-accent']).toBe('#1572FE');
+    expect(vars['--color-accent-soft']).toBe('#E7F0FE');
+    expect(vars['--color-surface-muted']).toBe('#E2E6EE');
+    expect(vars['--color-text']).toBe('#0E1F16');
+    expect(vars['--color-border']).toBe('#CFD6E0');
     expect(vars['--radius-lg']).toBe('20px');
     expect(vars['--space-16']).toBe('64px');
   });
 
-  it('emits the decorative tints', () => {
+  it('emits the decorative tints under slot names', () => {
     const vars = tokensToCssVars(baseTokens);
-    expect(vars['--tint-indigo']).toBe('#5B4BE1');
-    expect(vars['--tint-green-soft']).toBe('#E6F4EC');
-    expect(vars['--tint-orange']).toBe('#C2560E');
-    expect(vars['--tint-blue-soft']).toBe('#E8EEFC');
+    expect(vars['--tint-tone1']).toBe('#175C3A');
+    expect(vars['--tint-tone2']).toBe('#1258C4');
+    expect(vars['--tint-tone3']).toBe('#0E6E62');
+    expect(vars['--tint-tone4']).toBe('#3F4C7A');
+    expect(vars['--tint-urgent']).toBe('#A8480B');
+    expect(vars['--tint-urgent-soft']).toBe('#FDF0E6');
   });
 
   it('keeps decorative tints distinct from the state palette', () => {
-    // A green capability square must not be --color-success: state colours
+    // A tinted capability square must not be --color-success: state colours
     // have to keep meaning what they say (docs/04-design-system § 5).
-    expect(baseTokens.tint.green).not.toBe(baseTokens.color.success);
-    expect(baseTokens.tint.orange).not.toBe(baseTokens.color.warning);
-    expect(baseTokens.tint.blue).not.toBe(baseTokens.color.info);
+    const stateColours = [
+      baseTokens.color.success,
+      baseTokens.color.warning,
+      baseTokens.color.danger,
+      baseTokens.color.info,
+    ];
+    for (const key of TINT_FOREGROUNDS) {
+      expect(stateColours, `tint.${key}`).not.toContain(baseTokens.tint[key]);
+    }
   });
 
-  it('gives every tint foreground AA contrast on white', () => {
-    const srgb = (hex: string) =>
-      [1, 3, 5].map((i) => {
-        const v = parseInt(hex.slice(i, i + 2), 16) / 255;
-        return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
-      });
-    const luminance = (hex: string) => {
-      const [r, g, b] = srgb(hex) as [number, number, number];
-      return 0.2126 * r + 0.7152 * g + 0.0722 * b;
-    };
+  it('keeps the accent visually distinct from the info state', () => {
+    // The two were the same blue before the Modern Campus retune; an accent
+    // that reads as an info badge makes both meaningless.
+    expect(
+      Math.abs(luminance(baseTokens.color.accent) - luminance(baseTokens.color.info)),
+    ).toBeGreaterThan(0.03);
+  });
 
-    for (const key of ['indigo', 'green', 'orange', 'blue'] as const) {
-      const ratio = 1.05 / (luminance(baseTokens.tint[key]) + 0.05);
-      expect(ratio, `tint.${key} on white`).toBeGreaterThanOrEqual(4.5);
+  it('gives every tint foreground AA contrast on white and on the sage band', () => {
+    for (const key of TINT_FOREGROUNDS) {
+      expect(
+        contrast(baseTokens.tint[key], '#FFFFFF'),
+        `tint.${key} on white`,
+      ).toBeGreaterThanOrEqual(4.5);
+      expect(
+        contrast(baseTokens.tint[key], baseTokens.color.surfaceMuted),
+        `tint.${key} on surface-muted`,
+      ).toBeGreaterThanOrEqual(4.5);
     }
+  });
+
+  it('gives body and muted text AA contrast on both surfaces', () => {
+    for (const key of ['text', 'textMuted', 'primary'] as const) {
+      expect(
+        contrast(baseTokens.color[key], baseTokens.color.surface),
+        `${key} on surface`,
+      ).toBeGreaterThanOrEqual(4.5);
+      expect(
+        contrast(baseTokens.color[key], baseTokens.color.surfaceMuted),
+        `${key} on muted`,
+      ).toBeGreaterThanOrEqual(4.5);
+    }
+  });
+
+  it('gives on-primary text AA contrast against the primary block', () => {
+    expect(contrast(baseTokens.color.onPrimary, baseTokens.color.primary)).toBeGreaterThanOrEqual(
+      4.5,
+    );
   });
 
   it('quotes the brand name so it is usable from CSS', () => {
@@ -108,8 +156,8 @@ describe('mergeTokens', () => {
   });
 
   it('lets a tenant override brand colours', () => {
-    const merged = mergeTokens(baseTokens, { color: { primary: '#0F766E' } });
-    expect(merged.color.primary).toBe('#0F766E');
+    const merged = mergeTokens(baseTokens, { color: { primary: '#7A1F3D' } });
+    expect(merged.color.primary).toBe('#7A1F3D');
   });
 
   it('lets a tenant override the brand name and the heading font', () => {
@@ -183,7 +231,7 @@ describe('<ThemeProvider/>', () => {
       </ThemeProvider>,
     );
     const style = container.querySelector('style[data-rakuxon-theme]');
-    expect(style?.textContent).toContain('--color-primary:#5B4BE1');
+    expect(style?.textContent).toContain('--color-primary:#143D28');
   });
 
   it('supplies the base theme to consumers', () => {
@@ -192,20 +240,20 @@ describe('<ThemeProvider/>', () => {
         <ThemeProbe />
       </ThemeProvider>,
     );
-    expect(screen.getByTestId('primary')).toHaveTextContent('#5B4BE1');
+    expect(screen.getByTestId('primary')).toHaveTextContent('#143D28');
     expect(screen.getByTestId('brand')).toHaveTextContent('Rakuxon Ed');
   });
 
   it('applies a tenant brand override to consumers and to the emitted CSS', () => {
     const { container } = render(
-      <ThemeProvider tokens={{ color: { primary: '#0F766E' }, brand: { name: 'Acme Study' } }}>
+      <ThemeProvider tokens={{ color: { primary: '#7A1F3D' }, brand: { name: 'Acme Study' } }}>
         <ThemeProbe />
       </ThemeProvider>,
     );
-    expect(screen.getByTestId('primary')).toHaveTextContent('#0F766E');
+    expect(screen.getByTestId('primary')).toHaveTextContent('#7A1F3D');
     expect(screen.getByTestId('brand')).toHaveTextContent('Acme Study');
     expect(container.querySelector('style[data-rakuxon-theme]')?.textContent).toContain(
-      '--color-primary:#0F766E',
+      '--color-primary:#7A1F3D',
     );
   });
 
@@ -221,6 +269,6 @@ describe('<ThemeProvider/>', () => {
 
   it('falls back to the base theme outside a provider', () => {
     render(<ThemeProbe />);
-    expect(screen.getByTestId('primary')).toHaveTextContent('#5B4BE1');
+    expect(screen.getByTestId('primary')).toHaveTextContent('#143D28');
   });
 });

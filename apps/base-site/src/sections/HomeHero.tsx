@@ -89,8 +89,8 @@ export function HomeHero() {
             sample
             className="mt-4 lg:absolute lg:-left-6 lg:bottom-10 lg:mt-0 lg:w-card-float"
           >
-            {/* Orange is reserved for urgency; a countdown is exactly that. */}
-            <p className="font-heading text-2xl font-bold text-tint-orange">
+            {/* The urgent tint is reserved for time pressure; a countdown is exactly that. */}
+            <p className="font-heading text-2xl font-bold text-tint-urgent">
               {HERO_DEADLINE_CARD.countdown}
             </p>
             <p className="mt-1 text-sm text-text-muted">{HERO_DEADLINE_CARD.university}</p>

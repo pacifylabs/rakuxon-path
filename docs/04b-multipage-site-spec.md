@@ -1,7 +1,7 @@
 # Rakuxon Ed — Multi-Page Marketing Site Design Spec
 **Repo:** `rakuxon-edu-FE` → `apps/base-site` · Companion to `04a-landing-and-design-system.md` (tokens) and `04-design-system.md` (architecture). **Date:** August 2026
 
-> A **multi-page marketing site**, framed on how **Edvoy** and **ApplyBoard** structure their sites (both researched directly), with the **Home page following the ScholarPath reference** near-1:1 on structure (see §3 and the reference mapping in §14). Every image slot names a **real, hotlink-permitted Unsplash/Pexels URL** with alt text — no placeholders, no reuse. Direction stays calm/indigo/trust-forward per `04a`; orange is used only as an urgency/deadline accent.
+> A **multi-page marketing site**, framed on how **Edvoy** and **ApplyBoard** structure their sites (both researched directly), with the **Home page following the ScholarPath reference** near-1:1 on structure (see §3 and the reference mapping in §14). Every image slot names a **real, hotlink-permitted Unsplash/Pexels URL** with alt text — no placeholders, no reuse. Direction stays calm/trust-forward per `04a` — the **Modern Campus** palette: deep forest green primary, sage-grey surfaces, electric sky-blue accent. The amber-orange `--tint-urgent` is used only as an urgency/deadline accent.
 >
 > **Image note:** URLs use Unsplash's stable `images.unsplash.com/photo-{id}` hotlink form (hotlinking permitted under the Unsplash license). I could not fetch them from the build sandbox (egress blocks image domains), so **verify each on first load and swap any that 403** — the search term is given beside each so a replacement takes seconds. For production, consider pulling these into your own Cloudinary once (you already run it) so they never depend on an external host.
 
@@ -32,7 +32,7 @@ Both references converge on this: a home page plus dedicated audience pages (stu
 ## 2. Global shell (every page)
 
 ### Header (sticky, translucent-on-scroll)
-- Left: **Rakuxon Ed** wordmark (Rakuxon indigo + Ed accent).
+- Left: **Rakuxon Ed** wordmark (Rakuxon forest green + Ed sky-blue accent).
 - Nav: *Students · Agencies · Institutions · Universities · Destinations · About*.
 - Right: **Log in** (ghost) + **Get started** (primary).
 
@@ -46,12 +46,12 @@ All colors/space/type from `04a` base theme. Nothing hard-coded.
 
 ## 3. HOME — `/`  *(structural blueprint: the ScholarPath reference)*
 
-The Home page follows the **ScholarPath layout near-1:1 on structure** — proven, calm, trust-forward — with our study-abroad content and our three-sided platform. Indigo primary; orange strictly an accent for urgency/deadlines. Section order below matches the reference top-to-bottom, then continues with our multi-page sections (destinations, testimonials, three-audience split).
+The Home page follows the **ScholarPath layout near-1:1 on structure** — proven, calm, trust-forward — with our study-abroad content and our three-sided platform. Forest-green primary, sky-blue accent; the amber `urgent` tint strictly for urgency/deadlines. Section order below matches the reference top-to-bottom, then continues with our multi-page sections (destinations, testimonials, three-audience split).
 
 ### 3.1 Hero  *(match reference closely)*
 Two-column. **Left column:**
-- **Eyebrow pill** on lavender: *"YOUR JOURNEY STARTS HERE"* (uppercase, small, accent text).
-- **H1, two lines**, second line in accent indigo: *"Study abroad."* / *"Simplified."* (or *"Your dream university. / Within reach."*).
+- **Eyebrow pill** on `--color-accent-soft`: *"YOUR JOURNEY STARTS HERE"* (uppercase, small, primary text).
+- **H1, two lines**, second line in the forest-green primary: *"Study abroad."* / *"Simplified."* (or *"Your dream university. / Within reach."*).
 - **Subcopy** (2–3 lines): *Research, plan, apply, and track your international education — all in one place. Apply with confidence and turn your goals into offers.*
 - **Two CTAs:** **Get started** (solid primary) + **How it works** (ghost, with a small play-circle icon) — exactly the reference pairing.
 - **Social-proof row:** 3 stacked overlapping avatar faces + *"Join 100,000+ students who found their path."*
@@ -63,10 +63,10 @@ Two-column. **Left column:**
 - **[HERO figure]** a confident student, cut-out feel, holding books / smiling:
   `https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1200&q=80`
   alt: "Smiling student ready to study abroad"
-  *(search: "happy student books")* — soft indigo blob shape behind it (CSS, not an image).
+  *(search: "happy student books")* — soft sage/accent blob shape behind it (CSS, not an image).
 - **Floating card A — "Match Score"** (top-right): a circular progress ring showing e.g. *92%* + *"Great match!"* + *"View details →"*. White surface, `--shadow-md`, `--radius-lg`.
 - **Floating card B — "Application Deadline"** (lower-right): *"18 Days Left"* in the **orange accent** + *"University of Toronto"* + *"View program →"*.
-- **Two small icon bubbles** overlapping the figure (reference detail): a graduation-cap bubble and a dollar/scholarship bubble — soft lavender circle + indigo icon.
+- **Two small icon bubbles** overlapping the figure (reference detail): a graduation-cap bubble and a dollar/scholarship bubble — soft accent circle + primary icon.
 
 *(These cards are static, illustrative UI — real numbers come later. Mark them clearly as sample data in code.)*
 
@@ -81,14 +81,16 @@ Centered eyebrow *"EVERYTHING YOU NEED"* + H2 *"Your study abroad journey, simpl
 3. **Stay Organized** — *Track deadlines and get reminders so you never miss a step.* → *Get organized →*
 4. **Track & Achieve** — *Follow your admission status in real time, all the way to your offer.* → *Track status →*
 
-Each icon square uses a different soft tint (indigo / green / orange / blue) matching the reference's colored icon squares.
+Each icon square uses a different soft tint (`tone1` forest / `tone2` sky / `tone4` slate, with `urgent` amber on **Stay Organized** only, since that card is about deadlines) — matching the reference's coloured icon squares. Tint names are slot-based, not hue-based; see `04a` § 3.1.
 
 ### 3.4 Stat bar  *(reference: 4 stats with colored icon chips)*
 A soft-surface band, four stats each with a colored icon chip:
-- 100,000+ **Students guided** (indigo, people icon)
-- 1,500+ **Universities** (green, check/institution icon)
-- 1,200+ **Partner agencies** (orange, building icon)
-- 150+ **Countries supported** (blue, globe icon)
+- 100,000+ **Students guided** (`tone1`, people icon)
+- 1,500+ **Universities** (`tone2`, check/institution icon)
+- 1,200+ **Partner agencies** (`tone3`, building icon)
+- 150+ **Countries supported** (`tone4`, globe icon)
+
+**Not** the amber `urgent` tint anywhere in this bar: partner agencies is not a deadline, and spending the urgency colour on decoration destroys its signal.
 
 *(Numbers are placeholders until real — clearly marked in code.)*
 
@@ -124,8 +126,8 @@ Three cards (Edvoy's exact pattern), each a real image + CTA:
 - **Institutions** → *Partner with us*
   `https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&q=80` alt: "University lecture hall with students" *(search: "university lecture hall")*
 
-### 3.10 Closing CTA band  *(reference: bold deep-indigo block)*
-Full-width **deep indigo** block, rounded, with a graduation-cap icon bubble on the left, headline *"Ready to start your journey?"* + subline *"Join thousands of students turning their dream into an offer."*, and a **white** CTA button *"Create free account"* on the right. Reassurance line beneath the button: *"No credit card required."* High contrast, white text on indigo — the one bold moment on an otherwise calm page.
+### 3.10 Closing CTA band  *(reference: bold deep-colour block)*
+Full-width **deep forest green** block (`--color-primary`), rounded, with a graduation-cap icon bubble on the left, headline *"Ready to start your journey?"* + subline *"Join thousands of students turning their dream into an offer."*, and a **white** CTA button *"Create free account"* on the right. Reassurance line beneath the button: *"No credit card required."* High contrast, white text on forest green (12.2:1) — the one bold moment on an otherwise calm page.
 
 ---
 
@@ -226,14 +228,14 @@ Grid of country cards (reuse the six destination photos from Home §3.4, but the
 Header, Footer, Button (primary/ghost/accent), Wordmark, SectionBand, StepItem, TrustBadge, **DestinationCard** (image+name), **UniversityCard** (image+name+country), **TestimonialCard** (quote+face), **AudienceCard** (image+title+CTA), **ImageHero** (image + headline block), **ContactForm**.
 
 Reference-derived (ScholarPath) components:
-- **EyebrowPill** — small uppercase lavender pill above headings.
+- **EyebrowPill** — small uppercase accent-soft pill above headings.
 - **HeroFloatingCard** — the "Match Score" (with a **ProgressRing**) and "Application Deadline" live-data cards; white surface, soft shadow, rounded.
-- **IconBubble** — soft lavender circle + accent icon (hero bubbles + stat chips).
+- **IconBubble** — soft tinted circle + matching tint icon (hero bubbles + stat chips).
 - **CapabilityCard** — tinted icon square + title + description + arrow text-link (the 4-card grid).
 - **StatChip** — colored icon chip + big number + label (the stat bar).
 - **AvatarStack** — overlapping avatar faces for social proof.
 - **LogoBar** — greyscale partner-logo row in a floating white card.
-- **CtaBand** — the bold deep-indigo closing block with white button.
+- **CtaBand** — the bold deep forest-green closing block with white button.
 
 Each token-styled, a11y-complete, TDD (Vitest + RTL).
 
@@ -268,7 +270,7 @@ TDD throughout: each component test-first; a per-page smoke test asserts section
 
 ## 14. Reference mapping (ScholarPath → Rakuxon Home)
 
-The Home page (§3) follows the ScholarPath reference near-1:1 on **structure**, with our content and one accent-discipline rule (indigo primary; orange only for urgency/deadlines):
+The Home page (§3) follows the ScholarPath reference near-1:1 on **structure**, with our content and one accent-discipline rule (forest-green primary, sky-blue accent; the amber `urgent` tint only for urgency/deadlines):
 
 | ScholarPath element | Rakuxon Home section | Component |
 |---|---|---|
@@ -277,7 +279,7 @@ The Home page (§3) follows the ScholarPath reference near-1:1 on **structure**,
 | Trust logo bar (white card straddling hero) | §3.2 | LogoBar |
 | "Everything you need" 4-card grid | §3.3 | CapabilityCard |
 | Stat bar with colored icon chips | §3.4 | StatChip |
-| Bold indigo CTA band + "no credit card required" | §3.10 | CtaBand |
+| Bold forest-green CTA band + "no credit card required" | §3.10 | CtaBand |
 | Multi-column footer | Global footer | Footer |
 
 We **kept** from our own spec (not in ScholarPath) the destinations grid, campus/institution cards, testimonials with faces, and the three-audience split — because those carry the study-abroad, three-sided story ScholarPath (scholarships-only) doesn't.
@@ -285,6 +287,6 @@ We **kept** from our own spec (not in ScholarPath) the destinations grid, campus
 ## 15. What changed across versions
 
 - **v1 single page → v2 multi-page** site map (Home + Students + Agencies + Institutions + Universities + Destinations + About + Contact), framed on Edvoy/ApplyBoard.
-- **v2 → v3 (this):** Home page restructured to the **ScholarPath blueprint** (hero with live-data floating cards, trust logo bar, 4-card capability grid, stat bar, bold indigo CTA band); added the reference-derived components; kept our domain sections below.
+- **v2 → v3 (this):** Home page restructured to the **ScholarPath blueprint** (hero with live-data floating cards, trust logo bar, 4-card capability grid, stat bar, bold primary-colour CTA band); added the reference-derived components; kept our domain sections below.
 - **Real, per-slot images** with URLs + alt text, no reuse (unchanged).
-- Still additive to the `04a` calm-indigo token system — no token changes, only new components composed from existing tokens.
+- **v3 → v4:** palette retuned to the **Modern Campus** direction (deep forest green / sage / electric sky blue) in `04a` § 3.1. Structure, sections and imagery are unchanged; only colour tokens moved. The categorical tint set gained slot-based names (`tone1`–`tone4`) plus a semantic `urgent`, and `--color-success` / `--color-info` were retuned to stay distinct from the new primary and accent.

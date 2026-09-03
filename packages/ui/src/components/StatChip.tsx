@@ -21,7 +21,7 @@ export interface StatChipProps {
 /** Coloured icon chip + big number + label, for the stat bar (docs/04b § 3.4). */
 export function StatChip({
   icon,
-  tone = 'indigo',
+  tone = 'tone1',
   value,
   label,
   sample = false,

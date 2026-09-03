@@ -217,10 +217,11 @@ describe('<CapabilityCard/>', () => {
   });
 
   it.each([
-    ['indigo', 'bg-tint-indigo-soft'],
-    ['green', 'bg-tint-green-soft'],
-    ['orange', 'bg-tint-orange-soft'],
-    ['blue', 'bg-tint-blue-soft'],
+    ['tone1', 'bg-tint-tone1-soft'],
+    ['tone2', 'bg-tint-tone2-soft'],
+    ['tone3', 'bg-tint-tone3-soft'],
+    ['tone4', 'bg-tint-tone4-soft'],
+    ['urgent', 'bg-tint-urgent-soft'],
   ] as const)('paints the %s tint from tokens', (tone, expected) => {
     const { container } = render(<CapabilityCard {...props} tone={tone} />);
     expect(container.querySelector(`.${expected.replace(/\./g, '\\.')}`)).toBeInTheDocument();

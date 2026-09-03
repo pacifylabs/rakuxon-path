@@ -90,24 +90,31 @@ export type ShadowTokens = {
 };
 
 /**
- * Decorative tints for categorical UI — the four coloured icon squares in the
+ * Decorative tints for categorical UI — the coloured icon squares in the
  * capability grid and the stat bar (docs/04b § 3.3, § 3.4).
  *
  * Deliberately separate from the state palette: painting a "Universities" chip
  * with --color-success would imply something succeeded, and would erode the
  * consistent status mapping the product relies on (docs/04-design-system § 5).
- * These carry no meaning beyond visual variety. Every foreground passes AA on
- * both --color-surface and its own soft background.
+ *
+ * tone1–tone4 are named for the slot, not the hue, so re-theming revalues them
+ * without renaming an API. `urgent` is the one semantic member: it is reserved
+ * for deadlines and time pressure and must not be used for decoration.
+ *
+ * Every foreground passes AA on --color-surface, --color-surface-muted, and
+ * its own soft background.
  */
 export type TintTokens = {
-  indigo: string;
-  indigoSoft: string;
-  green: string;
-  greenSoft: string;
-  orange: string;
-  orangeSoft: string;
-  blue: string;
-  blueSoft: string;
+  tone1: string;
+  tone1Soft: string;
+  tone2: string;
+  tone2Soft: string;
+  tone3: string;
+  tone3Soft: string;
+  tone4: string;
+  tone4Soft: string;
+  urgent: string;
+  urgentSoft: string;
 };
 
 export type MotionTokens = {

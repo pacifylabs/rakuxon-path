@@ -12,6 +12,8 @@ import {
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
+import type { IconBubbleTone } from '@rakuxon-edu/ui';
+
 /**
  * Home page content (docs/04b § 3).
  *
@@ -91,7 +93,7 @@ export const TRUST_BAR = {
 
 export interface CapabilityContent {
   icon: LucideIcon;
-  tone: 'indigo' | 'green' | 'orange' | 'blue';
+  tone: IconBubbleTone;
   title: string;
   description: string;
   action: { label: string; href: string };
@@ -100,29 +102,29 @@ export interface CapabilityContent {
 export const CAPABILITIES: readonly CapabilityContent[] = [
   {
     icon: Search,
-    tone: 'indigo',
+    tone: 'tone1',
     title: 'Search & Match',
     description: 'Find programs and universities that fit your profile, goals, and budget.',
     action: { label: 'Search now', href: '/universities' },
   },
   {
     icon: FileCheck2,
-    tone: 'green',
+    tone: 'tone2',
     title: 'Prepare & Apply',
     description: 'Build your profile, upload documents, and apply with confidence.',
     action: { label: 'Start applying', href: '/register' },
   },
   {
     icon: CalendarCheck,
-    /* Orange earns its place here: this card is about deadlines and reminders. */
-    tone: 'orange',
+    /* The urgent tint earns its place: this card is about deadlines and reminders. */
+    tone: 'urgent',
     title: 'Stay Organized',
     description: 'Track deadlines and get reminders so you never miss a step.',
     action: { label: 'Get organized', href: '/register' },
   },
   {
     icon: Trophy,
-    tone: 'blue',
+    tone: 'tone4',
     title: 'Track & Achieve',
     description: 'Follow your admission status in real time, all the way to your offer.',
     action: { label: 'Track status', href: '/register' },
@@ -133,21 +135,21 @@ export const CAPABILITIES: readonly CapabilityContent[] = [
 
 export interface StatContent {
   icon: LucideIcon;
-  tone: 'indigo' | 'green' | 'orange' | 'blue' | 'accent';
+  tone: IconBubbleTone;
   value: string;
   label: string;
 }
 
 export const STATS: readonly StatContent[] = [
-  { icon: Users, tone: 'indigo', value: '100,000+', label: 'Students guided' },
-  { icon: GraduationCap, tone: 'green', value: '1,500+', label: 'Universities' },
+  { icon: Users, tone: 'tone1', value: '100,000+', label: 'Students guided' },
+  { icon: GraduationCap, tone: 'tone2', value: '1,500+', label: 'Universities' },
   /*
-   * 04b § 3.4 asks for orange here, but orange is reserved for urgency and
-   * deadlines on this site. Partner agencies is neither, so it takes the
-   * accent violet and orange keeps its signal value.
+   * 04b § 3.4 asks for orange here, but the urgent tint is reserved for
+   * deadlines and time pressure. Partner agencies is neither, so it takes a
+   * neutral categorical tone and `urgent` keeps its signal value.
    */
-  { icon: Building2, tone: 'accent', value: '1,200+', label: 'Partner agencies' },
-  { icon: Globe2, tone: 'blue', value: '150+', label: 'Countries supported' },
+  { icon: Building2, tone: 'tone3', value: '1,200+', label: 'Partner agencies' },
+  { icon: Globe2, tone: 'tone4', value: '150+', label: 'Countries supported' },
 ];
 
 /* ------------------------------------------------------ § 3.5 how it works */

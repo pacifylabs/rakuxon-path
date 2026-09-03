@@ -31,15 +31,18 @@ module.exports = {
       'text-inverse': color('text-inverse'),
       border: color('border'),
 
-      /* Decorative categorical tints (docs/04b § 3.3, § 3.4) — not state. */
-      'tint-indigo': 'var(--tint-indigo)',
-      'tint-indigo-soft': 'var(--tint-indigo-soft)',
-      'tint-green': 'var(--tint-green)',
-      'tint-green-soft': 'var(--tint-green-soft)',
-      'tint-orange': 'var(--tint-orange)',
-      'tint-orange-soft': 'var(--tint-orange-soft)',
-      'tint-blue': 'var(--tint-blue)',
-      'tint-blue-soft': 'var(--tint-blue-soft)',
+      /* Decorative tints (docs/04b § 3.3, § 3.4) — not state colours. */
+      'tint-tone1': 'var(--tint-tone1)',
+      'tint-tone1-soft': 'var(--tint-tone1-soft)',
+      'tint-tone2': 'var(--tint-tone2)',
+      'tint-tone2-soft': 'var(--tint-tone2-soft)',
+      'tint-tone3': 'var(--tint-tone3)',
+      'tint-tone3-soft': 'var(--tint-tone3-soft)',
+      'tint-tone4': 'var(--tint-tone4)',
+      'tint-tone4-soft': 'var(--tint-tone4-soft)',
+      /* Semantic: deadlines and time pressure only. */
+      'tint-urgent': 'var(--tint-urgent)',
+      'tint-urgent-soft': 'var(--tint-urgent-soft)',
 
       success: color('success'),
       warning: color('warning'),

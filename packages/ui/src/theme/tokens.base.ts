@@ -11,28 +11,39 @@ export const baseTokens: ThemeTokens = {
   },
 
   color: {
-    /* Brand */
-    primary: '#5B4BE1',
-    primaryHover: '#4A3BC7',
+    /* Brand — the Modern Campus direction */
+    primary: '#143D28', // deep forest green, 12.15:1 on white
+    primaryHover: '#1C5537', // lighter on hover: the base is already near-black
     onPrimary: '#FFFFFF',
-    accent: '#8B7CF6',
-    accentSoft: '#EEEBFB',
+    accent: '#1572FE', // electric sky blue, 4.31:1 on white
+    accentSoft: '#E7F0FE',
 
     /* Neutrals */
     bg: '#FFFFFF',
     surface: '#FFFFFF',
-    surfaceMuted: '#F7F6FC',
-    text: '#1A1830',
-    textMuted: '#5B5870',
+    surfaceMuted: '#E2E6EE', // soft sage-grey, easy on the eyes over long reads
+    text: '#0E1F16', // near-black with a green undertone
+    textMuted: '#4A5A52',
     textInverse: '#FFFFFF',
-    border: '#E7E5F2',
+    border: '#CFD6E0',
 
-    /* State — not tenant-overridable */
-    success: '#2FA36B',
+    /*
+     * State — not tenant-overridable.
+     *
+     * success and info were retuned away from the 04a values: the old info
+     * (#4A7DE1) was visually the same blue as the new accent, and the old
+     * success (#2FA36B) sat in the primary's green family. Both now clear
+     * 4.5:1 on white AND on --color-surface-muted.
+     *
+     * warning and danger keep their 04a values. Both are fill/icon colours:
+     * warning is 2.19:1 and danger 3.91:1 on white, so neither may be used
+     * for normal-size text. Pair them with --color-text for labels.
+     */
+    success: '#12703C',
     warning: '#E6A23C',
     danger: '#E5484D',
-    info: '#4A7DE1',
-    focusRing: '#8B7CF6',
+    info: '#0B5F73',
+    focusRing: '#1572FE',
   },
 
   font: {
@@ -95,18 +106,25 @@ export const baseTokens: ThemeTokens = {
   },
 
   /*
-   * Decorative categorical tints. Not state colours — see TintTokens.
-   * Foregrounds are chosen dark enough to clear AA (>= 4.5:1) on white, so the
-   * same value works for an icon, a number, or a small label.
+   * Decorative tints. Not state colours — see TintTokens.
+   *
+   * tone1–tone4 are named for their slot rather than their hue, so a palette
+   * change revalues them without renaming an API. `urgent` is the exception:
+   * it is semantic, reserved for deadlines and time pressure, and must not be
+   * used decoratively or it stops reading as a signal.
+   *
+   * Every foreground clears 4.5:1 on white and on --color-surface-muted.
    */
   tint: {
-    indigo: '#5B4BE1',
-    indigoSoft: '#EEEBFB',
-    green: '#17784B',
-    greenSoft: '#E6F4EC',
-    orange: '#C2560E',
-    orangeSoft: '#FDF0E6',
-    blue: '#1D4ED8',
-    blueSoft: '#E8EEFC',
+    tone1: '#175C3A', // forest, 7.99:1
+    tone1Soft: '#E6F1EB',
+    tone2: '#1258C4', // sky, 6.52:1
+    tone2Soft: '#E7F0FE',
+    tone3: '#0E6E62', // teal, 6.13:1
+    tone3Soft: '#E4F1EF',
+    tone4: '#3F4C7A', // slate, 8.31:1
+    tone4Soft: '#EAEDF6',
+    urgent: '#A8480B', // amber-orange, 5.84:1 — deadlines only
+    urgentSoft: '#FDF0E6',
   },
 };

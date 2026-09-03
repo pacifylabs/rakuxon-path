@@ -144,10 +144,12 @@ describe('§3.4 stat bar', () => {
     expect(marked.length).toBe(STATS.length + 4);
   });
 
-  it('reserves orange for urgency, not decoration', () => {
-    // The deadline countdown is the only orange text on the page; the stat bar
-    // uses the accent violet where 04b § 3.4 suggested orange.
-    expect(STATS.every((stat) => stat.tone !== 'orange')).toBe(true);
+  it('reserves the urgent tint for time pressure, not decoration', () => {
+    // The deadline countdown and the "Stay Organized" card are the only places
+    // the urgent tint appears; the stat bar takes neutral categorical tones
+    // where 04b § 3.4 suggested orange.
+    expect(STATS.every((stat) => stat.tone !== 'urgent')).toBe(true);
+    expect(CAPABILITIES.filter((c) => c.tone === 'urgent')).toHaveLength(1);
   });
 });
 

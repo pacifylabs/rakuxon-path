@@ -9,7 +9,7 @@
 
 ## 0. Brand
 
-- **Name:** **Rakuxon Ed** — wordmark: **Rakuxon** (primary indigo) + **Ed** (accent). Keeps the `rakuxon-edu` lineage; "Ed" reads product-like and leaves room to grow beyond pure education.
+- **Name:** **Rakuxon Ed** — wordmark: **Rakuxon** (primary forest green) + **Ed** (accent sky blue). Keeps the `rakuxon-edu` lineage; "Ed" reads product-like and leaves room to grow beyond pure education.
 - **Tagline:** *Your study abroad journey, simplified.*
 - **Voice:** calm, credible, encouraging. We reassure, we don't hype. Short sentences. Plain language a 17-year-old and their parent both understand.
 - **The name is a token** (`--brand-name`, logo asset) — swap it in one place if you change your mind; nothing hard-codes it.
@@ -18,9 +18,11 @@
 
 ## 1. Direction & rationale
 
-**Chosen direction: calm, trust-forward, indigo/soft** (the Image 1 family), deliberately **not** the red high-energy route.
+**Chosen direction: The Modern Campus — deep forest green, sage, electric sky blue.** Calm and trust-forward, deliberately **not** the red high-energy route.
 
-Why, tied to purpose: this platform handles minors' academic documents, admissions outcomes, and money. It is a **trust and stewardship** product. Calm indigo reads as credible, institutional, and safe — the same reason banks, universities, and health platforms lean blue/indigo. Bold red signals urgency and promotion, which undercuts the reassurance a student uploading a passport needs. Calm also matches the product's locked design language, so landing and product feel like one company.
+Why, tied to purpose: this platform handles minors' academic documents, admissions outcomes, and money. It is a **trust and stewardship** product. Deep forest green reads as focused, grounded and calm, and green is associated with growth and lowered anxiety — which matters during an intense application cycle. A soft sage-grey carries the long reading passages without eye strain. A single electric sky blue keeps the platform feeling modern, youthful and interactive rather than institutional and dusty.
+
+The 60 / 30 / 10 split: forest green as the primary, sage-grey for surfaces and bands, sky blue reserved for accents and interaction. An amber-orange sits outside that split and is reserved strictly for deadlines and time pressure.
 
 **Borrowed structural ideas (from the strong reference):** floating feature/product cards around a focused hero, a horizontal "one platform, many capabilities" strip, social-proof stat block, and a warm closing CTA band. These quickly communicate *multi-feature platform* without clutter.
 
@@ -44,30 +46,46 @@ These are the **base tokens** in `packages/ui/src/theme/tokens.base.ts`. The lan
 
 ```
 /* Brand */
---color-primary:        #5B4BE1   /* indigo — primary actions, wordmark "Rakuxon" */
---color-primary-hover:  #4A3BC7
+--color-primary:        #143D28   /* deep forest green — primary actions, wordmark "Rakuxon" */
+--color-primary-hover:  #1C5537   /* lighter on hover: the base is already near-black */
 --color-on-primary:     #FFFFFF
---color-accent:         #8B7CF6   /* lighter violet — "Ed", highlights, secondary accents */
---color-accent-soft:    #EEEBFB   /* lavender tint — card/section backgrounds */
+--color-accent:         #1572FE   /* electric sky blue — "Ed", highlights, interaction */
+--color-accent-soft:    #E7F0FE   /* pale blue tint — card/section backgrounds */
 
 /* Neutrals */
 --color-bg:             #FFFFFF
 --color-surface:        #FFFFFF
---color-surface-muted:  #F7F6FC   /* very soft lavender-grey section band */
---color-text:           #1A1830   /* near-black with a violet undertone */
---color-text-muted:     #5B5870
+--color-surface-muted:  #E2E6EE   /* soft sage-grey section band */
+--color-text:           #0E1F16   /* near-black with a green undertone */
+--color-text-muted:     #4A5A52
 --color-text-inverse:   #FFFFFF
---color-border:         #E7E5F2
+--color-border:         #CFD6E0
 
 /* State (NOT tenant-overridable — safety consistency) */
---color-success:        #2FA36B
+--color-success:        #12703C
 --color-warning:        #E6A23C
 --color-danger:         #E5484D
---color-info:           #4A7DE1
---color-focus-ring:     #8B7CF6
+--color-info:           #0B5F73
+--color-focus-ring:     #1572FE
+
+/* Decorative tints — categorical only, never state (see below) */
+--tint-tone1:  #175C3A   --tint-tone1-soft:  #E6F1EB
+--tint-tone2:  #1258C4   --tint-tone2-soft:  #E7F0FE
+--tint-tone3:  #0E6E62   --tint-tone3-soft:  #E4F1EF
+--tint-tone4:  #3F4C7A   --tint-tone4-soft:  #EAEDF6
+--tint-urgent: #A8480B   --tint-urgent-soft: #FDF0E6
 ```
 
-Palette character: indigo primary, violet accent, lavender tints on white. Soft, professional, unmistakably calm.
+Palette character: forest-green primary, sky-blue accent, sage-grey bands on white. Grounded, modern, unmistakably calm.
+
+**Contrast (measured, asserted in `theme.test.tsx`).** Every foreground below clears 4.5:1 on **both** `--color-surface` and `--color-surface-muted`: `--color-text` (17.1), `--color-text-muted` (7.3), `--color-primary` (12.2), and all five tints (5.8 – 8.3). Two deliberate exceptions:
+
+- `--color-accent` is **4.31:1** on white. Fine for large text, buttons, icons, borders and fills; **never use it for normal-size body text.**
+- `--color-warning` (2.19:1) and `--color-danger` (3.91:1) are fill and icon colours only. Pair them with `--color-text` for any label.
+
+**Tint naming.** `tone1`–`tone4` are named for the *slot*, not the hue, so re-theming revalues them without renaming an API. `urgent` is the one semantic member — deadlines and time pressure only; using it decoratively destroys its signal value.
+
+**Why `success` and `info` moved from earlier drafts.** The old `info` (`#4A7DE1`) was visually the same blue as the new accent, and the old `success` (`#2FA36B`) sat inside the primary's green family. A brand accent that reads as an info badge, or a status green that reads as chrome, makes both meaningless.
 
 ### 3.2 Typography
 
@@ -132,7 +150,7 @@ Two cards side by side: **For Students** (guided, self-serve, track everything) 
 Stat block on a soft surface: *e.g. Students guided · Average rating · Universities · Countries.* Plus a row of trust badges: **Personalized guidance · University-specific advice · Confidential & trusted · Transparent pricing.** (Use real numbers only when you have them — placeholders clearly marked in code.)
 
 ### 4.7 Closing CTA band
-Warm gradient-tint band (subtle lavender→white, not loud): *"Stop searching. **Start achieving.**"* + **Get started** primary CTA + reassurance line *"We're with you, every step of the way."*
+Warm gradient-tint band (subtle sage→white, not loud): *"Stop searching. **Start achieving.**"* + **Get started** primary CTA + reassurance line *"We're with you, every step of the way."*
 
 ### 4.8 Footer
 Wordmark, short nav, legal (privacy/terms — important for a document-handling product), contact, socials. Domain line: `rakuxoned.com` (placeholder).
@@ -158,7 +176,7 @@ Landing-only marketing flourishes that won't recur in-product can live in `apps/
 
 ## 6. Iconography & imagery
 
-- **Icons:** one consistent line-icon set (e.g. Lucide) in accent chips (soft lavender circle + indigo icon), matching the reference's rounded icon badges.
+- **Icons:** one consistent line-icon set (e.g. Lucide) in tinted chips (soft tint circle + matching tint icon), matching the reference's rounded icon badges.
 - **Imagery:** warm, real, calm — a focused student, soft interior light. Avoid stocky/loud. Product-mock snippets are fine and reinforce "real platform."
 - **Illustration:** minimal, soft, single-accent line illustrations for the "how it works" step icons if used.
 
@@ -166,7 +184,7 @@ Landing-only marketing flourishes that won't recur in-product can live in `apps/
 
 ## 7. Accessibility (landing + product)
 
-- AA contrast on all text (indigo-on-white and white-on-indigo both pass at the sizes used).
+- AA contrast on all text (forest-green-on-white is 12.2:1 and white-on-forest-green 12.2:1; the sky-blue accent is 4.31:1 and is therefore large-text/fill only). Ratios are asserted in `packages/ui/src/theme/theme.test.tsx`, not eyeballed.
 - Visible focus ring (`--color-focus-ring`) on every interactive element.
 - Semantic landmarks (`header/nav/main/section/footer`), one H1, logical heading order.
 - CTAs are real buttons/links with discernible names; hero visual has meaningful alt text.

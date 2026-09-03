@@ -19,7 +19,7 @@ export interface CapabilityCardProps {
  */
 export function CapabilityCard({
   icon,
-  tone = 'indigo',
+  tone = 'tone1',
   title,
   description,
   action,
