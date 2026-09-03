@@ -1,0 +1,9 @@
+{
+  "name": "@rakuxon-edu/config",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "scripts": { "typecheck": "tsc --noEmit" },
+  "devDependencies": { "@rakuxon-edu/tsconfig": "workspace:*" }
+}

@@ -1,0 +1,4 @@
+{
+  "extends": "@rakuxon-edu/tsconfig/base.json",
+  "include": ["src"]
+}
