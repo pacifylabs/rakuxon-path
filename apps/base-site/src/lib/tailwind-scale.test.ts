@@ -41,6 +41,9 @@ const KEYWORDS = new Set([
   'content',
   'prose',
   'card-float',
+  'card-quote',
+  'card-quote-lg',
+  'media',
 ]);
 
 const SPACING_PREFIXES = new Set([

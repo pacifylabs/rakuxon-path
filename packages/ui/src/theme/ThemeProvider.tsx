@@ -3,8 +3,9 @@
 import { createContext, useMemo } from 'react';
 import type { ReactNode } from 'react';
 
-import { mergeTokens, serializeCssVars } from './cssVars';
+import { mergeTokens, serializeScheme } from './cssVars';
 import { baseTokens } from './tokens.base';
+import { darkTokens } from './tokens.dark';
 import type { TenantTokenOverrides, ThemeTokens } from './tokens.types';
 
 export const ThemeContext = createContext<ThemeTokens>(baseTokens);
@@ -29,7 +30,11 @@ export interface ThemeProviderProps {
  */
 export function ThemeProvider({ tokens, selector = ':root', children }: ThemeProviderProps) {
   const resolved = useMemo(() => mergeTokens(baseTokens, tokens), [tokens]);
-  const css = useMemo(() => serializeCssVars(resolved, selector), [resolved, selector]);
+  const resolvedDark = useMemo(() => mergeTokens(darkTokens, tokens), [tokens]);
+  const css = useMemo(
+    () => serializeScheme(resolved, resolvedDark, selector),
+    [resolved, resolvedDark, selector],
+  );
 
   return (
     <ThemeContext.Provider value={resolved}>

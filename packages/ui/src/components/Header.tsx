@@ -5,6 +5,7 @@ import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
 
 import { Button } from './Button';
+import { ThemeToggle } from './ThemeToggle';
 import { Wordmark } from './Wordmark';
 
 export interface NavLink {
@@ -54,6 +55,7 @@ export function Header({ navLinks, logIn, getStarted, className }: HeaderProps) 
         </nav>
 
         <div className="flex items-center gap-2">
+          <ThemeToggle />
           <Button href={logIn.href} variant="ghost" className="hidden sm:inline-flex">
             {logIn.label}
           </Button>

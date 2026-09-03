@@ -87,3 +87,22 @@ export function serializeCssVars(tokens: ThemeTokens, selector = ':root'): strin
     .join('');
   return `${selector}{${declarations}}`;
 }
+
+/**
+ * Both schemes in one stylesheet.
+ *
+ * Dark applies when the visitor has explicitly chosen it, or when the OS asks
+ * for it and they have not explicitly chosen light. The explicit choice wins in
+ * both directions, which is what people with light sensitivity need.
+ */
+export function serializeScheme(light: ThemeTokens, dark: ThemeTokens, selector = ':root'): string {
+  const darkVars = Object.entries(tokensToCssVars(dark))
+    .map(([name, value]) => `${name}:${value};`)
+    .join('');
+
+  return [
+    serializeCssVars(light, selector),
+    `${selector}[data-theme="dark"]{${darkVars}}`,
+    `@media (prefers-color-scheme:dark){${selector}:not([data-theme="light"]){${darkVars}}}`,
+  ].join('');
+}

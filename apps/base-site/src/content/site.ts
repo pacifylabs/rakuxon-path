@@ -47,13 +47,23 @@ export const FOOTER_COLUMNS: readonly FooterColumn[] = [
     ],
   },
   {
-    heading: 'Legal',
+    heading: 'Explore',
     links: [
-      { label: 'Privacy policy', href: ROUTES.privacy },
-      { label: 'Terms of service', href: ROUTES.terms },
+      { label: 'Courses', href: `${ROUTES.explore}?tab=courses` },
+      { label: 'Universities', href: ROUTES.universities },
+      { label: 'Articles', href: `${ROUTES.explore}?tab=articles` },
+      { label: 'Destinations', href: ROUTES.destinations },
     ],
   },
 ];
+
+/** Sits in its own row beneath the columns, as in the rakuxon-care footer. */
+export const FOOTER_LEGAL_LINKS: readonly NavLink[] = [
+  { label: 'Privacy policy', href: ROUTES.privacy },
+  { label: 'Terms of service', href: ROUTES.terms },
+];
+
+export const CONTACT_ADDRESS = 'Remote-first · United Kingdom';
 
 export const SOCIALS: readonly NavLink[] = [
   { label: 'LinkedIn', href: 'https://www.linkedin.com' },

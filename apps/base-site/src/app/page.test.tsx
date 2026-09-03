@@ -212,11 +212,24 @@ describe('§3.7 institutions', () => {
 
 describe('§3.8 testimonials', () => {
   it('renders each quote with its attributed name', () => {
-    renderHome();
+    const { container } = renderHome();
+    // The marquee renders the list twice to make the loop seamless; the seam
+    // copy is aria-hidden, so assert against the announced list only.
+    const announced = container.querySelector(
+      '[data-testimonial-marquee] ul:not([aria-hidden])',
+    ) as HTMLElement;
+
     for (const testimonial of TESTIMONIALS) {
-      expect(screen.getByText(testimonial.quote)).toBeInTheDocument();
-      expect(screen.getByText(testimonial.name)).toBeInTheDocument();
+      expect(within(announced).getByText(testimonial.quote)).toBeInTheDocument();
+      expect(within(announced).getByText(testimonial.name)).toBeInTheDocument();
     }
+  });
+
+  it('hides the seam copy from assistive technology so quotes are heard once', () => {
+    const { container } = renderHome();
+    const lists = container.querySelectorAll('[data-testimonial-marquee] ul');
+    expect(lists).toHaveLength(2);
+    expect(lists[1]).toHaveAttribute('aria-hidden', 'true');
   });
 });
 
@@ -256,10 +269,13 @@ describe('images', () => {
   });
 
   it('renders one image per declared slot', () => {
-    // Counted from the DOM, not by role: the testimonial carousel hides its
-    // inactive slide from the accessibility tree, which is correct behaviour.
+    // Excludes the marquee's aria-hidden seam copy, which deliberately repeats
+    // the testimonial portraits to make the loop continuous.
     const { container } = renderHome();
-    expect(container.querySelectorAll('img')).toHaveLength(HOME_IMAGE_SLOTS.length);
+    const shown = [...container.querySelectorAll('img')].filter(
+      (image) => !image.closest('[aria-hidden="true"]'),
+    );
+    expect(shown).toHaveLength(HOME_IMAGE_SLOTS.length);
   });
 
   it('serves every photo from an allow-listed remote host', () => {

@@ -2,8 +2,15 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
 import { ThemeProvider } from './ThemeProvider';
-import { cssVarName, mergeTokens, serializeCssVars, tokensToCssVars } from './cssVars';
+import {
+  cssVarName,
+  mergeTokens,
+  serializeCssVars,
+  serializeScheme,
+  tokensToCssVars,
+} from './cssVars';
 import { baseTokens } from './tokens.base';
+import { darkTokens } from './tokens.dark';
 import { OVERRIDABLE_TOKENS } from './tokens.types';
 import { useTheme } from './useTheme';
 
@@ -271,5 +278,110 @@ describe('<ThemeProvider/>', () => {
   it('falls back to the base theme outside a provider', () => {
     render(<ThemeProbe />);
     expect(screen.getByTestId('primary')).toHaveTextContent('#143D28');
+  });
+});
+
+describe('dark scheme', () => {
+  const DARK_SURFACES = ['bg', 'surface', 'surfaceMuted'] as const;
+
+  it('defines every token the light scheme does', () => {
+    expect(Object.keys(darkTokens.color).sort()).toEqual(Object.keys(baseTokens.color).sort());
+    expect(Object.keys(darkTokens.tint).sort()).toEqual(Object.keys(baseTokens.tint).sort());
+  });
+
+  it('shares type, space, radius and motion with the light scheme', () => {
+    // One system, two palettes: only colour, tint and shadow may differ.
+    expect(darkTokens.text).toEqual(baseTokens.text);
+    expect(darkTokens.space).toEqual(baseTokens.space);
+    expect(darkTokens.radius).toEqual(baseTokens.radius);
+    expect(darkTokens.motion).toEqual(baseTokens.motion);
+  });
+
+  it('actually inverts: dark ground is darker than light ground', () => {
+    expect(luminance(darkTokens.color.bg)).toBeLessThan(luminance(baseTokens.color.bg));
+    expect(luminance(darkTokens.color.text)).toBeGreaterThan(luminance(baseTokens.color.text));
+  });
+
+  it('gives body and muted text AA contrast on all three dark surfaces', () => {
+    for (const surface of DARK_SURFACES) {
+      for (const key of ['text', 'textMuted', 'primary', 'accent'] as const) {
+        expect(
+          contrast(darkTokens.color[key], darkTokens.color[surface]),
+          `${key} on ${surface}`,
+        ).toBeGreaterThanOrEqual(4.5);
+      }
+    }
+  });
+
+  it('gives every dark tint AA contrast on all three dark surfaces', () => {
+    for (const surface of DARK_SURFACES) {
+      for (const key of TINT_FOREGROUNDS) {
+        expect(
+          contrast(darkTokens.tint[key], darkTokens.color[surface]),
+          `tint.${key} on ${surface}`,
+        ).toBeGreaterThanOrEqual(4.5);
+      }
+    }
+  });
+
+  it('inverts on-primary, because white on the dark primary would fail', () => {
+    expect(contrast('#FFFFFF', darkTokens.color.primary)).toBeLessThan(4.5);
+    expect(contrast(darkTokens.color.onPrimary, darkTokens.color.primary)).toBeGreaterThanOrEqual(
+      4.5,
+    );
+  });
+
+  it('gives every dark state colour AA contrast on the dark surface', () => {
+    for (const key of ['success', 'warning', 'danger', 'info'] as const) {
+      expect(
+        contrast(darkTokens.color[key], darkTokens.color.surface),
+        `${key} on surface`,
+      ).toBeGreaterThanOrEqual(4.5);
+    }
+  });
+});
+
+describe('serializeScheme', () => {
+  const css = serializeScheme(baseTokens, darkTokens);
+
+  it('emits the light scheme on bare :root', () => {
+    expect(css).toContain(`:root{--brand-name:`);
+    expect(css).toContain(`--color-bg:${baseTokens.color.bg}`);
+  });
+
+  it('lets an explicit dark choice win', () => {
+    expect(css).toContain(`:root[data-theme="dark"]{`);
+    expect(css).toContain(`--color-bg:${darkTokens.color.bg}`);
+  });
+
+  it('follows the OS only when no explicit choice was made', () => {
+    // Without the :not([data-theme="light"]) guard, choosing light on a dark
+    // OS would be silently overridden.
+    expect(css).toContain('@media (prefers-color-scheme:dark)');
+    expect(css).toContain(':root:not([data-theme="light"])');
+  });
+});
+
+describe('<ThemeProvider/> scheme output', () => {
+  it('publishes both schemes so the toggle needs no re-render', () => {
+    const { container } = render(
+      <ThemeProvider>
+        <p>hello</p>
+      </ThemeProvider>,
+    );
+    const css = container.querySelector('style[data-rakuxon-theme]')?.textContent ?? '';
+    expect(css).toContain(`--color-primary:${baseTokens.color.primary}`);
+    expect(css).toContain(`--color-primary:${darkTokens.color.primary}`);
+  });
+
+  it('applies a tenant brand override to every scheme block', () => {
+    const { container } = render(
+      <ThemeProvider tokens={{ color: { primary: '#7A1F3D' } }}>
+        <p>hello</p>
+      </ThemeProvider>,
+    );
+    const css = container.querySelector('style[data-rakuxon-theme]')?.textContent ?? '';
+    // Three blocks carry it: light on :root, explicit dark, and OS dark.
+    expect(css.match(/--color-primary:#7A1F3D/g)).toHaveLength(3);
   });
 });

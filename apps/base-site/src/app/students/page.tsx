@@ -6,7 +6,7 @@ import {
   MediaSection,
   SectionBand,
   StepItem,
-  TestimonialSlider,
+  TestimonialMarquee,
   TrustBadge,
   ValueProps,
 } from '@rakuxon-path/ui';
@@ -94,7 +94,7 @@ export default function StudentsPage() {
         >
           Students who have been through it
         </h2>
-        <TestimonialSlider className="mt-12" testimonials={STUDENT_TESTIMONIALS} sample />
+        <TestimonialMarquee className="mt-12" testimonials={STUDENT_TESTIMONIALS} sample />
       </SectionBand>
 
       <SectionBand tone="surface" labelledBy="students-cta-heading">

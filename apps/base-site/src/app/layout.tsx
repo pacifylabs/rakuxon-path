@@ -1,11 +1,14 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 
-import { Footer, Header, ThemeProvider, baseTokens } from '@rakuxon-path/ui';
+import { Footer, Header, ThemeProvider, baseTokens, themeScript } from '@rakuxon-path/ui';
 
 import {
+  CONTACT_ADDRESS,
+  CONTACT_EMAIL,
   FOOTER_COLUMNS,
   FOOTER_DOMAIN,
+  FOOTER_LEGAL_LINKS,
   FOOTER_TAGLINE,
   GET_STARTED_LINK,
   LOG_IN_LINK,
@@ -47,7 +50,14 @@ export const viewport: Viewport = {
  */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
+      <head>
+        {/*
+          Applies the saved scheme before first paint, so the page never renders
+          light and then flips. It must run before the body, hence inline here.
+        */}
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body>
         {/* No tenant overrides on the public site — always the base theme. */}
         <ThemeProvider>
@@ -62,8 +72,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Footer
             tagline={FOOTER_TAGLINE}
             domain={FOOTER_DOMAIN}
+            email={CONTACT_EMAIL}
+            address={CONTACT_ADDRESS}
             columns={FOOTER_COLUMNS}
             socials={SOCIALS}
+            legalLinks={FOOTER_LEGAL_LINKS}
           />
         </ThemeProvider>
       </body>

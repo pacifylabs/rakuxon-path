@@ -316,6 +316,33 @@ export const TESTIMONIALS: readonly TestimonialContent[] = [
     alt: 'Portrait of a smiling student in a striped top',
     searchTerm: 'student portrait woman smiling',
   },
+  {
+    quote:
+      'The budget breakdown was the part I did not expect. Seeing tuition, rent, visa and the deposit in one number told me which of my three choices was actually affordable.',
+    name: 'Lucas M.',
+    detail: 'Brazil → Ireland',
+    src: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&q=80',
+    alt: 'Portrait of a student against a dark background',
+    searchTerm: 'student portrait man',
+  },
+  {
+    quote:
+      'My counsellor and I stopped emailing each other attachments entirely. She could see what I had uploaded the moment I uploaded it, and I could see what she still needed.',
+    name: 'Chen W.',
+    detail: 'China → United Kingdom',
+    src: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&q=80',
+    alt: 'Portrait of a smiling student in a denim jacket',
+    searchTerm: 'student portrait woman',
+  },
+  {
+    quote:
+      'I got rejected from my first choice and genuinely did not know what to do next. Having the other four applications already moving meant it was a setback, not the end of it.',
+    name: 'Yusuf B.',
+    detail: 'Turkey → Germany',
+    src: 'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=400&q=80',
+    alt: 'Portrait of a student wearing sunglasses',
+    searchTerm: 'young man portrait',
+  },
 ];
 
 /* ------------------------------------------------- § 3.9 audience split */

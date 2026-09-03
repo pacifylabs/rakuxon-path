@@ -16,6 +16,7 @@ export const ROUTES = {
   agencies: '/agencies',
   institutions: '/institutions',
   universities: '/universities',
+  explore: '/explore',
   destinations: '/destinations',
   about: '/about',
   contact: '/contact',

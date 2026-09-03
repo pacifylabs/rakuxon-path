@@ -4,8 +4,11 @@ import type { ReactElement } from 'react';
 import { Footer, Header, ThemeProvider } from '@rakuxon-path/ui';
 
 import {
+  CONTACT_ADDRESS,
+  CONTACT_EMAIL,
   FOOTER_COLUMNS,
   FOOTER_DOMAIN,
+  FOOTER_LEGAL_LINKS,
   FOOTER_TAGLINE,
   GET_STARTED_LINK,
   LOG_IN_LINK,
@@ -25,8 +28,11 @@ export function renderPage(page: ReactElement) {
       <Footer
         tagline={FOOTER_TAGLINE}
         domain={FOOTER_DOMAIN}
+        email={CONTACT_EMAIL}
+        address={CONTACT_ADDRESS}
         columns={FOOTER_COLUMNS}
         socials={SOCIALS}
+        legalLinks={FOOTER_LEGAL_LINKS}
       />
     </ThemeProvider>,
   );

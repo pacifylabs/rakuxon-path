@@ -10,6 +10,7 @@ import { FactGrid } from './FactGrid';
 import { FilterBar } from './FilterBar';
 import type { FilterDefinition } from './FilterBar';
 import { ImageHero } from './ImageHero';
+import { TestimonialMarquee } from './TestimonialMarquee';
 import { TestimonialSlider } from './TestimonialSlider';
 import { MediaSection } from './MediaSection';
 import { PageHeader } from './PageHeader';
@@ -380,6 +381,73 @@ describe('<TestimonialSlider/>', () => {
 
   it('renders nothing when there is nothing to show', () => {
     const { container } = render(<TestimonialSlider testimonials={[]} />);
+    expect(container).toBeEmptyDOMElement();
+  });
+});
+
+describe('<TestimonialMarquee/>', () => {
+  const testimonials = [
+    { quote: 'First quote.', name: 'Amara', detail: 'NG to CA', src: PHOTO, alt: 'Portrait one' },
+    { quote: 'Second quote.', name: 'Daniel', detail: 'KE to UK', src: PHOTO, alt: 'Portrait two' },
+  ];
+
+  it('renders the list twice so the loop has no visible seam', () => {
+    const { container } = render(<TestimonialMarquee testimonials={testimonials} />);
+    const lists = container.querySelectorAll('ul');
+    expect(lists).toHaveLength(2);
+    expect(container.querySelectorAll('figure')).toHaveLength(4);
+  });
+
+  it('hides the duplicate, so each quote is announced once', () => {
+    const { container } = render(<TestimonialMarquee testimonials={testimonials} />);
+    const lists = container.querySelectorAll('ul');
+    expect(lists[0]).not.toHaveAttribute('aria-hidden');
+    expect(lists[1]).toHaveAttribute('aria-hidden', 'true');
+    expect(screen.getAllByRole('img')).toHaveLength(testimonials.length);
+  });
+
+  it('animates the track to exactly half its width', () => {
+    // -50% is what lands the duplicate where the original began; any other
+    // value makes the loop jump.
+    const { container } = render(<TestimonialMarquee testimonials={testimonials} />);
+    expect(container.querySelector('.animate-marquee')).toBeInTheDocument();
+  });
+
+  it('stops on hover and on focus without any script', () => {
+    const { container } = render(<TestimonialMarquee testimonials={testimonials} />);
+    const track = container.querySelector('.animate-marquee');
+    expect(track?.className).toContain('group-hover:[animation-play-state:paused]');
+    expect(track?.className).toContain('group-focus-within:[animation-play-state:paused]');
+  });
+
+  it('does not move at all under reduced motion', () => {
+    const { container } = render(<TestimonialMarquee testimonials={testimonials} />);
+    expect(container.querySelector('.animate-marquee')?.className).toContain(
+      'motion-reduce:animate-none',
+    );
+  });
+
+  it('offers an explicit pause control', async () => {
+    const { container } = render(<TestimonialMarquee testimonials={testimonials} />);
+    const marquee = container.querySelector('[data-testimonial-marquee]') as HTMLElement;
+
+    expect(marquee).toHaveAttribute('data-playing', 'true');
+    await userEvent.click(screen.getByRole('button', { name: 'Pause testimonials' }));
+    expect(marquee).toHaveAttribute('data-playing', 'false');
+    expect(container.querySelector('.animate-marquee')?.className).toContain(
+      '[animation-play-state:paused]',
+    );
+  });
+
+  it('takes its speed from the duration prop', () => {
+    const { container } = render(<TestimonialMarquee testimonials={testimonials} duration={30} />);
+    expect(container.querySelector('.animate-marquee')?.getAttribute('style')).toContain(
+      '--marquee-duration: 30s',
+    );
+  });
+
+  it('renders nothing when there is nothing to show', () => {
+    const { container } = render(<TestimonialMarquee testimonials={[]} />);
     expect(container).toBeEmptyDOMElement();
   });
 });

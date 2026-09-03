@@ -1,9 +1,13 @@
 export { baseTokens } from './tokens.base';
+export { darkTokens } from './tokens.dark';
+export { THEME_COOKIE, THEME_ORDER, themeScript } from './scheme';
+export type { ThemePreference } from './scheme';
 export {
   camelToKebab,
   cssVarName,
   mergeTokens,
   serializeCssVars,
+  serializeScheme,
   tokensToCssVars,
 } from './cssVars';
 export { ThemeContext, ThemeProvider } from './ThemeProvider';
