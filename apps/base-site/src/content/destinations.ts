@@ -10,6 +10,12 @@ import { ROUTES, SIGN_UP, countryRoute } from './routes';
  *
  * Cost and intake figures are indicative public ranges for orientation, not
  * quotes — every FactGrid on these pages is rendered with `sample`.
+ *
+ * Alt text describes what each photograph actually shows, which is not always
+ * what 04b § 3.6 called it: the UK photo has Tower Bridge and no Big Ben, the
+ * US photo is an aerial skyline rather than a street, and the Germany photo is
+ * a half-timbered town, not Berlin. Every image here was viewed before its alt
+ * was written.
  */
 
 export interface CountryContent {
@@ -43,13 +49,13 @@ export const COUNTRIES: readonly CountryContent[] = [
     cardImage: image(
       'photo-1513635269975-59663e0ac1ad',
       800,
-      'London skyline with Big Ben',
+      'Aerial view of London with Tower Bridge and the River Thames',
       'london uk',
     ),
     heroImage: image(
       'photo-1513635269975-59663e0ac1ad',
       1400,
-      'London skyline with Big Ben',
+      'Aerial view of London with Tower Bridge and the River Thames',
       'london uk',
     ),
     tagline: 'One-year masters, and a graduate route that buys you time.',
@@ -175,13 +181,13 @@ export const COUNTRIES: readonly CountryContent[] = [
     cardImage: image(
       'photo-1485871981521-5b1fd3805eee',
       800,
-      'New York City street',
+      'New York City skyline at sunset',
       'new york city',
     ),
     heroImage: image(
       'photo-1485871981521-5b1fd3805eee',
       1400,
-      'New York City street',
+      'New York City skyline at sunset',
       'new york city',
     ),
     tagline: 'The widest choice, and the longest lead time.',
@@ -350,11 +356,16 @@ export const COUNTRIES: readonly CountryContent[] = [
     slug: 'germany',
     name: 'Germany',
     shortName: 'Germany',
-    cardImage: image('photo-1467269204594-9661b134dd2b', 800, 'Berlin cityscape', 'berlin germany'),
+    cardImage: image(
+      'photo-1467269204594-9661b134dd2b',
+      800,
+      'Half-timbered houses on a street in a historic German town',
+      'berlin germany',
+    ),
     heroImage: image(
       'photo-1467269204594-9661b134dd2b',
       1400,
-      'Berlin cityscape',
+      'Half-timbered houses on a street in a historic German town',
       'berlin germany',
     ),
     tagline: 'Public universities with little or no tuition fee.',

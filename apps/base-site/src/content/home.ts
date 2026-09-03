@@ -192,7 +192,7 @@ export const DESTINATIONS: readonly DestinationContent[] = [
     country: 'United Kingdom',
     href: countryRoute('uk'),
     src: 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800&q=80',
-    alt: 'London skyline with Big Ben',
+    alt: 'Aerial view of London with Tower Bridge and the River Thames',
     searchTerm: 'london uk',
   },
   {
@@ -206,7 +206,7 @@ export const DESTINATIONS: readonly DestinationContent[] = [
     country: 'United States',
     href: countryRoute('usa'),
     src: 'https://images.unsplash.com/photo-1485871981521-5b1fd3805eee?w=800&q=80',
-    alt: 'New York City street',
+    alt: 'New York City skyline at sunset',
     searchTerm: 'new york city',
   },
   {
@@ -227,7 +227,7 @@ export const DESTINATIONS: readonly DestinationContent[] = [
     country: 'Germany',
     href: countryRoute('germany'),
     src: 'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=800&q=80',
-    alt: 'Berlin cityscape',
+    alt: 'Half-timbered houses on a street in a historic German town',
     searchTerm: 'berlin germany',
   },
 ];
