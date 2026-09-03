@@ -26,12 +26,12 @@ const description =
 
 export const metadata: Metadata = {
   title: {
-    default: `${baseTokens.brand.name} — Study abroad, simplified`,
+    default: `${baseTokens.brand.name} — ${baseTokens.brand.tagline.replace(/\.$/, '')}`,
     template: `%s · ${baseTokens.brand.name}`,
   },
   description,
   openGraph: {
-    title: `${baseTokens.brand.name} — Study abroad, simplified`,
+    title: `${baseTokens.brand.name} — ${baseTokens.brand.tagline.replace(/\.$/, '')}`,
     description,
     type: 'website',
   },
