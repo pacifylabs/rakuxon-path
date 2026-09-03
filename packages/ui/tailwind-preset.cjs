@@ -30,6 +30,8 @@ module.exports = {
       'text-muted': color('text-muted'),
       'text-inverse': color('text-inverse'),
       border: color('border'),
+      scrim: color('scrim'),
+      'on-scrim': color('on-scrim'),
 
       /* Decorative tints (docs/04b § 3.3, § 3.4) — not state colours. */
       'tint-tone1': 'var(--tint-tone1)',

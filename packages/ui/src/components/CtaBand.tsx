@@ -46,11 +46,11 @@ export function CtaBand({
         <div>
           <h2
             id={headingId}
-            className="font-heading text-2xl font-bold text-text-inverse md:text-3xl"
+            className="font-heading text-2xl font-bold text-on-primary md:text-3xl"
           >
             {heading}
           </h2>
-          <p className="mt-3 max-w-prose text-base text-text-inverse">{subline}</p>
+          <p className="mt-3 max-w-prose text-base text-on-primary">{subline}</p>
         </div>
       </div>
 
@@ -61,7 +61,7 @@ export function CtaBand({
         >
           {cta.label}
         </a>
-        {reassurance && <p className="mt-3 text-sm text-text-inverse">{reassurance}</p>}
+        {reassurance && <p className="mt-3 text-sm text-on-primary">{reassurance}</p>}
       </div>
     </div>
   );

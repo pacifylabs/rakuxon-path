@@ -57,10 +57,13 @@ export function ImageCard({
               a bright photograph left white 18px text around 3.5:1, under the
               4.5 AA needs at that size and weight; 90% holds it above 7:1 in the
               worst case while the top of the image stays clear.
+
+              `scrim` does not invert with the scheme — it was `from-text`,
+              which turned the fade white in dark mode.
             */}
             <span
               aria-hidden="true"
-              className="absolute inset-0 bg-gradient-to-t from-text to-transparent opacity-90"
+              className="absolute inset-0 bg-gradient-to-t from-scrim to-transparent opacity-90"
             />
             <div className="absolute inset-x-0 bottom-0 p-4">{children}</div>
           </>

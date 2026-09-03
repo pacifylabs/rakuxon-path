@@ -33,6 +33,13 @@ export type ColorTokens = {
   textMuted: string;
   textInverse: string;
   border: string;
+  /**
+   * Scrim over a photograph, and the text that sits on it. These are the one
+   * colour pair that does NOT invert between schemes: a photo is a photo in
+   * both, so the scrim must stay dark and its caption light either way.
+   */
+  scrim: string;
+  onScrim: string;
   success: string;
   warning: string;
   danger: string;

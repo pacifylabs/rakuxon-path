@@ -28,7 +28,7 @@ export function DestinationCard({
       className={className}
       footer={description ? <p className="text-sm text-text-muted">{description}</p> : undefined}
     >
-      <h3 className="font-heading text-lg font-semibold text-text-inverse">{country}</h3>
+      <h3 className="font-heading text-lg font-semibold text-on-scrim">{country}</h3>
     </ImageCard>
   );
 }

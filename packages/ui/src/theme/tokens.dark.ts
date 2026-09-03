@@ -33,6 +33,10 @@ export const darkTokens: ThemeTokens = {
     textInverse: '#0C1512',
     border: '#2A3B33',
 
+    /* Deliberately identical to light: a photograph does not invert. */
+    scrim: '#0E1F16',
+    onScrim: '#FFFFFF',
+
     /* State */
     success: '#4ECB86',
     warning: '#F0B45C',

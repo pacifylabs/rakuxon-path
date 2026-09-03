@@ -324,6 +324,18 @@ describe('dark scheme', () => {
     }
   });
 
+  it('keeps the photo scrim identical in both schemes', () => {
+    // A scrim over a photograph must stay dark whichever scheme is active.
+    // It was --color-text, which turned the fade white in dark mode.
+    expect(darkTokens.color.scrim).toBe(baseTokens.color.scrim);
+    expect(darkTokens.color.onScrim).toBe(baseTokens.color.onScrim);
+  });
+
+  it('gives scrim text AA contrast against the scrim in both schemes', () => {
+    expect(contrast(baseTokens.color.onScrim, baseTokens.color.scrim)).toBeGreaterThanOrEqual(4.5);
+    expect(contrast(darkTokens.color.onScrim, darkTokens.color.scrim)).toBeGreaterThanOrEqual(4.5);
+  });
+
   it('inverts on-primary, because white on the dark primary would fail', () => {
     expect(contrast('#FFFFFF', darkTokens.color.primary)).toBeLessThan(4.5);
     expect(contrast(darkTokens.color.onPrimary, darkTokens.color.primary)).toBeGreaterThanOrEqual(

@@ -28,6 +28,10 @@ export const baseTokens: ThemeTokens = {
     textInverse: '#FFFFFF',
     border: '#CFD6E0',
 
+    /* Scheme-invariant: see TintTokens' sibling note in tokens.types.ts. */
+    scrim: '#0E1F16',
+    onScrim: '#FFFFFF',
+
     /*
      * State — not tenant-overridable.
      *

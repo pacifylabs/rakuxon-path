@@ -295,7 +295,9 @@ describe('<CtaBand/>', () => {
 
   it('puts inverse text on the indigo block so the one bold moment stays readable', () => {
     render(<CtaBand {...props} />);
-    expect(screen.getByRole('heading', { level: 2 })).toHaveClass('text-text-inverse');
+    // on-primary, not text-inverse: it is text on a primary block, and the
+    // token has to invert with the scheme for the dark palette to work.
+    expect(screen.getByRole('heading', { level: 2 })).toHaveClass('text-on-primary');
   });
 });
 
