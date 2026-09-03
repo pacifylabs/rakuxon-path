@@ -84,7 +84,7 @@ export function MediaSection({
           )}
         </div>
 
-        <div className={clsx('relative flex', imageSide === 'left' && 'lg:order-1')}>
+        <div className={clsx('relative lg:flex', imageSide === 'left' && 'lg:order-1')}>
           <div className="relative aspect-[3/2] w-full overflow-hidden rounded-xl lg:aspect-auto lg:h-full lg:min-h-media">
             <Image
               src={image.src}

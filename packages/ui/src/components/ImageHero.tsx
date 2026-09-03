@@ -90,7 +90,7 @@ export function ImageHero({
           {children && <div className="mt-8">{children}</div>}
         </div>
 
-        <div className={clsx('relative flex', imageSide === 'left' && 'lg:order-1')}>
+        <div className={clsx('relative lg:flex', imageSide === 'left' && 'lg:order-1')}>
           <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl lg:aspect-auto lg:h-full lg:min-h-media">
             <Image
               src={image.src}

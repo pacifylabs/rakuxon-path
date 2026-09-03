@@ -53,11 +53,21 @@ export function HomeHero() {
           <AvatarStack className="mt-8" avatars={HERO_AVATARS} caption={HERO.socialProof} />
         </div>
 
-        <div className="relative flex">
+        {/*
+          `lg:flex` only. Making this a flex container at every width laid the
+          figure and both floating cards out in a row on mobile, where the
+          cards are still in normal flow.
+        */}
+        <div className="relative lg:flex">
           {/* Soft tinted blob behind the figure — CSS, not an image (§ 3.1). */}
+          {/*
+            Desktop only. Below lg the floating cards sit in normal flow, and an
+            absolutely positioned sibling paints over them — which tinted the
+            white cards and dropped their text below the contrast threshold.
+          */}
           <div
             aria-hidden="true"
-            className="absolute inset-x-4 top-4 bottom-12 rounded-full bg-accent-soft blur-xl"
+            className="absolute inset-x-4 bottom-12 top-4 hidden rounded-full bg-accent-soft blur-xl lg:block"
           />
 
           <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl sm:aspect-[4/3] lg:aspect-auto lg:h-full lg:min-h-media">
