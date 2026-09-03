@@ -55,6 +55,18 @@ Two things that will bite otherwise:
 - **Root Directory.** The `vercel.json` above handles the monorepo from the
   repo root. Setting the project's Root Directory to `apps/base-site` in
   Vercel's settings is the alternative; do one or the other, not both.
+- **`next` is declared at the repo root and never imported there.** Vercel's
+  Next.js builder reads the framework version from the `package.json` at the
+  Root Directory, and this repo's root is a Turborepo workspace. Without that
+  declaration the build fails with *"No Next.js version detected"*. Keep its
+  range in step with `apps/base-site/package.json`.
+
+  If you instead set the Root Directory to `apps/base-site` in Vercel, that
+  root `next` entry and `vercel.json` both become unnecessary — delete them,
+  and enable *Include source files outside of the Root Directory* so
+  `packages/ui` is still available to the build.
+- **Node version.** `engines` is pinned to a single major. An open range like
+  `>=20` makes Vercel adopt each new major on release without warning.
 
 ## Design tokens
 
