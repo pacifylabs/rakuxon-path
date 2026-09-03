@@ -126,6 +126,11 @@ module.exports = {
            raw px value, so it moves with the tokens. */
         'card-float': 'calc(var(--space-20) * 3)',
       },
+      minHeight: {
+        /* Floor for a media column that stretches to match its text column,
+           so a short paragraph cannot squash the photograph. */
+        media: 'calc(var(--space-20) * 5)',
+      },
       ringColor: {
         DEFAULT: color('focus-ring'),
       },

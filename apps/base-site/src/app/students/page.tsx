@@ -94,11 +94,7 @@ export default function StudentsPage() {
         >
           Students who have been through it
         </h2>
-        <TestimonialSlider
-          className="mx-auto mt-12 max-w-prose"
-          testimonials={STUDENT_TESTIMONIALS}
-          sample
-        />
+        <TestimonialSlider className="mt-12" testimonials={STUDENT_TESTIMONIALS} sample />
       </SectionBand>
 
       <SectionBand tone="surface" labelledBy="students-cta-heading">

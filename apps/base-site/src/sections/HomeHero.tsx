@@ -22,8 +22,12 @@ import {
 export function HomeHero() {
   return (
     <section aria-labelledby="hero-heading" className="w-full bg-bg px-5 pb-20 pt-12 md:pt-16">
-      <div className="mx-auto grid w-full max-w-content gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
-        <div>
+      {/*
+        Columns stretch: a centred media column left a gap above and below the
+        figure whenever the copy ran taller, which read as a misalignment.
+      */}
+      <div className="mx-auto grid w-full max-w-content gap-12 lg:grid-cols-2 lg:items-stretch lg:gap-16">
+        <div className="flex flex-col justify-center">
           <EyebrowPill>{HERO.eyebrow}</EyebrowPill>
 
           <h1
@@ -49,14 +53,14 @@ export function HomeHero() {
           <AvatarStack className="mt-8" avatars={HERO_AVATARS} caption={HERO.socialProof} />
         </div>
 
-        <div className="relative">
-          {/* Soft indigo blob behind the figure — CSS, not an image (§ 3.1). */}
+        <div className="relative flex">
+          {/* Soft tinted blob behind the figure — CSS, not an image (§ 3.1). */}
           <div
             aria-hidden="true"
             className="absolute inset-x-4 top-4 bottom-12 rounded-full bg-accent-soft blur-xl"
           />
 
-          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl sm:aspect-[4/3] lg:aspect-[4/5]">
+          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl sm:aspect-[4/3] lg:aspect-auto lg:h-full lg:min-h-media">
             <Image
               src={HERO_FIGURE.src}
               alt={HERO_FIGURE.alt}

@@ -50,8 +50,14 @@ export function ImageHero({
         className,
       )}
     >
-      <div className="mx-auto grid w-full max-w-content gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
-        <div className={clsx(imageSide === 'left' && 'lg:order-2')}>
+      {/*
+        Columns stretch rather than centre: a centred media column leaves a gap
+        above and below the photograph whenever the copy is taller, which reads
+        as a misalignment. The image fills its column and is floored by
+        `min-h-media` so short copy cannot squash it.
+      */}
+      <div className="mx-auto grid w-full max-w-content gap-12 lg:grid-cols-2 lg:items-stretch lg:gap-16">
+        <div className={clsx('flex flex-col justify-center', imageSide === 'left' && 'lg:order-2')}>
           {eyebrow && <EyebrowPill>{eyebrow}</EyebrowPill>}
 
           <h1
@@ -84,8 +90,8 @@ export function ImageHero({
           {children && <div className="mt-8">{children}</div>}
         </div>
 
-        <div className={clsx('relative', imageSide === 'left' && 'lg:order-1')}>
-          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl">
+        <div className={clsx('relative flex', imageSide === 'left' && 'lg:order-1')}>
+          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl lg:aspect-auto lg:h-full lg:min-h-media">
             <Image
               src={image.src}
               alt={image.alt}

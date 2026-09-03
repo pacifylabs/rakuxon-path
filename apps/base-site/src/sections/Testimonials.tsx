@@ -13,7 +13,7 @@ export function Testimonials() {
         Students who found their path
       </h2>
 
-      <TestimonialSlider className="mx-auto mt-12 max-w-prose" testimonials={TESTIMONIALS} sample />
+      <TestimonialSlider className="mt-12" testimonials={TESTIMONIALS} sample />
     </SectionBand>
   );
 }

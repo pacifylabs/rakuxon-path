@@ -114,6 +114,15 @@ export const STUDENT_TESTIMONIALS = [
     alt: 'Portrait of a smiling young woman',
     searchTerm: 'young woman portrait',
   },
+  {
+    quote:
+      'Four universities, four different portals, all wanting the same six documents. Uploading each one once and having it follow me across every application saved me an entire fortnight.',
+    name: 'Tobi A.',
+    detail: 'Ghana → Germany, MSc Mechanical Engineering',
+    src: 'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?w=400&q=80',
+    alt: 'Portrait of a student in a grey shirt',
+    searchTerm: 'young man portrait',
+  },
 ];
 
 export const STUDENTS_CTA = {

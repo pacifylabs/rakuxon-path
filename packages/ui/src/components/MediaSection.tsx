@@ -43,8 +43,9 @@ export function MediaSection({
         className,
       )}
     >
-      <div className="mx-auto grid w-full max-w-content gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
-        <div className={clsx(imageSide === 'left' && 'lg:order-2')}>
+      {/* Columns stretch so the photo matches the copy height exactly. */}
+      <div className="mx-auto grid w-full max-w-content gap-12 lg:grid-cols-2 lg:items-stretch lg:gap-16">
+        <div className={clsx('flex flex-col justify-center', imageSide === 'left' && 'lg:order-2')}>
           {eyebrow && <EyebrowPill>{eyebrow}</EyebrowPill>}
           <h2
             id={headingId}
@@ -83,8 +84,8 @@ export function MediaSection({
           )}
         </div>
 
-        <div className={clsx('relative', imageSide === 'left' && 'lg:order-1')}>
-          <div className="relative aspect-[3/2] w-full overflow-hidden rounded-xl">
+        <div className={clsx('relative flex', imageSide === 'left' && 'lg:order-1')}>
+          <div className="relative aspect-[3/2] w-full overflow-hidden rounded-xl lg:aspect-auto lg:h-full lg:min-h-media">
             <Image
               src={image.src}
               alt={image.alt}

@@ -279,81 +279,103 @@ describe('<TestimonialSlider/>', () => {
     { quote: 'Third quote.', name: 'Mei', detail: 'CN to IE', src: PHOTO, alt: 'Portrait three' },
   ];
 
-  it('announces itself as a carousel and shows the first slide', () => {
+  it('renders every quote, all of them reachable', () => {
     render(<TestimonialSlider testimonials={testimonials} />);
-    expect(screen.getByRole('group', { name: 'Student testimonials' })).toBeInTheDocument();
-    expect(screen.getByText('First quote.')).toBeInTheDocument();
+    for (const testimonial of testimonials) {
+      expect(screen.getByText(testimonial.quote)).toBeInTheDocument();
+    }
   });
 
-  it('keeps every slide mounted so the height cannot jump between quotes', () => {
+  it('keeps off-screen slides in the accessibility tree', () => {
+    // A scroll container needs no aria-hidden: every quote stays readable to
+    // assistive technology whether or not it is the one centred.
     const { container } = render(<TestimonialSlider testimonials={testimonials} />);
-    expect(container.querySelectorAll('figure')).toHaveLength(3);
+    expect(container.querySelectorAll('[aria-hidden="true"] figure')).toHaveLength(0);
+    expect(screen.getAllByRole('img')).toHaveLength(3);
   });
 
-  it('advances and rewinds on the arrow controls', async () => {
-    const { container } = render(<TestimonialSlider testimonials={testimonials} />);
-    const track = () => container.querySelector('ul')?.getAttribute('style') ?? '';
+  it('makes the scroll region focusable and names it', () => {
+    render(<TestimonialSlider testimonials={testimonials} />);
+    const track = screen.getByRole('list', { name: 'Student testimonials' });
+    expect(track).toHaveAttribute('tabindex', '0');
+  });
 
-    expect(track()).toContain('translateX(-0%)');
+  it('sizes slides so three sit side by side on desktop', () => {
+    const { container } = render(<TestimonialSlider testimonials={testimonials} />);
+    const slides = container.querySelectorAll('[data-active]');
+    expect(slides).toHaveLength(3);
+    for (const slide of slides) {
+      expect(slide).toHaveClass('lg:w-1/3');
+      expect(slide).toHaveClass('sm:w-1/2');
+    }
+  });
+
+  it('stretches slides so cards in view share a height', () => {
+    const { container } = render(<TestimonialSlider testimonials={testimonials} />);
+    expect(container.querySelector('ul')).toHaveClass('items-stretch');
+    for (const figure of container.querySelectorAll('figure')) {
+      expect(figure).toHaveClass('h-full');
+    }
+  });
+
+  it('marks the nearest slide active and moves it with the arrows', async () => {
+    const { container } = render(<TestimonialSlider testimonials={testimonials} />);
+    const activeIndex = () =>
+      [...container.querySelectorAll('[data-active]')].findIndex(
+        (el) => el.getAttribute('data-active') === 'true',
+      );
+
+    expect(activeIndex()).toBe(0);
     await userEvent.click(screen.getByRole('button', { name: 'Next testimonial' }));
-    expect(track()).toContain('translateX(-100%)');
+    expect(activeIndex()).toBe(1);
     await userEvent.click(screen.getByRole('button', { name: 'Previous testimonial' }));
-    expect(track()).toContain('translateX(-0%)');
+    expect(activeIndex()).toBe(0);
   });
 
-  it('wraps around at both ends', async () => {
+  it('disables the arrows at each end', async () => {
+    render(<TestimonialSlider testimonials={testimonials} />);
+    expect(screen.getByRole('button', { name: 'Previous testimonial' })).toBeDisabled();
+
+    await userEvent.click(screen.getByRole('button', { name: 'Next testimonial' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Next testimonial' }));
+    expect(screen.getByRole('button', { name: 'Next testimonial' })).toBeDisabled();
+  });
+
+  it('pauses while the pointer is over it', () => {
     const { container } = render(<TestimonialSlider testimonials={testimonials} />);
-    const track = () => container.querySelector('ul')?.getAttribute('style') ?? '';
+    const slider = container.querySelector('[data-testimonial-slider]') as HTMLElement;
 
-    await userEvent.click(screen.getByRole('button', { name: 'Previous testimonial' }));
-    expect(track()).toContain('translateX(-200%)');
+    expect(slider).toHaveAttribute('data-paused', 'false');
+    fireEvent.mouseEnter(slider);
+    expect(slider).toHaveAttribute('data-paused', 'true');
+    fireEvent.mouseLeave(slider);
+    expect(slider).toHaveAttribute('data-paused', 'false');
   });
 
-  it('jumps to a slide from its dot, and marks the current one', async () => {
-    render(<TestimonialSlider testimonials={testimonials} />);
-    await userEvent.click(screen.getByRole('button', { name: 'Show testimonial 3' }));
-    expect(screen.getByRole('button', { name: 'Show testimonial 3' })).toHaveAttribute(
-      'aria-current',
-      'true',
-    );
-  });
+  it('pauses while the tab is hidden', () => {
+    const { container } = render(<TestimonialSlider testimonials={testimonials} />);
+    const slider = container.querySelector('[data-testimonial-slider]') as HTMLElement;
 
-  it('offers a pause control, because auto-updating content must be stoppable', async () => {
-    render(<TestimonialSlider testimonials={testimonials} />);
-    const pause = screen.getByRole('button', { name: 'Pause testimonials' });
-    await userEvent.click(pause);
-    expect(screen.getByRole('button', { name: 'Play testimonials' })).toBeInTheDocument();
+    const hidden = vi.spyOn(document, 'hidden', 'get').mockReturnValue(true);
+    fireEvent(document, new Event('visibilitychange'));
+    expect(slider).toHaveAttribute('data-paused', 'true');
+    hidden.mockRestore();
   });
 
   it('advances on its own once the interval elapses', async () => {
     vi.useFakeTimers({ shouldAdvanceTime: true });
     const { container } = render(<TestimonialSlider testimonials={testimonials} interval={1000} />);
-    const track = () => container.querySelector('ul')?.getAttribute('style') ?? '';
+    const activeIndex = () =>
+      [...container.querySelectorAll('[data-active]')].findIndex(
+        (el) => el.getAttribute('data-active') === 'true',
+      );
 
-    expect(track()).toContain('translateX(-0%)');
+    expect(activeIndex()).toBe(0);
     await act(async () => {
       vi.advanceTimersByTime(1000);
     });
-    expect(track()).toContain('translateX(-100%)');
+    expect(activeIndex()).toBe(1);
     vi.useRealTimers();
-  });
-
-  it('halts autoplay while the pointer is over it', async () => {
-    vi.useFakeTimers({ shouldAdvanceTime: true });
-    const { container } = render(<TestimonialSlider testimonials={testimonials} interval={1000} />);
-    const track = () => container.querySelector('ul')?.getAttribute('style') ?? '';
-
-    fireEvent.mouseEnter(screen.getByRole('group', { name: 'Student testimonials' }));
-    await act(async () => {
-      vi.advanceTimersByTime(3000);
-    });
-    expect(track()).toContain('translateX(-0%)');
-    vi.useRealTimers();
-  });
-
-  it('exposes the position to screen readers', () => {
-    render(<TestimonialSlider testimonials={testimonials} />);
-    expect(screen.getByText('Testimonial 1 of 3')).toBeInTheDocument();
   });
 
   it('renders nothing when there is nothing to show', () => {

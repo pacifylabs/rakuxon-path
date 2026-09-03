@@ -307,6 +307,15 @@ export const TESTIMONIALS: readonly TestimonialContent[] = [
     alt: 'Portrait of a smiling student',
     searchTerm: 'student portrait man',
   },
+  {
+    quote:
+      'I was applying from a different timezone to every university on my list. Getting one reminder that actually reached me, instead of an email at 3am I would never see, is the reason I made two of those deadlines.',
+    name: 'Priya S.',
+    detail: 'India → Australia',
+    src: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&q=80',
+    alt: 'Portrait of a smiling student in a striped top',
+    searchTerm: 'student portrait woman smiling',
+  },
 ];
 
 /* ------------------------------------------------- § 3.9 audience split */
