@@ -3,9 +3,9 @@
 import { createContext, useMemo } from 'react';
 import type { ReactNode } from 'react';
 
-import { mergeTokens, serializeCssVars } from './cssVars.js';
-import { baseTokens } from './tokens.base.js';
-import type { TenantTokenOverrides, ThemeTokens } from './tokens.types.js';
+import { mergeTokens, serializeCssVars } from './cssVars';
+import { baseTokens } from './tokens.base';
+import type { TenantTokenOverrides, ThemeTokens } from './tokens.types';
 
 export const ThemeContext = createContext<ThemeTokens>(baseTokens);
 

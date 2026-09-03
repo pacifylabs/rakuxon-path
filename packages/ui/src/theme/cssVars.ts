@@ -1,5 +1,5 @@
-import { GROUP_VAR_PREFIX, OVERRIDABLE_TOKENS } from './tokens.types.js';
-import type { TenantTokenOverrides, ThemeTokens } from './tokens.types.js';
+import { GROUP_VAR_PREFIX, OVERRIDABLE_TOKENS } from './tokens.types';
+import type { TenantTokenOverrides, ThemeTokens } from './tokens.types';
 
 /** `primaryHover` -> `primary-hover`; leaves `2xl` and `sm` untouched. */
 export function camelToKebab(key: string): string {

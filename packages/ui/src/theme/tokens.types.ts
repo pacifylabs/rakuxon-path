@@ -15,7 +15,7 @@ export type BrandTokens = {
    * When it is not a suffix of `name`, the wordmark renders undivided.
    */
   nameAccentSuffix: string;
-}
+};
 
 export type ColorTokens = {
   primary: string;
@@ -35,12 +35,12 @@ export type ColorTokens = {
   danger: string;
   info: string;
   focusRing: string;
-}
+};
 
 export type FontTokens = {
   sans: string;
   heading: string;
-}
+};
 
 export type TextScaleTokens = {
   xs: string;
@@ -52,14 +52,14 @@ export type TextScaleTokens = {
   '3xl': string;
   '4xl': string;
   hero: string;
-}
+};
 
 export type WeightTokens = {
   regular: string;
   medium: string;
   semibold: string;
   bold: string;
-}
+};
 
 export type SpaceTokens = {
   1: string;
@@ -73,7 +73,7 @@ export type SpaceTokens = {
   12: string;
   16: string;
   20: string;
-}
+};
 
 export type RadiusTokens = {
   sm: string;
@@ -81,19 +81,19 @@ export type RadiusTokens = {
   lg: string;
   xl: string;
   full: string;
-}
+};
 
 export type ShadowTokens = {
   sm: string;
   md: string;
   lg: string;
-}
+};
 
 export type MotionTokens = {
   easeStandard: string;
   durationFast: string;
   durationBase: string;
-}
+};
 
 export interface ThemeTokens {
   brand: BrandTokens;

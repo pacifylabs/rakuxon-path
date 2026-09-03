@@ -2,8 +2,8 @@
 
 import { useContext } from 'react';
 
-import { ThemeContext } from './ThemeProvider.js';
-import type { ThemeTokens } from './tokens.types.js';
+import { ThemeContext } from './ThemeProvider';
+import type { ThemeTokens } from './tokens.types';
 
 /**
  * The resolved token set. Falls back to the base theme outside a provider so a

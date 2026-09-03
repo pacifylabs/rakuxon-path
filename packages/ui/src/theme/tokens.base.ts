@@ -1,4 +1,4 @@
-import type { ThemeTokens } from './tokens.types.js';
+import type { ThemeTokens } from './tokens.types';
 
 /**
  * The base Rakuxon Ed theme — the single place a raw value may appear.

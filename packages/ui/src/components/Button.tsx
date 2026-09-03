@@ -16,7 +16,7 @@ const SIZE_CLASSES: Record<ButtonSize, string> = {
 };
 
 const BASE_CLASSES = clsx(
-  'inline-flex items-center justify-center gap-2 rounded-md font-semibold',
+  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-semibold',
   'transition-colors duration-fast ease-standard',
   'focus-visible:outline-none focus-visible:ring focus-visible:ring-offset-2',
   'disabled:cursor-not-allowed disabled:opacity-60',

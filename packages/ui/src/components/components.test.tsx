@@ -3,15 +3,15 @@ import userEvent from '@testing-library/user-event';
 import { GraduationCap, ShieldCheck } from 'lucide-react';
 import { describe, expect, it, vi } from 'vitest';
 
-import { ThemeProvider } from '../theme/ThemeProvider.js';
-import { Button } from './Button.js';
-import { CapabilityChip } from './CapabilityChip.js';
-import { FeatureCard } from './FeatureCard.js';
-import { SectionBand } from './SectionBand.js';
-import { StatBlock } from './StatBlock.js';
-import { StepItem } from './StepItem.js';
-import { TrustBadge } from './TrustBadge.js';
-import { Wordmark } from './Wordmark.js';
+import { ThemeProvider } from '../theme/ThemeProvider';
+import { Button } from './Button';
+import { CapabilityChip } from './CapabilityChip';
+import { FeatureCard } from './FeatureCard';
+import { SectionBand } from './SectionBand';
+import { StatBlock } from './StatBlock';
+import { StepItem } from './StepItem';
+import { TrustBadge } from './TrustBadge';
+import { Wordmark } from './Wordmark';
 
 describe('<Wordmark/>', () => {
   it('renders the brand name from tokens', () => {

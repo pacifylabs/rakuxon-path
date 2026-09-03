@@ -5,4 +5,4 @@ export {
   optionalEnv,
   apiBaseUrl,
   cloudinaryCloudName,
-} from './env.js';
+} from './env';

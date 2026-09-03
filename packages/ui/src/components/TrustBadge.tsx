@@ -16,7 +16,13 @@ export function TrustBadge({ icon: Icon, label, className }: TrustBadgeProps) {
         className,
       )}
     >
-      <Icon size={16} strokeWidth={2} aria-hidden="true" focusable="false" className="text-primary" />
+      <Icon
+        size={16}
+        strokeWidth={2}
+        aria-hidden="true"
+        focusable="false"
+        className="text-primary"
+      />
       <span className="text-sm font-medium text-text">{label}</span>
     </li>
   );

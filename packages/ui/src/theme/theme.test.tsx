@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
-import { ThemeProvider } from './ThemeProvider.js';
-import { cssVarName, mergeTokens, serializeCssVars, tokensToCssVars } from './cssVars.js';
-import { baseTokens } from './tokens.base.js';
-import { OVERRIDABLE_TOKENS } from './tokens.types.js';
-import { useTheme } from './useTheme.js';
+import { ThemeProvider } from './ThemeProvider';
+import { cssVarName, mergeTokens, serializeCssVars, tokensToCssVars } from './cssVars';
+import { baseTokens } from './tokens.base';
+import { OVERRIDABLE_TOKENS } from './tokens.types';
+import { useTheme } from './useTheme';
 
 function ThemeProbe() {
   const theme = useTheme();

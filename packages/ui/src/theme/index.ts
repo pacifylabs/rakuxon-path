@@ -1,15 +1,15 @@
-export { baseTokens } from './tokens.base.js';
+export { baseTokens } from './tokens.base';
 export {
   camelToKebab,
   cssVarName,
   mergeTokens,
   serializeCssVars,
   tokensToCssVars,
-} from './cssVars.js';
-export { ThemeContext, ThemeProvider } from './ThemeProvider.js';
-export type { ThemeProviderProps } from './ThemeProvider.js';
-export { useBrand, useTheme } from './useTheme.js';
-export { GROUP_VAR_PREFIX, OVERRIDABLE_TOKENS } from './tokens.types.js';
+} from './cssVars';
+export { ThemeContext, ThemeProvider } from './ThemeProvider';
+export type { ThemeProviderProps } from './ThemeProvider';
+export { useBrand, useTheme } from './useTheme';
+export { GROUP_VAR_PREFIX, OVERRIDABLE_TOKENS } from './tokens.types';
 export type {
   BrandTokens,
   ColorTokens,
@@ -23,4 +23,4 @@ export type {
   TextScaleTokens,
   ThemeTokens,
   WeightTokens,
-} from './tokens.types.js';
+} from './tokens.types';

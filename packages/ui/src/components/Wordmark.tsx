@@ -1,6 +1,8 @@
+'use client';
+
 import clsx from 'clsx';
 
-import { useBrand } from '../theme/useTheme.js';
+import { useBrand } from '../theme/useTheme';
 
 export interface WordmarkProps {
   /** Renders inside an existing link or heading when false. Defaults to a link home. */
@@ -36,7 +38,7 @@ export function Wordmark({ href = '/', className, hideMark = false }: WordmarkPr
           {name.trim().charAt(0)}
         </span>
       )}
-      <span className="font-heading text-xl font-bold tracking-tight text-primary">
+      <span className="whitespace-nowrap font-heading text-xl font-bold tracking-tight text-primary">
         {lead}
         {accent && <span className="text-accent">{accent}</span>}
       </span>

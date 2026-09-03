@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import type { LucideIcon } from 'lucide-react';
 
-import { IconChip } from './IconChip.js';
+import { IconChip } from './IconChip';
 
 export interface FeatureCardProps {
   icon: LucideIcon;
