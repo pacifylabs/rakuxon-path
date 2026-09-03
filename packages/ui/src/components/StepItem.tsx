@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import type { LucideIcon } from 'lucide-react';
 
-import { IconChip } from './IconChip';
+import { IconBubble } from './IconBubble';
 
 export interface StepItemProps {
   /** 1-based position, rendered in the badge. */
@@ -20,7 +20,7 @@ export function StepItem({ step, title, description, icon, className }: StepItem
         <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary text-base font-bold text-on-primary">
           {step}
         </span>
-        {icon && <IconChip icon={icon} size="sm" />}
+        {icon && <IconBubble icon={icon} size="sm" />}
       </div>
       <h3 className="font-heading text-lg font-semibold text-text">{title}</h3>
       <p className="text-sm text-text-muted">{description}</p>

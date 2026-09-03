@@ -1,8 +1,8 @@
 import { SectionBand, StepItem } from '@rakuxon-edu/ui';
 
-import { STEPS } from '@/content/landing';
+import { STEPS } from '@/content/home';
 
-/** Mirrors the real product flow, so expectations are set correctly up front. */
+/** docs/04b § 3.5 — mirrors the real product flow. */
 export function HowItWorks() {
   return (
     <SectionBand id="how-it-works" labelledBy="how-it-works-heading">

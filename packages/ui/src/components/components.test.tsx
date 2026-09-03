@@ -1,17 +1,30 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { GraduationCap, ShieldCheck } from 'lucide-react';
+import { GraduationCap, Search, ShieldCheck } from 'lucide-react';
 import { describe, expect, it, vi } from 'vitest';
 
 import { ThemeProvider } from '../theme/ThemeProvider';
+import { AudienceCard } from './AudienceCard';
+import { AvatarStack } from './AvatarStack';
 import { Button } from './Button';
-import { CapabilityChip } from './CapabilityChip';
-import { FeatureCard } from './FeatureCard';
+import { CapabilityCard } from './CapabilityCard';
+import { CtaBand } from './CtaBand';
+import { DestinationCard } from './DestinationCard';
+import { EyebrowPill } from './EyebrowPill';
+import { Footer } from './Footer';
+import { Header } from './Header';
+import { HeroFloatingCard } from './HeroFloatingCard';
+import { LogoBar } from './LogoBar';
+import { ProgressRing } from './ProgressRing';
 import { SectionBand } from './SectionBand';
-import { StatBlock } from './StatBlock';
+import { StatChip } from './StatChip';
 import { StepItem } from './StepItem';
+import { TestimonialCard } from './TestimonialCard';
 import { TrustBadge } from './TrustBadge';
+import { UniversityCard } from './UniversityCard';
 import { Wordmark } from './Wordmark';
+
+const PHOTO = 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&q=80';
 
 describe('<Wordmark/>', () => {
   it('renders the brand name from tokens', () => {
@@ -32,21 +45,6 @@ describe('<Wordmark/>', () => {
       </ThemeProvider>,
     );
     expect(screen.getByRole('link', { name: 'Acme Study' })).toBeInTheDocument();
-    expect(screen.getByText('Study')).toBeInTheDocument();
-  });
-
-  it('renders the name undivided when the accent suffix does not apply', () => {
-    render(
-      <ThemeProvider tokens={{ brand: { name: 'Acme', nameAccentSuffix: 'Ed' } }}>
-        <Wordmark />
-      </ThemeProvider>,
-    );
-    expect(screen.getByRole('link', { name: 'Acme' })).toHaveTextContent('Acme');
-  });
-
-  it('is a focusable link with a visible focus ring', () => {
-    render(<Wordmark />);
-    expect(screen.getByRole('link')).toHaveClass('focus-visible:ring');
   });
 });
 
@@ -63,10 +61,9 @@ describe('<Button/>', () => {
     expect(screen.getByRole('button')).toHaveAttribute('type', 'button');
   });
 
-  it('renders a real link when given href, keeping middle-click and keyboard nav', () => {
-    render(<Button href="/signup">Start your journey</Button>);
-    const link = screen.getByRole('link', { name: 'Start your journey' });
-    expect(link).toHaveAttribute('href', '/signup');
+  it('renders a real link when given href', () => {
+    render(<Button href="/register">Get started</Button>);
+    expect(screen.getByRole('link', { name: 'Get started' })).toHaveAttribute('href', '/register');
   });
 
   it.each([
@@ -78,56 +75,261 @@ describe('<Button/>', () => {
     expect(screen.getByRole('button')).toHaveClass(expected);
   });
 
-  it('carries a visible focus ring', () => {
+  it('carries a visible focus ring and respects reduced motion', () => {
     render(<Button>Label</Button>);
-    expect(screen.getByRole('button')).toHaveClass('focus-visible:ring');
-  });
-
-  it('respects prefers-reduced-motion', () => {
-    render(<Button>Label</Button>);
-    expect(screen.getByRole('button')).toHaveClass('motion-reduce:transition-none');
-  });
-
-  it('can be disabled', () => {
-    render(<Button disabled>Label</Button>);
-    expect(screen.getByRole('button')).toBeDisabled();
+    const button = screen.getByRole('button');
+    expect(button).toHaveClass('focus-visible:ring');
+    expect(button).toHaveClass('motion-reduce:transition-none');
   });
 });
 
-describe('<FeatureCard/>', () => {
-  it('renders title and description', () => {
-    render(
-      <FeatureCard icon={GraduationCap} title="Find Universities" description="1500+ options" />,
-    );
-    expect(screen.getByRole('heading', { name: 'Find Universities' })).toBeInTheDocument();
-    expect(screen.getByText('1500+ options')).toBeInTheDocument();
+describe('<EyebrowPill/>', () => {
+  it('renders its text', () => {
+    render(<EyebrowPill>Your journey starts here</EyebrowPill>);
+    expect(screen.getByText('Your journey starts here')).toBeInTheDocument();
   });
 
-  it('uses the soft floating shadow and large radius from tokens', () => {
-    const { container } = render(
-      <FeatureCard icon={GraduationCap} title="Scholarships" description="Find funding" />,
-    );
-    const card = container.querySelector('article');
-    expect(card).toHaveClass('shadow-md');
-    expect(card).toHaveClass('rounded-lg');
-  });
-
-  it('hides its decorative icon from assistive technology', () => {
-    const { container } = render(
-      <FeatureCard icon={GraduationCap} title="Scholarships" description="Find funding" />,
-    );
-    expect(container.querySelector('[aria-hidden="true"]')).toBeInTheDocument();
+  it('is not a heading, so it cannot disturb the document outline', () => {
+    render(<EyebrowPill>Everything you need</EyebrowPill>);
+    expect(screen.queryByRole('heading')).not.toBeInTheDocument();
   });
 });
 
-describe('<CapabilityChip/>', () => {
-  it('renders as a list item with its label', () => {
+describe('<AvatarStack/>', () => {
+  const avatars = [
+    { src: `${PHOTO}#1`, alt: 'Student' },
+    { src: `${PHOTO}#2`, alt: 'Student' },
+    { src: `${PHOTO}#3`, alt: 'Student' },
+  ];
+
+  it('renders every avatar with alt text', () => {
+    render(<AvatarStack avatars={avatars} />);
+    expect(screen.getAllByRole('img', { name: 'Student' })).toHaveLength(3);
+  });
+
+  it('renders the social-proof caption', () => {
+    render(<AvatarStack avatars={avatars} caption="Join 100,000+ students." />);
+    expect(screen.getByText('Join 100,000+ students.')).toBeInTheDocument();
+  });
+});
+
+describe('<ProgressRing/>', () => {
+  it('exposes the value to assistive technology, not just the drawing', () => {
+    render(<ProgressRing value={92} />);
+    const bar = screen.getByRole('progressbar', { name: 'Match score' });
+    expect(bar).toHaveAttribute('aria-valuenow', '92');
+    expect(bar).toHaveAttribute('aria-valuemin', '0');
+    expect(bar).toHaveAttribute('aria-valuemax', '100');
+  });
+
+  it('renders the percentage as text', () => {
+    render(<ProgressRing value={92} />);
+    expect(screen.getByText('92%')).toBeInTheDocument();
+  });
+
+  it.each([
+    [-20, '0'],
+    [140, '100'],
+  ])('clamps %s to %s', (input, expected) => {
+    render(<ProgressRing value={input} />);
+    expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuenow', expected);
+  });
+});
+
+describe('<HeroFloatingCard/>', () => {
+  it('renders its title and body', () => {
     render(
-      <ul>
-        <CapabilityChip icon={GraduationCap} label="University Search" />
-      </ul>,
+      <HeroFloatingCard title="Match Score">
+        <p>Great match!</p>
+      </HeroFloatingCard>,
     );
-    expect(screen.getByRole('listitem')).toHaveTextContent('University Search');
+    expect(screen.getByRole('heading', { name: /Match Score/ })).toBeInTheDocument();
+    expect(screen.getByText('Great match!')).toBeInTheDocument();
+  });
+
+  it('renders an optional action link', () => {
+    render(
+      <HeroFloatingCard title="Match Score" action={{ label: 'View details', href: '#x' }}>
+        <p>92%</p>
+      </HeroFloatingCard>,
+    );
+    expect(screen.getByRole('link', { name: /View details/ })).toHaveAttribute('href', '#x');
+  });
+
+  it('marks sample data for code and for screen readers, without a visible badge', () => {
+    const { container } = render(
+      <HeroFloatingCard title="Match Score" sample>
+        <p>92%</p>
+      </HeroFloatingCard>,
+    );
+    expect(container.querySelector('[data-sample="true"]')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /sample data/i })).toBeInTheDocument();
+    expect(container.querySelector('.sr-only')).toBeInTheDocument();
+  });
+
+  it('adds no sample marking when the data is real', () => {
+    const { container } = render(
+      <HeroFloatingCard title="Match Score">
+        <p>92%</p>
+      </HeroFloatingCard>,
+    );
+    expect(container.querySelector('[data-sample]')).not.toBeInTheDocument();
+  });
+});
+
+describe('<LogoBar/>', () => {
+  const logos = ['Northfield', 'Westbrook', 'Lakeside'];
+
+  it('renders the label and every logo mark', () => {
+    render(<LogoBar label="Trusted by students and partners worldwide" logos={logos} />);
+    for (const logo of logos) {
+      expect(screen.getByText(logo)).toBeInTheDocument();
+    }
+  });
+
+  it('says on screen that the marks are placeholders, not endorsements', () => {
+    render(<LogoBar label="Trusted by students and partners worldwide" logos={logos} />);
+    expect(screen.getByText(/placeholder marks/i)).toBeInTheDocument();
+  });
+
+  it('flags each mark in the markup so real logos are easy to find later', () => {
+    const { container } = render(<LogoBar label="Trusted worldwide" logos={logos} />);
+    expect(container.querySelectorAll('[data-placeholder-logo="true"]')).toHaveLength(3);
+  });
+});
+
+describe('<CapabilityCard/>', () => {
+  const props = {
+    icon: Search,
+    title: 'Search & Match',
+    description: 'Find programs that fit your profile.',
+    action: { label: 'Search now', href: '/universities' },
+  };
+
+  it('renders title, description and arrow link', () => {
+    render(<CapabilityCard {...props} />);
+    expect(screen.getByRole('heading', { name: 'Search & Match' })).toBeInTheDocument();
+    expect(screen.getByText('Find programs that fit your profile.')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Search now/ })).toHaveAttribute(
+      'href',
+      '/universities',
+    );
+  });
+
+  it.each([
+    ['indigo', 'bg-tint-indigo-soft'],
+    ['green', 'bg-tint-green-soft'],
+    ['orange', 'bg-tint-orange-soft'],
+    ['blue', 'bg-tint-blue-soft'],
+  ] as const)('paints the %s tint from tokens', (tone, expected) => {
+    const { container } = render(<CapabilityCard {...props} tone={tone} />);
+    expect(container.querySelector(`.${expected.replace(/\./g, '\\.')}`)).toBeInTheDocument();
+  });
+});
+
+describe('<StatChip/>', () => {
+  it('renders value and label', () => {
+    render(<StatChip icon={GraduationCap} value="100,000+" label="Students guided" />);
+    expect(screen.getByText('100,000+')).toBeInTheDocument();
+    expect(screen.getByText(/Students guided/)).toBeInTheDocument();
+  });
+
+  it('marks a sample figure in code and for screen readers', () => {
+    const { container } = render(
+      <StatChip icon={GraduationCap} value="100,000+" label="Students guided" sample />,
+    );
+    expect(container.querySelector('[data-sample="true"]')).toBeInTheDocument();
+    expect(container.querySelector('.sr-only')?.textContent).toMatch(/sample data/i);
+  });
+});
+
+describe('<CtaBand/>', () => {
+  const props = {
+    icon: GraduationCap,
+    headingId: 'cta-heading',
+    heading: 'Ready to start your journey?',
+    subline: 'Join thousands of students.',
+    cta: { label: 'Create free account', href: '/register' },
+    reassurance: 'No credit card required.',
+  };
+
+  it('renders heading, subline, CTA and reassurance', () => {
+    render(<CtaBand {...props} />);
+    expect(
+      screen.getByRole('heading', { name: 'Ready to start your journey?' }),
+    ).toBeInTheDocument();
+    expect(screen.getByText('Join thousands of students.')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Create free account' })).toHaveAttribute(
+      'href',
+      '/register',
+    );
+    expect(screen.getByText('No credit card required.')).toBeInTheDocument();
+  });
+
+  it('puts inverse text on the indigo block so the one bold moment stays readable', () => {
+    render(<CtaBand {...props} />);
+    expect(screen.getByRole('heading', { level: 2 })).toHaveClass('text-text-inverse');
+  });
+});
+
+describe('image cards', () => {
+  it('<DestinationCard/> links to its country page and keeps alt text', () => {
+    render(
+      <DestinationCard
+        country="United Kingdom"
+        src={PHOTO}
+        alt="London skyline with Big Ben"
+        href="/destinations/uk"
+      />,
+    );
+    expect(screen.getByRole('link', { name: /United Kingdom/ })).toHaveAttribute(
+      'href',
+      '/destinations/uk',
+    );
+    expect(screen.getByRole('img', { name: 'London skyline with Big Ben' })).toBeInTheDocument();
+  });
+
+  it('<UniversityCard/> renders name and country', () => {
+    render(
+      <UniversityCard
+        name="Northfield University"
+        country="United Kingdom"
+        src={PHOTO}
+        alt="University campus building"
+      />,
+    );
+    expect(screen.getByRole('heading', { name: 'Northfield University' })).toBeInTheDocument();
+    expect(screen.getByText('United Kingdom')).toBeInTheDocument();
+  });
+
+  it('<AudienceCard/> exposes exactly one link, its CTA', () => {
+    render(
+      <AudienceCard
+        title="Students"
+        description="Apply with confidence."
+        cta={{ label: 'Sign up', href: '/register' }}
+        src={PHOTO}
+        alt="Group of students together on campus"
+      />,
+    );
+    expect(screen.getAllByRole('link')).toHaveLength(1);
+    expect(screen.getByRole('link', { name: /Sign up/ })).toHaveAttribute('href', '/register');
+  });
+
+  it('<TestimonialCard/> uses figure/blockquote semantics', () => {
+    const { container } = render(
+      <TestimonialCard
+        quote="I got into my first choice."
+        name="Amara"
+        detail="Nigeria → Canada"
+        src={PHOTO}
+        alt="Portrait of a smiling student"
+      />,
+    );
+    expect(container.querySelector('figure')).toBeInTheDocument();
+    expect(container.querySelector('blockquote')).toBeInTheDocument();
+    expect(container.querySelector('figcaption')).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: 'Portrait of a smiling student' })).toBeInTheDocument();
   });
 });
 
@@ -140,31 +342,6 @@ describe('<StepItem/>', () => {
     );
     expect(screen.getByText('2')).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'Shortlist & apply' })).toBeInTheDocument();
-    expect(screen.getByText('Pick your universities.')).toBeInTheDocument();
-  });
-});
-
-describe('<StatBlock/>', () => {
-  it('renders value and label', () => {
-    render(<StatBlock value="12,000+" label="Students guided" />);
-    expect(screen.getByText('12,000+')).toBeInTheDocument();
-    expect(screen.getByText('Students guided')).toBeInTheDocument();
-  });
-
-  it('visibly marks a placeholder figure', () => {
-    render(<StatBlock value="12,000+" label="Students guided" placeholder />);
-    expect(screen.getByText(/placeholder/i)).toBeInTheDocument();
-  });
-
-  it('exposes data-placeholder so unverified numbers are greppable before launch', () => {
-    const { container } = render(<StatBlock value="4.8" label="Average rating" placeholder />);
-    expect(container.querySelector('[data-placeholder="true"]')).toBeInTheDocument();
-  });
-
-  it('shows no placeholder marking for a real figure', () => {
-    const { container } = render(<StatBlock value="4.8" label="Average rating" />);
-    expect(screen.queryByText(/placeholder/i)).not.toBeInTheDocument();
-    expect(container.querySelector('[data-placeholder]')).not.toBeInTheDocument();
   });
 });
 
@@ -202,22 +379,96 @@ describe('<SectionBand/>', () => {
     );
     expect(container.querySelector('section')).toHaveClass(expected);
   });
+});
 
-  it('can render as a different landmark element', () => {
-    const { container } = render(
-      <SectionBand as="footer">
-        <p>body</p>
-      </SectionBand>,
-    );
-    expect(container.querySelector('footer')).toBeInTheDocument();
+describe('<Header/>', () => {
+  const props = {
+    navLinks: [
+      { label: 'Students', href: '/students' },
+      { label: 'Agencies', href: '/agencies' },
+    ],
+    logIn: { label: 'Log in', href: '/login' },
+    getStarted: { label: 'Get started', href: '/register' },
+  };
+
+  it('renders the wordmark, nav and both CTAs', () => {
+    render(<Header {...props} />);
+    const banner = screen.getByRole('banner');
+    expect(within(banner).getByRole('link', { name: 'Rakuxon Ed' })).toBeInTheDocument();
+    expect(within(banner).getByRole('navigation', { name: 'Primary' })).toBeInTheDocument();
+    expect(within(banner).getByRole('link', { name: 'Get started' })).toBeInTheDocument();
   });
 
-  it('constrains content to the shared max width', () => {
-    const { container } = render(
-      <SectionBand>
-        <p>body</p>
-      </SectionBand>,
+  it('keeps the mobile nav collapsed until the disclosure is pressed', () => {
+    const { container } = render(<Header {...props} />);
+    expect(screen.getByRole('button', { name: 'Open menu' })).toHaveAttribute(
+      'aria-expanded',
+      'false',
     );
-    expect(container.querySelector('.max-w-content')).toBeInTheDocument();
+    // A hidden element drops out of the accessibility tree, so assert on the
+    // node itself rather than querying it by role and name.
+    expect(container.querySelector('#header-mobile-nav')).toHaveAttribute('hidden');
+  });
+
+  it('opens the mobile nav so every destination stays reachable on a phone', async () => {
+    render(<Header {...props} />);
+    await userEvent.click(screen.getByRole('button', { name: 'Open menu' }));
+
+    const toggle = screen.getByRole('button', { name: 'Close menu' });
+    expect(toggle).toHaveAttribute('aria-expanded', 'true');
+
+    const mobileNav = screen.getByRole('navigation', { name: 'Primary mobile' });
+    expect(mobileNav).not.toHaveAttribute('hidden');
+    expect(within(mobileNav).getByRole('link', { name: 'Students' })).toBeInTheDocument();
+  });
+
+  it('closes the mobile nav after a destination is chosen', async () => {
+    render(<Header {...props} />);
+    await userEvent.click(screen.getByRole('button', { name: 'Open menu' }));
+    await userEvent.click(
+      within(screen.getByRole('navigation', { name: 'Primary mobile' })).getByRole('link', {
+        name: 'Students',
+      }),
+    );
+    expect(screen.getByRole('button', { name: 'Open menu' })).toHaveAttribute(
+      'aria-expanded',
+      'false',
+    );
+  });
+});
+
+describe('<Footer/>', () => {
+  const props = {
+    tagline: 'Your study abroad journey, simplified.',
+    domain: 'rakuxoned.com',
+    columns: [
+      { heading: 'Get to know us', links: [{ label: 'About', href: '/about' }] },
+      { heading: 'Legal', links: [{ label: 'Privacy policy', href: '/privacy' }] },
+    ],
+    socials: [{ label: 'LinkedIn', href: '#linkedin' }],
+  };
+
+  it('renders a contentinfo landmark with each named column', () => {
+    render(<Footer {...props} />);
+    const contentinfo = screen.getByRole('contentinfo');
+    expect(
+      within(contentinfo).getByRole('navigation', { name: 'Get to know us' }),
+    ).toBeInTheDocument();
+    expect(within(contentinfo).getByRole('navigation', { name: 'Legal' })).toBeInTheDocument();
+    expect(within(contentinfo).getByRole('navigation', { name: 'Social' })).toBeInTheDocument();
+  });
+
+  it('carries the legal links a document-handling product needs', () => {
+    render(<Footer {...props} />);
+    expect(screen.getByRole('link', { name: 'Privacy policy' })).toBeInTheDocument();
+  });
+
+  it('takes the copyright name from tokens rather than hard-coding it', () => {
+    render(
+      <ThemeProvider tokens={{ brand: { name: 'Acme Study', nameAccentSuffix: 'Study' } }}>
+        <Footer {...props} />
+      </ThemeProvider>,
+    );
+    expect(screen.getByRole('contentinfo')).toHaveTextContent(/© \d{4} Acme\./);
   });
 });

@@ -3,201 +3,283 @@ import { describe, expect, it } from 'vitest';
 
 import { ThemeProvider } from '@rakuxon-edu/ui';
 
-import { CAPABILITIES, STATS, STEPS, TRUST_BADGES } from '@/content/landing';
-import LandingPage from './page';
+import {
+  AUDIENCES,
+  CAPABILITIES,
+  DESTINATIONS,
+  HOME_IMAGE_SLOTS,
+  INSTITUTIONS,
+  STATS,
+  STEPS,
+  TESTIMONIALS,
+} from '@/content/home';
+import HomePage from './page';
 
-function renderPage() {
+function renderHome() {
   return render(
     <ThemeProvider>
-      <LandingPage />
+      <main>
+        <HomePage />
+      </main>
     </ThemeProvider>,
   );
 }
 
-describe('landing page structure', () => {
+describe('home page structure', () => {
   it('renders exactly one h1', () => {
-    renderPage();
+    renderHome();
     expect(screen.getAllByRole('heading', { level: 1 })).toHaveLength(1);
   });
 
-  it('leads with the tagline as the h1', () => {
-    renderPage();
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
-      'Your study abroad journey, simplified.',
-    );
+  it('leads with the two-line hero headline', () => {
+    renderHome();
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Study abroad.Simplified.');
   });
 
-  it('exposes banner, main and contentinfo landmarks', () => {
-    renderPage();
-    expect(screen.getByRole('banner')).toBeInTheDocument();
-    expect(screen.getByRole('main')).toBeInTheDocument();
-    expect(screen.getByRole('contentinfo')).toBeInTheDocument();
-  });
-
-  it('offers a skip link as the first focusable element', () => {
-    renderPage();
-    expect(screen.getByRole('link', { name: 'Skip to main content' })).toHaveAttribute(
-      'href',
-      '#main',
-    );
-  });
-
-  it('renders every section from the spec, in order', () => {
-    renderPage();
+  it('renders the 04b section headings in spec order', () => {
+    renderHome();
     const headings = screen
       .getAllByRole('heading', { level: 2 })
       .map((heading) => heading.textContent);
 
-    expect(headings).toEqual(
-      expect.arrayContaining([
-        'One platform. Endless possibilities.',
-        'How it works',
-        'Built for both sides of the journey',
-        'Students trust us with the big decision',
-        'Stop searching. Start achieving.',
-      ]),
+    expect(headings).toEqual([
+      'Your study abroad journey, simplified.',
+      'Rakuxon Ed by the numbers',
+      'How it works',
+      'Popular destinations',
+      'Explore leading institutions',
+      'Students who found their path',
+      'Start your journey with us',
+      'Ready to start your journey?',
+    ]);
+  });
+});
+
+describe('§3.1 hero', () => {
+  it('renders the eyebrow pill', () => {
+    renderHome();
+    expect(screen.getByText('Your journey starts here')).toBeInTheDocument();
+  });
+
+  it('renders both CTAs as real links', () => {
+    renderHome();
+    expect(screen.getByRole('link', { name: /Get started/ })).toHaveAttribute('href', '/register');
+    expect(screen.getByRole('link', { name: /How it works/ })).toHaveAttribute(
+      'href',
+      '#how-it-works',
     );
   });
-});
 
-describe('header', () => {
-  it('shows the wordmark and both CTAs', () => {
-    renderPage();
-    const banner = screen.getByRole('banner');
-    expect(within(banner).getByRole('link', { name: 'Rakuxon Ed' })).toBeInTheDocument();
-    expect(within(banner).getByRole('link', { name: 'Log in' })).toBeInTheDocument();
-    expect(within(banner).getByRole('link', { name: 'Get started' })).toBeInTheDocument();
+  it('renders the avatar social proof', () => {
+    renderHome();
+    expect(screen.getAllByRole('img', { name: 'Student' })).toHaveLength(3);
+    expect(screen.getByText('Join 100,000+ students who found their path.')).toBeInTheDocument();
   });
 
-  it('names its primary navigation', () => {
-    renderPage();
+  it('gives the hero figure the alt text from the spec', () => {
+    renderHome();
     expect(
-      within(screen.getByRole('banner')).getByRole('navigation', { name: 'Primary' }),
+      screen.getByRole('img', { name: 'Smiling student ready to study abroad' }),
     ).toBeInTheDocument();
   });
-});
 
-describe('hero', () => {
-  it('renders both calls to action as real links', () => {
-    renderPage();
-    expect(screen.getAllByRole('link', { name: 'Start your journey' }).length).toBeGreaterThan(0);
-    expect(screen.getByRole('link', { name: 'Explore universities' })).toBeInTheDocument();
+  it('renders the match score as an accessible progressbar, not just a drawing', () => {
+    renderHome();
+    expect(screen.getByRole('progressbar', { name: 'Match score' })).toHaveAttribute(
+      'aria-valuenow',
+      '92',
+    );
   });
 
-  it('gives the hero visual meaningful alternative text', () => {
-    renderPage();
-    expect(screen.getByRole('img', { name: /student working on a laptop/i })).toBeInTheDocument();
+  it('renders the deadline card', () => {
+    renderHome();
+    expect(screen.getByText('18 Days Left')).toBeInTheDocument();
+    expect(screen.getByText('University of Toronto')).toBeInTheDocument();
   });
 
-  it('marks the hero visual as a placeholder', () => {
-    const { container } = renderPage();
-    expect(container.querySelector('[role="img"][data-placeholder="true"]')).toBeInTheDocument();
-  });
-
-  it('renders the three mini-pillars', () => {
-    renderPage();
-    for (const pillar of ['Explore', 'Plan', 'Apply']) {
-      expect(screen.getByRole('heading', { name: pillar })).toBeInTheDocument();
-    }
+  it('marks both floating cards as sample data', () => {
+    const { container } = renderHome();
+    const cards = container.querySelectorAll('article[data-sample="true"]');
+    expect(cards).toHaveLength(2);
   });
 });
 
-describe('capability strip', () => {
-  it('renders every capability', () => {
-    // Scoped to the strip: "Application Tracker" deliberately also appears as a
-    // floating hero card, so a page-wide query would be ambiguous.
-    const { container } = renderPage();
-    const strip = container.querySelector('#capabilities') as HTMLElement;
-    expect(strip).toBeInTheDocument();
+describe('§3.2 trust logo bar', () => {
+  it('flags every logo mark as a placeholder, since real logos need permission', () => {
+    const { container } = renderHome();
+    expect(container.querySelectorAll('[data-placeholder-logo="true"]').length).toBeGreaterThan(0);
+    expect(screen.getByText(/placeholder marks/i)).toBeInTheDocument();
+  });
+});
 
+describe('§3.3 capability grid', () => {
+  it('renders all four capabilities with their arrow links', () => {
+    renderHome();
     for (const capability of CAPABILITIES) {
-      expect(within(strip).getByText(capability.label)).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: capability.title })).toBeInTheDocument();
+      expect(
+        screen.getByRole('link', { name: new RegExp(capability.action.label) }),
+      ).toHaveAttribute('href', capability.action.href);
     }
+  });
+
+  it('gives each card a different tint, per the reference grid', () => {
+    const tones = new Set(CAPABILITIES.map((capability) => capability.tone));
+    expect(tones.size).toBe(CAPABILITIES.length);
   });
 });
 
-describe('how it works', () => {
-  it('renders the three steps in order in an ordered list', () => {
-    const { container } = renderPage();
-    const list = container.querySelector('#how-it-works ol');
-    expect(list).toBeInTheDocument();
+describe('§3.4 stat bar', () => {
+  it('renders every stat', () => {
+    renderHome();
+    for (const stat of STATS) {
+      expect(screen.getByText(stat.value)).toBeInTheDocument();
+    }
+  });
 
+  it('marks every figure as sample data so no invented number reads as measured', () => {
+    const { container } = renderHome();
+    const marked = container.querySelectorAll('[data-sample="true"]');
+    // 4 stat chips + 2 hero cards + institutions list + testimonials list
+    expect(marked.length).toBe(STATS.length + 4);
+  });
+
+  it('reserves orange for urgency, not decoration', () => {
+    // The deadline countdown is the only orange text on the page; the stat bar
+    // uses the accent violet where 04b § 3.4 suggested orange.
+    expect(STATS.every((stat) => stat.tone !== 'orange')).toBe(true);
+  });
+});
+
+describe('§3.5 how it works', () => {
+  it('renders the three steps in an ordered list', () => {
+    const { container } = renderHome();
+    const list = container.querySelector('#how-it-works ol');
     const items = within(list as HTMLElement).getAllByRole('listitem');
     expect(items).toHaveLength(STEPS.length);
     expect(items[0]).toHaveTextContent('Build your profile');
-    expect(items[2]).toHaveTextContent('Track your admission');
   });
 });
 
-describe('audience split', () => {
-  it('addresses students and agencies separately', () => {
-    renderPage();
-    expect(screen.getByRole('heading', { name: 'For Students' })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: 'For Agencies & Partners' })).toBeInTheDocument();
-  });
-});
-
-describe('social proof', () => {
-  it('renders a block for every stat', () => {
-    renderPage();
-    for (const stat of STATS) {
-      expect(screen.getByText(stat.label)).toBeInTheDocument();
+describe('§3.6 popular destinations', () => {
+  it('renders all six countries, each linking to its destination page', () => {
+    renderHome();
+    for (const destination of DESTINATIONS) {
+      expect(screen.getByRole('link', { name: new RegExp(destination.country) })).toHaveAttribute(
+        'href',
+        destination.href,
+      );
     }
   });
 
-  it('marks every unverified figure as a placeholder, so no invented number ships', () => {
-    const { container } = renderPage();
-    const marked = container.querySelectorAll('[data-placeholder="true"]');
-    const expected = STATS.filter((stat) => stat.placeholder).length;
-    // stats + the hero visual placeholder
-    expect(marked.length).toBe(expected + 1);
-    expect(screen.getAllByText(/placeholder — awaiting real figure/i)).toHaveLength(expected);
-  });
-
-  it('renders the trust badges', () => {
-    renderPage();
-    for (const badge of TRUST_BADGES) {
-      expect(screen.getByText(badge.label)).toBeInTheDocument();
+  it('uses the spec alt text for each destination photo', () => {
+    renderHome();
+    for (const destination of DESTINATIONS) {
+      expect(screen.getByRole('img', { name: destination.alt })).toBeInTheDocument();
     }
   });
 });
 
-describe('closing cta', () => {
-  it('renders the closing call to action and its reassurance line', () => {
-    renderPage();
+describe('§3.7 institutions', () => {
+  it('renders each campus card', () => {
+    renderHome();
+    for (const institution of INSTITUTIONS) {
+      expect(screen.getByRole('heading', { name: institution.name })).toBeInTheDocument();
+    }
+  });
+});
+
+describe('§3.8 testimonials', () => {
+  it('renders each quote with its attributed name', () => {
+    renderHome();
+    for (const testimonial of TESTIMONIALS) {
+      expect(screen.getByText(testimonial.quote)).toBeInTheDocument();
+      expect(screen.getByText(testimonial.name)).toBeInTheDocument();
+    }
+  });
+});
+
+describe('§3.9 audience split', () => {
+  it('renders all three audiences with their CTAs', () => {
+    renderHome();
+    for (const audience of AUDIENCES) {
+      expect(screen.getByRole('heading', { name: audience.title })).toBeInTheDocument();
+      expect(screen.getByRole('link', { name: new RegExp(audience.cta.label) })).toHaveAttribute(
+        'href',
+        audience.cta.href,
+      );
+    }
+  });
+});
+
+describe('§3.10 closing CTA band', () => {
+  it('renders the heading, CTA and reassurance line', () => {
+    renderHome();
     expect(
-      screen.getByRole('heading', { name: 'Stop searching. Start achieving.' }),
+      screen.getByRole('heading', { name: 'Ready to start your journey?' }),
     ).toBeInTheDocument();
-    expect(screen.getByText("We're with you, every step of the way.")).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Create free account' })).toHaveAttribute(
+      'href',
+      '/register',
+    );
+    expect(screen.getByText('No credit card required.')).toBeInTheDocument();
   });
 });
 
-describe('footer', () => {
-  it('carries the legal links a document-handling product needs', () => {
-    renderPage();
-    const contentinfo = screen.getByRole('contentinfo');
-    expect(within(contentinfo).getByRole('link', { name: 'Privacy policy' })).toBeInTheDocument();
-    expect(within(contentinfo).getByRole('link', { name: 'Terms of service' })).toBeInTheDocument();
+describe('images', () => {
+  it('gives every image non-empty alt text', () => {
+    renderHome();
+    for (const image of screen.getAllByRole('img')) {
+      expect(image.getAttribute('alt')?.trim()).toBeTruthy();
+    }
   });
 
-  it('names each footer navigation group', () => {
-    renderPage();
-    const contentinfo = screen.getByRole('contentinfo');
-    for (const name of ['Platform', 'Company', 'Legal', 'Social']) {
-      expect(within(contentinfo).getByRole('navigation', { name })).toBeInTheDocument();
+  it('renders one image per declared slot', () => {
+    renderHome();
+    expect(screen.getAllByRole('img')).toHaveLength(HOME_IMAGE_SLOTS.length);
+  });
+
+  it('serves every photo from an allow-listed remote host', () => {
+    for (const image of HOME_IMAGE_SLOTS) {
+      expect(image.src).toMatch(/^https:\/\/images\.(unsplash|pexels)\.com\//);
+    }
+  });
+
+  it('repeats a photo only in the two places 04b itself assigns it twice', () => {
+    /*
+     * 04b § 12 says no image may be reused across different meanings, but the
+     * spec's own slot table breaks that rule twice:
+     *   photo-1523240795612 → § 3.1 hero figure AND § 3.9 Students card
+     *   photo-1494790108377 → § 3.1 avatar 1  AND § 3.8 first testimonial
+     * We ship the URLs as specified, and this test pins the collisions so a
+     * third one cannot creep in unnoticed. See the image checklist.
+     */
+    const bare = HOME_IMAGE_SLOTS.map((image) => image.src.split('?')[0]);
+    const duplicated = [...new Set(bare.filter((src, i) => bare.indexOf(src) !== i))].sort();
+
+    expect(duplicated).toEqual(
+      [
+        'https://images.unsplash.com/photo-1523240795612-9a054b0db644',
+        'https://images.unsplash.com/photo-1494790108377-be9c29b29330',
+      ].sort(),
+    );
+  });
+
+  it('records a search term for every slot, so a 403 can be swapped fast', () => {
+    for (const image of HOME_IMAGE_SLOTS) {
+      expect(image.searchTerm.trim()).toBeTruthy();
     }
   });
 });
 
 describe('public-page security rules', () => {
   it('never references a Cloudinary URL', () => {
-    const { container } = renderPage();
+    const { container } = renderHome();
     expect(container.innerHTML).not.toMatch(/cloudinary/i);
   });
 
-  it('renders no login form or credential input on the public page', () => {
-    renderPage();
-    expect(screen.queryByLabelText(/password/i)).not.toBeInTheDocument();
+  it('renders no credential input on the public page', () => {
+    renderHome();
     expect(document.querySelector('input[type="password"]')).not.toBeInTheDocument();
   });
 });

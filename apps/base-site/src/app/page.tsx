@@ -1,35 +1,31 @@
 import { AudienceSplit } from '@/sections/AudienceSplit';
-import { CapabilityStrip } from '@/sections/CapabilityStrip';
-import { ClosingCta } from '@/sections/ClosingCta';
-import { Footer } from '@/sections/Footer';
-import { Header } from '@/sections/Header';
-import { Hero } from '@/sections/Hero';
+import { CapabilityGrid } from '@/sections/CapabilityGrid';
+import { ClosingCtaBand } from '@/sections/ClosingCtaBand';
+import { HomeHero } from '@/sections/HomeHero';
 import { HowItWorks } from '@/sections/HowItWorks';
-import { SocialProof } from '@/sections/SocialProof';
+import { MeetInstitutions } from '@/sections/MeetInstitutions';
+import { PopularDestinations } from '@/sections/PopularDestinations';
+import { StatBar } from '@/sections/StatBar';
+import { Testimonials } from '@/sections/Testimonials';
+import { TrustLogoBar } from '@/sections/TrustLogoBar';
 
 /** Statically generated: no data fetching, no product auth, no Cloudinary. */
 export const dynamic = 'force-static';
 
-export default function LandingPage() {
+/** Section order follows docs/04b § 3.1 – § 3.10 exactly. */
+export default function HomePage() {
   return (
     <>
-      <a className="skip-link" href="#main">
-        Skip to main content
-      </a>
-
-      <div id="top" />
-      <Header />
-
-      <main id="main">
-        <Hero />
-        <CapabilityStrip />
-        <HowItWorks />
-        <AudienceSplit />
-        <SocialProof />
-        <ClosingCta />
-      </main>
-
-      <Footer />
+      <HomeHero />
+      <TrustLogoBar />
+      <CapabilityGrid />
+      <StatBar />
+      <HowItWorks />
+      <PopularDestinations />
+      <MeetInstitutions />
+      <Testimonials />
+      <AudienceSplit />
+      <ClosingCtaBand />
     </>
   );
 }

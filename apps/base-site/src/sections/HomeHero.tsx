@@ -1,0 +1,114 @@
+import Image from 'next/image';
+import { CirclePlay, GraduationCap, PiggyBank } from 'lucide-react';
+
+import {
+  AvatarStack,
+  Button,
+  EyebrowPill,
+  HeroFloatingCard,
+  IconBubble,
+  ProgressRing,
+} from '@rakuxon-edu/ui';
+
+import {
+  HERO,
+  HERO_AVATARS,
+  HERO_DEADLINE_CARD,
+  HERO_FIGURE,
+  HERO_MATCH_CARD,
+} from '@/content/home';
+
+/** docs/04b § 3.1 — two-column hero with floating live-data cards. */
+export function HomeHero() {
+  return (
+    <section aria-labelledby="hero-heading" className="w-full bg-bg px-5 pb-20 pt-12 md:pt-16">
+      <div className="mx-auto grid w-full max-w-content gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
+        <div>
+          <EyebrowPill>{HERO.eyebrow}</EyebrowPill>
+
+          <h1
+            id="hero-heading"
+            className="mt-6 font-heading text-3xl font-bold leading-tight text-text sm:text-4xl lg:text-hero"
+          >
+            {HERO.headlineLine1}
+            <span className="block text-primary">{HERO.headlineLine2}</span>
+          </h1>
+
+          <p className="mt-6 max-w-prose text-lg text-text-muted">{HERO.subcopy}</p>
+
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <Button href={HERO.primaryCta.href} size="lg">
+              {HERO.primaryCta.label}
+            </Button>
+            <Button href={HERO.secondaryCta.href} size="lg" variant="ghost">
+              <CirclePlay size={20} strokeWidth={2} aria-hidden="true" focusable="false" />
+              {HERO.secondaryCta.label}
+            </Button>
+          </div>
+
+          <AvatarStack className="mt-8" avatars={HERO_AVATARS} caption={HERO.socialProof} />
+        </div>
+
+        <div className="relative">
+          {/* Soft indigo blob behind the figure — CSS, not an image (§ 3.1). */}
+          <div
+            aria-hidden="true"
+            className="absolute inset-x-4 top-4 bottom-12 rounded-full bg-accent-soft blur-xl"
+          />
+
+          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl sm:aspect-[4/3] lg:aspect-[4/5]">
+            <Image
+              src={HERO_FIGURE.src}
+              alt={HERO_FIGURE.alt}
+              fill
+              priority
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover"
+            />
+          </div>
+
+          {/*
+            Floating UI. Static and illustrative — `sample` marks both cards in
+            the DOM and for screen readers (§ 3.1).
+          */}
+          <HeroFloatingCard
+            title={HERO_MATCH_CARD.title}
+            action={HERO_MATCH_CARD.action}
+            sample
+            className="mt-4 lg:absolute lg:-right-4 lg:top-6 lg:mt-0 lg:w-card-float"
+          >
+            <div className="flex items-center gap-3">
+              <ProgressRing value={HERO_MATCH_CARD.score} />
+              <p className="text-sm font-semibold text-text">{HERO_MATCH_CARD.verdict}</p>
+            </div>
+          </HeroFloatingCard>
+
+          <HeroFloatingCard
+            title={HERO_DEADLINE_CARD.title}
+            action={HERO_DEADLINE_CARD.action}
+            sample
+            className="mt-4 lg:absolute lg:-left-6 lg:bottom-10 lg:mt-0 lg:w-card-float"
+          >
+            {/* Orange is reserved for urgency; a countdown is exactly that. */}
+            <p className="font-heading text-2xl font-bold text-tint-orange">
+              {HERO_DEADLINE_CARD.countdown}
+            </p>
+            <p className="mt-1 text-sm text-text-muted">{HERO_DEADLINE_CARD.university}</p>
+          </HeroFloatingCard>
+
+          {/* Two decorative bubbles overlapping the figure (§ 3.1). */}
+          <IconBubble
+            icon={GraduationCap}
+            size="lg"
+            className="absolute left-4 top-4 hidden shadow-md lg:grid"
+          />
+          <IconBubble
+            icon={PiggyBank}
+            size="lg"
+            className="absolute right-6 bottom-6 hidden shadow-md lg:grid"
+          />
+        </div>
+      </div>
+    </section>
+  );
+}

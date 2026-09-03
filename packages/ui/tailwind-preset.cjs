@@ -118,6 +118,11 @@ module.exports = {
         content: '1200px',
         prose: '68ch',
       },
+      width: {
+        /* The floating hero cards. Derived from the space scale rather than a
+           raw px value, so it moves with the tokens. */
+        'card-float': 'calc(var(--space-20) * 3)',
+      },
       ringColor: {
         DEFAULT: color('focus-ring'),
       },
